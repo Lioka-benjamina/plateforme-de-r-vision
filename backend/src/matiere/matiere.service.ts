@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMatiereDto } from './dto/create-matiere.dto';
 import { UpdateMatiereDto } from './dto/update-matiere.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,6 +13,11 @@ export class MatiereService {
   ){}
 
   async createMatiere(MatiereDto: CreateMatiereDto) {
+    const matiereExist = await this.MatiereRepo.findOne({where : {nom : MatiereDto.nom}})
+    if (matiereExist) {
+      throw new BadRequestException("matiere déjà exister")
+    }
+    
     const matiere =  this.MatiereRepo.create(MatiereDto)
     return await this.MatiereRepo.save(matiere);
   }

@@ -2,10 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { MatiereService } from './matiere.service';
 import { CreateMatiereDto } from './dto/create-matiere.dto';
 import { UpdateMatiereDto } from './dto/update-matiere.dto';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guard/role.guard';
-import { Roles } from 'src/auth/decorator/role.decorator';
+import { Roles } from 'src/common/decorator/role.decorator';
 import { UserRole } from 'src/users/entities/user.entity';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guard/role.guard';
 
 @Controller('matiere')
 export class MatiereController {

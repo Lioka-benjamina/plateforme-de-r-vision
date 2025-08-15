@@ -1,3 +1,5 @@
+//SASY MIANATRA IHANY : JWT Strategy — Identifier qui est connecté : JwtStrategy, c’est comme un douanier qui lit le passeport (token) et décide ce qu’il écrit sur la fiche de l’utilisateur (req.user).
+
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -21,4 +23,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       role: payload.role, // on garde le rôle pour les guards
     };
   }
+
+  //SADY MIANATRA IHANY : Ce return devient req.user dans toute la requête, après que le guard ait validé le token.
 }

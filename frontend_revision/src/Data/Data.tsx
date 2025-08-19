@@ -1,0 +1,148 @@
+import type { Badge, Classement, Cours, EleveBadge, Matiere, Mission, Notification, Objectif, Option, Question, Quiz, Ressource, ResultatQuiz, User } from "../Types/Types";
+
+
+// Utilisateurs
+export const users: User[] = [
+    { id: 1, nom: "Alice", role: "PROF" },
+    { id: 2, nom: "Bob", role: "ELEVE", parent_id: 4 },
+    { id: 3, nom: "Claire", role: "ADMIN" },
+    { id: 4, nom: "David", role: "PARENT" }
+];
+
+// Matières
+export const matieres: Matiere[] = [
+    { id: 1, nom: "Mathématiques" },
+    { id: 2, nom: "Physique" },
+    { id: 3, nom: "S.V.T" },
+    { id: 4, nom: "Histoire géographie" },
+    { id: 5, nom: "Français" },
+    { id: 6, nom: "Develepement web" }
+];
+
+// Cours
+export const cours: Cours[] = [
+    {
+        id: 1,
+        titre: "Les équations du 1er degré",
+        contenu: "Introduction aux équations simples...",
+        matiere_id: 1,
+        auteur_id: 1,
+        valide: true,
+        date_publication: "2025-08-01"
+    },
+    {
+        id: 2,
+        titre: "Les lois de Newton",
+        contenu: "Comprendre les forces et le mouvement...",
+        matiere_id: 2,
+        auteur_id: 1,
+        valide: true,
+        date_publication: "2025-08-02"
+    },
+    {
+        id: 3,
+        titre: "La cellule et ses fonctions",
+        contenu: "Découverte des cellules vivantes...",
+        matiere_id: 3,
+        auteur_id: 1,
+        valide: true,
+        date_publication: "2025-08-03"
+    },
+    {
+        id: 4,
+        titre: "Les grandes civilisations",
+        contenu: "Un voyage à travers l'histoire...",
+        matiere_id: 4,
+        auteur_id: 1,
+        valide: true,
+        date_publication: "2025-08-04"
+    },
+    {
+        id: 5,
+        titre: "La poésie française",
+        contenu: "Analyse des grands poètes...",
+        matiere_id: 5,
+        auteur_id: 1,
+        valide: true,
+        date_publication: "2025-08-05"
+    },
+    {
+        id: 6,
+        titre: "Introduction au développement web",
+        contenu: "Les bases du HTML, CSS et JavaScript...",
+        matiere_id: 6,
+        auteur_id: 1,
+        valide: true,
+        date_publication: "2025-08-06"
+    }
+];
+
+// Ressources
+export const ressources: Ressource[] = [
+    {
+        id: 1,
+        type: "pdf",
+        url: "/docs/equations.pdf",
+        description: "Support de cours en PDF",
+        cours_id: 1,
+        auteur_id: 1
+    }
+];
+
+// Quiz
+export const quiz: Quiz[] = [
+    {
+        id: 1,
+        titre: "Quiz équations",
+        description: "Petit test sur les équations",
+        type: "entrainement",
+        temps_limite: 15,
+        cours_id: 1,
+        auteur_id: 1
+    }
+];
+
+// Questions
+export const questions: Question[] = [
+    { id: 1, intitule: "Résoudre x + 2 = 5", quiz_id: 1 }
+];
+
+// Options
+export const options: Option[] = [
+    { id: 1, texte: "x = 3", est_correct: true, question_id: 1 },
+    { id: 2, texte: "x = 5", est_correct: false, question_id: 1 }
+];
+
+// Résultats quiz
+export const resultats: ResultatQuiz[] = [
+    { id: 1, eleve_id: 2, quiz_id: 1, score: 100, date_passage: "2025-08-15" }
+];
+
+// Badges
+export const badges: Badge[] = [
+    { id: 1, nom: "Math Genius", description: "Score > 90% sur 5 quiz", condition: "score > 90% sur 5 quiz" }
+];
+
+export const eleveBadges: EleveBadge[] = [
+    { eleve_id: 2, badge_id: 1, date_obtention: "2025-08-16" }
+];
+
+// Classement
+export const classements: Classement[] = [
+    { id: 1, matiere_id: 1, eleve_id: 2, score_total: 250, rang: 1 }
+];
+
+// Missions
+export const missions: Mission[] = [
+    { id: 1, description: "Faire 3 quiz de math", matiere_id: 1, date: "2025-08-18" }
+];
+
+// Objectifs
+export const objectifs: Objectif[] = [
+    { id: 1, parent_id: 4, eleve_id: 2, description: "Atteindre 80% en math", atteint: false }
+];
+
+// Notifications
+export const Notifications: Notification[] = [
+    { id: 1, enfant_id: 2, parent_id: 4, message: "Nouvel examen disponible", date: "2025-08-17" }
+];

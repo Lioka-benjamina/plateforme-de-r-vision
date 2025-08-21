@@ -1,0 +1,14 @@
+npm install tailwindcss @tailwindcss/vite
+
+vite.config.ts 
+import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+export default defineConfig({
+  plugins: [
+    tailwindcss(),
+  ],
+})
+
+npm install react-router-dom@6
+npm install -D @types/react-router-dom
+npm install lucide-react

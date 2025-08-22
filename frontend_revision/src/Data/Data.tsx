@@ -1,3 +1,4 @@
+import { BookOpen, Lightbulb, Timer } from "lucide-react";
 import type { Badge, Classement, Cours, EleveBadge, Matiere, Mission, Notification, Objectif, Option, Question, Quiz, Ressource, ResultatQuiz, User } from "../Types/Types";
 
 
@@ -146,3 +147,27 @@ export const objectifs: Objectif[] = [
 export const Notifications: Notification[] = [
     { id: 1, enfant_id: 2, parent_id: 4, message: "Nouvel examen disponible", date: "2025-08-17" }
 ];
+
+//Services
+export const services = [
+    {
+        id: 1,
+        titre: "Cours Interactifs",
+        description: "Apprenez avec des leçons engageantes, des exercices pratiques et des retours immédiats pour maîtriser chaque concept.",
+        icone: <Lightbulb />
+    },
+    {
+        id: 2,
+        titre: "Leçons Complètes",
+        description: "Accédez à des leçons détaillées couvrant tous les aspects de chaque matière, avec des exemples et des exercices.",
+        icone: <BookOpen />
+    },
+    {
+        id: 3,
+        titre: "Exercices chronometré",
+        description: "Testez vos connaissances avec des exercices chronométrés pour améliorer votre rapidité et votre précision.",
+        icone: <Timer />
+    }
+];
+
+// Extraits des cours

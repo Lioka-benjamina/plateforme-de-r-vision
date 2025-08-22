@@ -1,7 +1,7 @@
 
-export default function Header() {
+const Header = () => {
   return (
-    <div className="w-screen h-16 flex justify-between items-center bg-white  px-[5vw]">
+    <div className="w-screen h-16 flex justify-between items-center bg-white  px-[5vw] shadow-md fixed top-0 left-0 right-0">
         <div className="text-[var(--primary-color)] font-extrabold uppercase">
             Logo
         </div>
@@ -9,3 +9,5 @@ export default function Header() {
     </div>
   )
 }
+
+export default Header

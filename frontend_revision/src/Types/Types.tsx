@@ -104,3 +104,10 @@ export interface Notification {
   message: string;
   date: string;
 }
+
+//Services
+export interface services {
+  id: number,
+  titre: string
+  description: string
+}

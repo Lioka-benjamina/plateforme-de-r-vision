@@ -2,6 +2,7 @@ import ExtraitCours from "../Components/Home/ExtraitCours";
 import Header from "../Components/Home/Header";
 import HeroSection from "../Components/Home/HeroSection";
 import Services from "../Components/Home/Services";
+import Temoignage from "../Components/Home/Temoignage";
 
 const Accueil = () => {
   return (
@@ -15,14 +16,20 @@ const Accueil = () => {
       </section>
 
       {/* Services */}
-      <section className="w-full flex items-center justify-center px-[5vw] pb-16">
+      <section className="w-full h-full flex items-center justify-center px-[5vw] pb-16">
         <Services />
       </section>
 
       {/* ExtraitCours */}
-      <section className="w-full ">
+      <section className="w-full px-[7vw] ">
         <ExtraitCours/>
       </section>
+
+      {/* Temoignage */}
+      <section className="w-full h-full flex items-center justify-center px-[5vw] pb-16">
+        <Temoignage/>
+      </section>
+      
     </div>
   );
 }

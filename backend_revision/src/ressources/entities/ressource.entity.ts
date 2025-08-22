@@ -1,10 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 export enum RessourceType {
     PDF = "pdf",
     IMAGE = "image",
     VIDEO = "video",
-    AUDIO = "audio"
+    AUDIO = "audio",
+    DOC = "doc"
 }
 
 @Entity("ressources")
@@ -15,7 +16,15 @@ export class Ressource {
     @Column({
         type : "enum",
         enum : RessourceType,
-        default : "pdf"
+        default : RessourceType.PDF
     })
     type : string
+
+    @Column()
+    url : string
+
+    @Column()
+    description : string
+
+    // @ManyToOne(()=>)
 }

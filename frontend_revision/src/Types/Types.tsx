@@ -23,7 +23,7 @@ export interface Cours {
 
 export interface Ressource {
   id: number;
-  type: "pdf" | "video" | "image" | "audio";
+  type: "pdf" | "video" | "image" | "audio" | "doc";
   url: string;
   description: string;
   cours_id: number;

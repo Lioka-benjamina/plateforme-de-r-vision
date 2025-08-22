@@ -121,3 +121,11 @@ export interface services {
   titre: string
   description: string
 }
+
+//Temoignage
+export interface Temoignage {
+  id: number;
+  image: string;
+  nom: string;
+  message: string
+}

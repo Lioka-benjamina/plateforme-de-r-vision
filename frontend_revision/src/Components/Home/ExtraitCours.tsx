@@ -8,8 +8,9 @@ const ExtraitCours = () => {
       <div className="grid md:grid-cols-2">
         <div className="py-[4vw]">
           <div className="flex items-center justify-center w-full h-[50vh] bg-gray-200 rounded-md">
-            <div><Youtube className="text-white "/></div>
+            <div><Youtube className="text-gray-700 "/></div>
           </div>
+          
           <div className="pt-[.5vw]">
             <h4 className="font-bold md:text-[2vw] text-[3vw] ">Maîtriser les Fondamentaux de la Science</h4>
             <p className="pt-[.5vw] text-gray-600 md:text-[1vw] text-[2vw] ">Plongez dans les principes de base de la physique, de la chimie et de la biologie avec des explications claires et des démonstrations pratiques. Ce cours est conçu pour les débutants et ceux qui souhaitent revoir les concepts essentiels.</p>

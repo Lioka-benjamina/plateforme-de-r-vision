@@ -1,5 +1,4 @@
-import { BookOpen, Lightbulb, Timer } from "lucide-react";
-import type { Badge, Classement, Cours, EleveBadge, Matiere, Mission, Notification, Objectif, Option, Question, Quiz, Ressource, ResultatQuiz, User } from "../Types/Types";
+import type { Badge, Classement, Cours, EleveBadge, Matiere, Mission, Notification, Objectif, Option, Question, Quiz, Ressource, ResultatQuiz, services, Temoignage, User } from "../Types/Types";
 
 
 // Utilisateurs
@@ -26,10 +25,10 @@ export const cours: Cours[] = [
         id: 1,
         titre: "Les équations du 1er degré",
         contenu: "Introduction aux équations simples...",
-        matiere_id: 
-        { 
-            id: 1, 
-            nom: "Mathématiques" 
+        matiere_id:
+        {
+            id: 1,
+            nom: "Mathématiques"
         },
         auteur_id: {
             id: 1,
@@ -42,13 +41,13 @@ export const cours: Cours[] = [
         id: 2,
         titre: "Les lois de Newton",
         contenu: "Comprendre les forces et le mouvement...",
-        matiere_id: 
-        { 
-            id: 2, 
-            nom: "Physiques" 
+        matiere_id:
+        {
+            id: 2,
+            nom: "Physiques"
         },
         auteur_id: {
-            id: 1, 
+            id: 1,
             nom: "Alice"
         },
         valide: true,
@@ -58,13 +57,13 @@ export const cours: Cours[] = [
         id: 3,
         titre: "La cellule et ses fonctions",
         contenu: "Découverte des cellules vivantes...",
-        matiere_id: 
-        { 
-            id: 3, 
-            nom: "S.V.T" 
+        matiere_id:
+        {
+            id: 3,
+            nom: "S.V.T"
         },
         auteur_id: {
-            id: 1, 
+            id: 1,
             nom: "Alice"
         },
         valide: true,
@@ -74,13 +73,13 @@ export const cours: Cours[] = [
         id: 4,
         titre: "Les grandes civilisations",
         contenu: "Un voyage à travers l'histoire...",
-        matiere_id: 
-        { 
-            id: 4, 
-            nom: "Histoire géographie" 
+        matiere_id:
+        {
+            id: 4,
+            nom: "Histoire géographie"
         },
         auteur_id: {
-            id: 1, 
+            id: 1,
             nom: "Alice"
         },
         valide: true,
@@ -90,13 +89,13 @@ export const cours: Cours[] = [
         id: 5,
         titre: "La poésie française",
         contenu: "Analyse des grands poètes...",
-        matiere_id: 
-        { 
-            id: 5, 
-            nom: "Français" 
+        matiere_id:
+        {
+            id: 5,
+            nom: "Français"
         },
         auteur_id: {
-            id: 1, 
+            id: 1,
             nom: "Alice"
         },
         valide: true,
@@ -175,23 +174,45 @@ export const Notifications: Notification[] = [
 ];
 
 //Services
-export const services = [
+export const ServicesDetails: services[] = [
     {
         id: 1,
         titre: "Cours Interactifs",
         description: "Apprenez avec des leçons engageantes, des exercices pratiques et des retours immédiats pour maîtriser chaque concept.",
-        icone: <Lightbulb />
+        
     },
     {
         id: 2,
         titre: "Leçons Complètes",
         description: "Accédez à des leçons détaillées couvrant tous les aspects de chaque matière, avec des exemples et des exercices.",
-        icone: <BookOpen />
+       
     },
     {
         id: 3,
         titre: "Exercices chronometré",
         description: "Testez vos connaissances avec des exercices chronométrés pour améliorer votre rapidité et votre précision.",
-        icone: <Timer />
+        
     }
 ];
+
+// Temoignages
+export const Temoignages: Temoignage[] = [
+    {
+        id: 1,
+        image : "../assets/images/banner-1.png",
+        nom: "Jean R.",
+        message: "MyRévision a transformé ma façon d'apprendre. Les cours sont clairs et accessibles."
+    },
+    {
+        id: 2,
+        image : "../assets/images/banner-2.png",
+        nom: "Marie L.",
+        message: "Grâce à MyRévision, j'ai pu améliorer mes compétences et réussir mes examens avec confiance."
+    },
+    {
+        id: 3,
+        image : "../assets/images/banner-3.png",
+        nom: "Paul D.",
+        message: "La flexibilité des cours en ligne m'a permis d'apprendre à mon propre rythme, où que je sois."
+    }
+]

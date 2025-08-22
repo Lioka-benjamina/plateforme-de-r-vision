@@ -12,3 +12,16 @@ export default defineConfig({
 npm install react-router-dom@6
 npm install -D @types/react-router-dom
 npm install lucide-react
+
+
+slick:
+npm install react-slick slick-carousel
+creeation src/type/react-slick.d.ts
+npm i --save-dev @types/react-slick
+
+
+declare module 'react-slick' {
+  const Slider: any;
+  export default Slider;
+}
+

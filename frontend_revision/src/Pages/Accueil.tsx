@@ -20,7 +20,7 @@ const Accueil = () => {
       </section>
 
       {/* ExtraitCours */}
-      <section className="w-full px-[5vw]">
+      <section className="w-full px-[7vw]">
         <ExtraitCours/>
       </section>
     </div>

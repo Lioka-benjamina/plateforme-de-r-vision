@@ -85,6 +85,22 @@ export const cours: Cours[] = [
         },
         valide: true,
         date_publication: "2025-08-04"
+    },
+    {
+        id: 5,
+        titre: "La poésie française",
+        contenu: "Analyse des grands poètes...",
+        matiere_id: 
+        { 
+            id: 5, 
+            nom: "Français" 
+        },
+        auteur_id: {
+            id: 1, 
+            nom: "Alice"
+        },
+        valide: true,
+        date_publication: "2025-08-05"
     }
 ];
 

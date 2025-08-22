@@ -11,7 +11,7 @@ const Services = () => {
       <div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-[1vw] p-[2vw]">
           {services.map((service) =>
-            <div key={service.id} className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center text-center hover:scale-105 duration-300">
+            <div key={service.id} className="bg-white p-[2vw] rounded-lg shadow-md flex flex-col items-center text-center hover:scale-105 duration-300">
               <span className="text-[var(--primary-color)]">{service.icone}</span>
               <p className="my-[1vw] font-bold">{service.titre} </p>
               <p className="text-sm text-gray-500 ">{service.description}</p>

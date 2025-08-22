@@ -5,7 +5,7 @@ const Header = () => {
         <div className="text-[var(--primary-color)] font-extrabold uppercase">
             Logo
         </div>
-        <button className="bg-[var(--primary-color)] text-white px-3 py-1 rounded-lg">Connexion</button>
+        <button className="bg-[var(--primary-color)] text-white px-3 py-1 rounded-lg cursor-pointer hover:bg-blue-700 ">Connexion</button>
     </div>
   )
 }

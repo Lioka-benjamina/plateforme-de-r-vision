@@ -6,8 +6,8 @@ export const Router = () => {
 
         <>
             <Routes>
-                <Route path="/" element={<Accueil/>}/>
-                 <Route path="/accueil" element={<Accueil/>}/>
+                <Route path="/" element={<Accueil />} />
+                <Route path="/accueil" element={<Accueil />} />
             </Routes>
         </>
     )

@@ -1,7 +1,7 @@
 
 export default function Header() {
   return (
-    <div className="w-screen h-16 flex justify-between items-center bg-white  px-4">
+    <div className="w-screen h-16 flex justify-between items-center bg-white  px-[5vw]">
         <div className="text-[var(--primary-color)] font-extrabold uppercase">
             Logo
         </div>

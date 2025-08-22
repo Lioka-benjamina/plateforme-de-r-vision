@@ -15,12 +15,12 @@ const Accueil = () => {
       </section>
 
       {/* Services */}
-      <section className="w-full flex items-center justify-center px-[5vw] pb-16">
+      <section className="w-full h-full flex items-center justify-center px-[5vw] pb-16">
         <Services />
       </section>
 
       {/* ExtraitCours */}
-      <section className="w-full ">
+      <section className="w-full px-[5vw]">
         <ExtraitCours/>
       </section>
     </div>

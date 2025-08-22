@@ -11,12 +11,22 @@ export interface Matiere {
   nom: string;
 }
 
+export interface matiere_id {
+  id: number;
+  nom: string;
+}
+
+export interface auteur_id {
+  id: number;
+  nom: string;
+}
+
 export interface Cours {
   id: number;
   titre: string;
   contenu: string;
-  matiere_id: number;
-  auteur_id: number; // Prof
+  matiere_id: matiere_id;
+  auteur_id: auteur_id; // Prof
   valide: boolean;
   date_publication: string;
 }

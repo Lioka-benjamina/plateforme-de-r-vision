@@ -26,8 +26,15 @@ export const cours: Cours[] = [
         id: 1,
         titre: "Les équations du 1er degré",
         contenu: "Introduction aux équations simples...",
-        matiere_id: 1,
-        auteur_id: 1,
+        matiere_id: 
+        { 
+            id: 1, 
+            nom: "Mathématiques" 
+        },
+        auteur_id: {
+            id: 1,
+            nom: "Alice"
+        },
         valide: true,
         date_publication: "2025-08-01"
     },
@@ -35,8 +42,15 @@ export const cours: Cours[] = [
         id: 2,
         titre: "Les lois de Newton",
         contenu: "Comprendre les forces et le mouvement...",
-        matiere_id: 2,
-        auteur_id: 1,
+        matiere_id: 
+        { 
+            id: 2, 
+            nom: "Physiques" 
+        },
+        auteur_id: {
+            id: 1, 
+            nom: "Alice"
+        },
         valide: true,
         date_publication: "2025-08-02"
     },
@@ -44,8 +58,15 @@ export const cours: Cours[] = [
         id: 3,
         titre: "La cellule et ses fonctions",
         contenu: "Découverte des cellules vivantes...",
-        matiere_id: 3,
-        auteur_id: 1,
+        matiere_id: 
+        { 
+            id: 3, 
+            nom: "S.V.T" 
+        },
+        auteur_id: {
+            id: 1, 
+            nom: "Alice"
+        },
         valide: true,
         date_publication: "2025-08-03"
     },
@@ -53,28 +74,17 @@ export const cours: Cours[] = [
         id: 4,
         titre: "Les grandes civilisations",
         contenu: "Un voyage à travers l'histoire...",
-        matiere_id: 4,
-        auteur_id: 1,
+        matiere_id: 
+        { 
+            id: 4, 
+            nom: "Histoire géographie" 
+        },
+        auteur_id: {
+            id: 1, 
+            nom: "Alice"
+        },
         valide: true,
         date_publication: "2025-08-04"
-    },
-    {
-        id: 5,
-        titre: "La poésie française",
-        contenu: "Analyse des grands poètes...",
-        matiere_id: 5,
-        auteur_id: 1,
-        valide: true,
-        date_publication: "2025-08-05"
-    },
-    {
-        id: 6,
-        titre: "Introduction au développement web",
-        contenu: "Les bases du HTML, CSS et JavaScript...",
-        matiere_id: 6,
-        auteur_id: 1,
-        valide: true,
-        date_publication: "2025-08-06"
     }
 ];
 
@@ -169,5 +179,3 @@ export const services = [
         icone: <Timer />
     }
 ];
-
-// Extraits des cours

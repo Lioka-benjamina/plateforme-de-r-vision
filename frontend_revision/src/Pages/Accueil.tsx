@@ -1,8 +1,9 @@
+import ExtraitCours from "../Components/Home/ExtraitCours";
 import Header from "../Components/Home/Header";
 import HeroSection from "../Components/Home/HeroSection";
 import Services from "../Components/Home/Services";
 
-export default function Accueil() {
+const Accueil = () => {
   return (
     <div className="w-full">
       {/* Header */}
@@ -17,8 +18,14 @@ export default function Accueil() {
       <section className="w-full flex items-center justify-center px-[5vw] pb-16">
         <Services />
       </section>
+
+      {/* ExtraitCours */}
+      <section className="w-full ">
+        <ExtraitCours/>
+      </section>
     </div>
   );
 }
 
+export default Accueil
 

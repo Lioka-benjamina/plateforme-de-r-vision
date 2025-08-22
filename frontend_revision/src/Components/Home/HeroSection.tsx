@@ -2,7 +2,7 @@ import Banner1 from "../../assets/images/banner-1.png";
 import Banner2 from "../../assets/images/banner-2.png";
 import Banner3 from "../../assets/images/banner-3.png";
 
-export default function HeroSection() {
+const HeroSection = () => {
   const images = [Banner1, Banner2, Banner3];
 
   return (
@@ -46,3 +46,5 @@ export default function HeroSection() {
     </section>
   );
 }
+
+export default HeroSection

@@ -1,26 +1,7 @@
-import { BookOpen, Lightbulb, Timer } from "lucide-react"
+import { services } from "../../Data/Data"
 
-export default function Services() {
-  const services = [
-    {
-      id: 1,
-      titre: "Cours Interactifs",
-      description: "Apprenez avec des leçons engageantes, des exercices pratiques et des retours immédiats pour maîtriser chaque concept.",
-      icone: <Lightbulb />
-    },
-    {
-      id: 2,
-      titre: "Leçons Complètes",
-      description: "Accédez à des leçons détaillées couvrant tous les aspects de chaque matière, avec des exemples et des exercices.",
-      icone: <BookOpen />
-    },
-    {
-      id: 3,
-      titre: "Exercices chronometré",
-      description: "Testez vos connaissances avec des exercices chronométrés pour améliorer votre rapidité et votre précision.",
-      icone: <Timer />
-    }
-  ]
+const Services = () => {
+  
   return (
     <div className="w-full h-64 flex flex-col items-center justify-center">
       <div className="text-center mb-4">
@@ -41,3 +22,6 @@ export default function Services() {
     </div>
   )
 }
+
+export default Services
+

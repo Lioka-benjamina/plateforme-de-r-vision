@@ -22,7 +22,7 @@ const HeroSection = () => {
           </p>
 
           <div className="mt-6">
-            <button className="bg-[var(--primary-color)] text-white text-sm sm:text-base px-5 py-3 rounded-lg hover:bg-blue-700 transition cursor-pointer">
+            <button className="bg-[var(--primary-color)] text-white text-sm sm:text-base px-5 py-3 rounded-lg hover:bg-blue-700 duration-300 transition cursor-pointer">
               Commencer votre parcours
             </button>
           </div>

@@ -12,3 +12,36 @@ export default defineConfig({
 npm install react-router-dom@6
 npm install -D @types/react-router-dom
 npm install lucide-react
+
+
+🚀 Snippets React (les plus utilisés)
+🔹 Composants
+rfc → React Functional Component
+rfce → React Functional Component + export default
+rafc → React Arrow Function Component
+rafce → React Arrow Function Component + export default
+rcc → React Class Component
+rce → React Class Component + export default
+
+rf → génère un React Fragment vide :
+
+
+Hooks
+usf → useState Hook
+uef → useEffect Hook
+
+
+📋 Les tailles disponibles par défaut
+text-xs → 0.75rem (12px)
+text-sm → 0.875rem (14px)
+text-base → 1rem (16px)
+text-lg → 1.125rem (18px)
+text-xl → 1.25rem (20px)
+text-2xl → 1.5rem (24px)
+text-3xl → 1.875rem (30px)
+text-4xl → 2.25rem (36px)
+text-5xl → 3rem (48px)
+text-6xl → 3.75rem (60px)
+text-7xl → 4.5rem (72px)
+text-8xl → 6rem (96px)
+text-9xl → 8rem (128px)

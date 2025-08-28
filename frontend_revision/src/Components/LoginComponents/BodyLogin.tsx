@@ -1,6 +1,11 @@
-import { Lock, Mail } from "lucide-react"
+import { Lock, Mail, User } from "lucide-react"
+import { useState } from "react";
+import { Bouton } from "./Bouton";
 
 export const BodyLogin = () => {
+    const roles = ["élève", "parent(s)", "prof"]
+    const [role, setRole] = useState("");
+
     return (
         <div className="w-screen flex justify-center mt-[2vw]">
             <div className="w-[30vw] p-[1vw] shadow-md rounded-lg">
@@ -25,7 +30,7 @@ export const BodyLogin = () => {
                     </div>
 
                     {/* Champ Password */}
-                    <div className="flex flex-col mb-5">
+                    <div className="flex flex-col mb-1">
                         <label htmlFor="password" className="text-gray-700 font-normal text-sm mb-1">
                             Votre mot de passe
                         </label>
@@ -34,6 +39,47 @@ export const BodyLogin = () => {
                             <input type="password" id="password" placeholder="votre mot de passe" autoComplete="off" className="w-full rounded-md pl-10 pr-4 py-2 border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-[va(--primary-color)] focus:border-[var(--primary-color)] placeholder-gray-400 placeholder:text-sm text-gray-600 text-sm"
                             />
                         </div>
+                    </div>
+
+                    {/* mot de pass oublié */}
+                    <div className="w-full flex justify-end">
+                        <p className="text-xs text-[var(--primary-color)]  cursor-pointer">Mot de pass oublié ?</p>
+                    </div>
+
+                    {/* Champ role */}
+                    <div className="">
+                        <label htmlFor="" className="text-gray-700 font-normal mb-1 text-sm">Vous êtes ?</label>
+                        <div className="relative">
+                            <User className="absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <select
+                                name="role"
+                                id="role"
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                className={`
+                                    w-full rounded-md pl-10 pr-4 py-2 border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-[va(--primary-color)] focus:border-[var(--primary-color)] cursor-pointer text-sm
+                                    ${role === "" ? "text-gray-400" : "text-gray-600"} 
+                                `}
+                            >
+                                {/* Option placeholder */}
+                                <option value="" disabled hidden>
+                                    Sélectionnez qui vous êtes
+                                </option>
+
+                                {/* Les rôles en map */}
+                                {roles.map((r, index) => (
+                                    <option value={r} key={index}>
+                                        {r.charAt(0).toUpperCase() + r.slice(1)}
+                                    </option>
+                                ))}
+                            </select>
+
+                        </div>
+                    </div>
+
+                    {/* Bouton */}
+                    <div className="w-full">
+                        <Bouton/>
                     </div>
                 </form>
 

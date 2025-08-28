@@ -40,11 +40,14 @@ const Temoignage = () => {
           transform transition-transform duration-300
         "
       >
-        <img
+        <div className="w-full flex items-center justify-center">
+          <img
           src={images[index % images.length]}
           alt={t.nom}
           className="w-28 h-28 md:w-24 md:h-24 rounded-full mb-4 object-cover border-4 border-indigo-400"
         />
+        </div>
+        
         <h3 className="text-xl md:text-lg font-semibold mb-2 text-gray-800">{t.nom}</h3>
         <p className="text-gray-600 text-sm md:text-base">{t.message}</p>
       </div>

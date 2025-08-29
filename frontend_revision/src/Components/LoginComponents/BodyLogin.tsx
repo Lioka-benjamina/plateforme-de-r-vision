@@ -1,19 +1,22 @@
 import { Lock, Mail, User } from "lucide-react"
 import { useState } from "react";
 import { Bouton } from "./Bouton";
+import logo from "../../assets/images/logo/logoMyRevision.png";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 export const BodyLogin = () => {
     const roles = ["élève", "parent(s)", "prof"]
     const [role, setRole] = useState("");
 
     return (
-        <div className="w-screen flex justify-center mt-[2vw]">
-            <div className="w-[30vw] p-[1vw] shadow-md rounded-lg">
+        <div className="w-screen flex justify-center my-[2vw]">
+            <div className="w-[30vw] shadow-md rounded-lg">
                 <div className="flex justify-center">
-                    <img src="" alt="logo" />
+                    <img src={logo} alt="" className="w-[5vw] " />
                 </div>
-                <div className="flex flex-col items-center mt-[1vw] mb-[3vw]">
-                    <h2 className="my-[1vw] font-bold text-2xl">Bienvenue sur MyRevision</h2>
+                <div className="flex flex-col items-center mb-[3vw]">
+                    <h2 className="mb-[1vw] font-bold text-2xl">Bienvenue sur MyRevision</h2>
                     <p className="font-normal text-xs text-gray-500">Connectez-vous pour accéder à votre plateforme.</p>
                 </div>
                 <form action="" className="w-full max-w-sm mx-auto">
@@ -79,8 +82,38 @@ export const BodyLogin = () => {
 
                     {/* Bouton */}
                     <div className="w-full">
-                        <Bouton/>
+                        <Bouton />
                     </div>
+
+                    <div className="flex my-4 items-center">
+                        <div className="h-px flex-1 bg-gray-300 mr-3"></div>
+                        <span className="text-sm text-gray-500">ou continuez avec</span>
+                        <div className="h-px flex-1 bg-gray-300 ml-3"></div>
+                    </div>
+
+                    {/* Autre option */}
+                    <div className="w-full flex justify-center">
+                        <button className="flex justify-center items-center gap-2 border-2 w-full py-[.5vw] border-gray-300 rounded-md mb-5 cursor-pointer">
+                            <FcGoogle />
+                            <span className="text-sm text-gray-500">Continuez avec Google</span>
+                        </button>
+                    </div>
+
+                    <div className="w-full flex justify-center">
+                        <button className="flex justify-center items-center gap-2 border-2 w-full py-[.5vw] border-gray-300 rounded-md mb-5 cursor-pointer">
+                            <FaFacebook />
+                            <span className="text-sm text-gray-500">Continuez avec facebook</span>
+                        </button>
+                    </div>
+
+                    <div className="mb-5">
+                        <p className="text-xs text-gray-500">Pas encore de compte ?
+                            <span className="">
+                                <a href="" className="text-green-500"> S'inscrire</a>
+                            </span>
+                        </p>
+                    </div>
+
                 </form>
 
             </div>

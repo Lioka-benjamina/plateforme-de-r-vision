@@ -11,7 +11,7 @@ export const BodyLogin = () => {
 
     return (
         <div className="w-screen flex justify-center my-[2vw]">
-            <div className="w-[30vw] shadow-md rounded-lg">
+            <div className="w-[30vw] shadow-2xl rounded-lg">
                 <div className="flex justify-center">
                     <img src={logo} alt="" className="w-[5vw] " />
                 </div>
@@ -101,7 +101,7 @@ export const BodyLogin = () => {
 
                     <div className="w-full flex justify-center">
                         <button className="flex justify-center items-center gap-2 border-2 w-full py-[.5vw] border-gray-300 rounded-md mb-5 cursor-pointer">
-                            <FaFacebook />
+                            <FaFacebook className="text-[var(--primary-color)]"/>
                             <span className="text-sm text-gray-500">Continuez avec facebook</span>
                         </button>
                     </div>

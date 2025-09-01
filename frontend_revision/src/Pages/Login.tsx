@@ -1,4 +1,5 @@
 import { BodyLogin } from "../Components/LoginComponents/BodyLogin"
+import { FooterLogin } from "../Components/LoginComponents/FooterLogin"
 import HeadLogin from "../Components/LoginComponents/HeadLogin"
 
 export const Login = () => {
@@ -8,8 +9,11 @@ export const Login = () => {
                 <div className="fixed w-full top-0 left-0 z-50 ">
                     <HeadLogin/>
                 </div>
-                <div className="mt-[5vw]">
+                <div className="mt-[5vw] mb-[5vw]">
                     <BodyLogin/>
+                </div>
+                <div className="">
+                    <FooterLogin/>
                 </div>
             </div>
         </>

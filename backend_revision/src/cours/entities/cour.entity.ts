@@ -19,6 +19,9 @@ export class Cours {
   @Column()
   contenu: string;
 
+  @Column({ nullable: true })
+  image_url: string;
+
   @ManyToOne(() => Matiere, (matiere) => matiere.cours, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'matiere_id' })
   matiere: Matiere;
@@ -33,6 +36,9 @@ export class Cours {
 
   @Column({ default: false })
   valide: boolean;
+
+  @Column({ type: 'varchar', default: 'publié' })
+  status: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date_publication: Date;

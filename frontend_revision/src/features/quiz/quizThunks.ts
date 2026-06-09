@@ -5,14 +5,64 @@ import type { RootState } from '../../app/store'
 
 export const fetchQuizzes = createAsyncThunk(
   'quiz/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (statusFilter?: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(API.quiz)
+      const params = statusFilter ? { status: statusFilter } : {}
+      const response = await axios.get(API.quiz, { params })
       return response.data
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response)
         return rejectWithValue(error.response.data.message)
       return rejectWithValue('Erreur de chargement des quiz')
+    }
+  }
+)
+
+export const fetchQuizzesByCourse = createAsyncThunk(
+  'quiz/fetchByCourse',
+  async ({ coursId, status }: { coursId: string; status?: string }, { rejectWithValue }) => {
+    try {
+      const params = status ? { status } : {}
+      const response = await axios.get(`${API.quiz}/course/${coursId}`, { params })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue('Erreur de chargement des quiz du cours')
+    }
+  }
+)
+
+export const approveQuiz = createAsyncThunk(
+  'quiz/approve',
+  async (id: number, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState
+      const response = await axios.patch(`${API.quiz}/${id}/approve`, {}, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue("Erreur d'approbation")
+    }
+  }
+)
+
+export const rejectQuiz = createAsyncThunk(
+  'quiz/reject',
+  async (id: number, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState
+      const response = await axios.patch(`${API.quiz}/${id}/reject`, {}, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue('Erreur de rejet')
     }
   }
 )

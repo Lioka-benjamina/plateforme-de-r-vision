@@ -108,3 +108,5 @@ Rôle	Email	Mot de passe
 Admin	admin@revision.com	admin123
 Élève	eleve@test.com	password123
 Professeur	prof@test.com	password123
+
+maintenant je veux que lors de l'ajout des cours , des lecon, des quiz par les professor, tous a besoin d'approbation par l'admin pour que ca soit publier publique, gere moi ca et rend fonctionnel

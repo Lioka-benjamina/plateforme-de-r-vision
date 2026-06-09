@@ -35,13 +35,17 @@ export class CoursService {
       titre: CourDto.titre,
       contenu: CourDto.contenu,
       matiere_id: CourDto.matiere_id,
+      image_url: CourDto.image_url,
+      status: 'en_attente',
       auteur,
     });
     return await this.coursRepo.save(cours);
   }
 
-  async findAll() {
-    return await this.coursRepo.find({ relations: ['matiere', 'auteur'] });
+  async findAll(status?: string) {
+    const where: any = {};
+    if (status) where.status = status;
+    return await this.coursRepo.find({ where, relations: ['matiere', 'auteur'] });
   }
 
   async findOne(id: string) {
@@ -65,6 +69,23 @@ export class CoursService {
       where: { id },
       relations: ['matiere', 'auteur'],
     });
+  }
+
+  async approve(id: string) {
+    const cours = await this.coursRepo.findOneBy({ id });
+    if (!cours) throw new NotFoundException('Cours non trouvé');
+    cours.status = 'publié';
+    cours.valide = true;
+    await this.coursRepo.save(cours);
+    return this.findOne(id);
+  }
+
+  async reject(id: string) {
+    const cours = await this.coursRepo.findOneBy({ id });
+    if (!cours) throw new NotFoundException('Cours non trouvé');
+    cours.status = 'rejeté';
+    await this.coursRepo.save(cours);
+    return this.findOne(id);
   }
 
   async remove(id: string) {

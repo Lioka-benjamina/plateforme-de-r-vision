@@ -23,4 +23,7 @@ export class Quiz {
 
   @Column({ nullable: true })
   auteur_id: string;
+
+  @Column({ type: 'varchar', default: 'en_attente' })
+  status: string;
 }

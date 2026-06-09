@@ -22,13 +22,22 @@ export class QuizService {
   async create(dto: CreateQuizDto, auteurId: string) {
     const quiz = this.quizRepo.create({
       ...dto,
+      status: 'en_attente',
       auteur_id: auteurId,
     });
     return await this.quizRepo.save(quiz);
   }
 
-  async findAll() {
-    return await this.quizRepo.find();
+  async findAll(status?: string) {
+    const where: any = {};
+    if (status) where.status = status;
+    return await this.quizRepo.find({ where });
+  }
+
+  async findByCourse(coursId: string, status?: string) {
+    const where: any = { cours_id: coursId };
+    if (status) where.status = status;
+    return await this.quizRepo.find({ where });
   }
 
   async findOne(id: string) {
@@ -46,6 +55,20 @@ export class QuizService {
     }
     await this.quizRepo.update(id, dto as any);
     return await this.quizRepo.findOneBy({ id });
+  }
+
+  async approve(id: string) {
+    const quiz = await this.quizRepo.findOneBy({ id });
+    if (!quiz) throw new NotFoundException('Quiz non trouvé');
+    quiz.status = 'publié';
+    return await this.quizRepo.save(quiz);
+  }
+
+  async reject(id: string) {
+    const quiz = await this.quizRepo.findOneBy({ id });
+    if (!quiz) throw new NotFoundException('Quiz non trouvé');
+    quiz.status = 'rejeté';
+    return await this.quizRepo.save(quiz);
   }
 
   async remove(id: string) {

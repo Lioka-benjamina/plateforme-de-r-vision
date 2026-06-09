@@ -35,16 +35,14 @@ export class AuthService {
       status = UserStatus.PENDING;
     }
 
-    const user: Partial<User> = {
+    await this.usersService.create({
       nom: AuthDto.nom,
       prenom: AuthDto.prenom,
       email: AuthDto.email,
       mot_de_pass: hashed,
       role,
       status,
-    };
-
-    await this.usersService.create(user);
+    });
     return { message: 'Inscription réussi' };
   }
 

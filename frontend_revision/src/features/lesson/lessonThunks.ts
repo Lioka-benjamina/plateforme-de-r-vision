@@ -5,9 +5,12 @@ import type { RootState } from '../../app/store'
 
 export const fetchLessons = createAsyncThunk(
   'lesson/fetchAll',
-  async (coursId: number, { rejectWithValue }) => {
+  async ({ coursId, status }: { coursId?: string; status?: string } = {}, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API.lesson}?coursId=${coursId}`)
+      const params: Record<string, string> = {}
+      if (coursId) params.coursId = coursId
+      if (status) params.status = status
+      const response = await axios.get(API.lesson, { params })
       return response.data
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response)
@@ -19,7 +22,7 @@ export const fetchLessons = createAsyncThunk(
 
 export const fetchLessonById = createAsyncThunk(
   'lesson/fetchById',
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${API.lesson}/${id}`)
       return response.data
@@ -31,12 +34,74 @@ export const fetchLessonById = createAsyncThunk(
   }
 )
 
-export const createLesson = createAsyncThunk(
-  'lesson/create',
-  async (data: { titre: string; type: string; contenu: string; coursId: number; duree?: string }, { getState, rejectWithValue }) => {
+export const approveLesson = createAsyncThunk(
+  'lesson/approve',
+  async (id: string, { getState, rejectWithValue }) => {
     try {
       const state = getState() as RootState
-      const response = await axios.post(API.lesson, data, {
+      const response = await axios.patch(`${API.lesson}/${id}/approve`, {}, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue("Erreur d'approbation")
+    }
+  }
+)
+
+export const rejectLesson = createAsyncThunk(
+  'lesson/reject',
+  async (id: string, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState
+      const response = await axios.patch(`${API.lesson}/${id}/reject`, {}, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue('Erreur de rejet')
+    }
+  }
+)
+
+export const uploadFile = createAsyncThunk(
+  'lesson/uploadFile',
+  async (file: File, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState
+      const formData = new FormData()
+      formData.append('file', file)
+      const response = await axios.post(`${API.lesson}/upload`, formData, {
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue("Erreur d'upload")
+    }
+  }
+)
+
+export const createLesson = createAsyncThunk(
+  'lesson/create',
+  async (data: { titre: string; type: string; contenu: string; coursId: string; duree?: string }, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState
+      const response = await axios.post(API.lesson, {
+        titre: data.titre,
+        type: data.type,
+        contenu: data.contenu,
+        cours_id: data.coursId,
+        duree: data.duree,
+      }, {
         headers: { Authorization: `Bearer ${state.auth.token}` },
       })
       return response.data
@@ -50,7 +115,7 @@ export const createLesson = createAsyncThunk(
 
 export const updateLesson = createAsyncThunk(
   'lesson/update',
-  async ({ id, ...data }: { id: number; titre?: string; type?: string; contenu?: string; duree?: string }, { getState, rejectWithValue }) => {
+  async ({ id, ...data }: { id: string; titre?: string; type?: string; contenu?: string; duree?: string }, { getState, rejectWithValue }) => {
     try {
       const state = getState() as RootState
       const response = await axios.patch(`${API.lesson}/${id}`, data, {
@@ -67,7 +132,7 @@ export const updateLesson = createAsyncThunk(
 
 export const deleteLesson = createAsyncThunk(
   'lesson/delete',
-  async (id: number, { getState, rejectWithValue }) => {
+  async (id: string, { getState, rejectWithValue }) => {
     try {
       const state = getState() as RootState
       await axios.delete(`${API.lesson}/${id}`, {

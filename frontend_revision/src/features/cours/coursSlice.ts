@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { fetchCours, createCours, updateCours, deleteCours } from './coursThunks'
+import { fetchCours, createCours, updateCours, deleteCours, approveCours, rejectCours } from './coursThunks'
 
 interface Cours {
   id: number
@@ -77,6 +77,24 @@ const coursSlice = createSlice({
       .addCase(updateCours.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload as string
+      })
+      .addCase(approveCours.fulfilled, (state, action: PayloadAction<any>) => {
+        const index = state.items.findIndex((c) => c.id === action.payload.id)
+        if (index !== -1) {
+          state.items[index] = {
+            ...state.items[index],
+            status: 'publié',
+          }
+        }
+      })
+      .addCase(rejectCours.fulfilled, (state, action: PayloadAction<any>) => {
+        const index = state.items.findIndex((c) => c.id === action.payload.id)
+        if (index !== -1) {
+          state.items[index] = {
+            ...state.items[index],
+            status: 'rejeté',
+          }
+        }
       })
       .addCase(deleteCours.pending, (state) => {
         state.loading = true

@@ -39,7 +39,7 @@ export const enrollCourse = createAsyncThunk(
 
 export const updateProgress = createAsyncThunk(
   'enrollment/progress',
-  async ({ coursId, lessonId }: { coursId: number; lessonId: number }, { getState, rejectWithValue }) => {
+  async ({ coursId, lessonId }: { coursId: string; lessonId: string }, { getState, rejectWithValue }) => {
     try {
       const state = getState() as RootState
       const response = await axios.patch(`${API.enrollment}/${coursId}/progress`, { lessonId }, {

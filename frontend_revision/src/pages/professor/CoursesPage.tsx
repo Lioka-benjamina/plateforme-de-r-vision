@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Plus, Eye, Edit, Trash2 } from 'lucide-react'
+import { Plus, Eye, Edit, Trash2, BookOpen } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchCours, deleteCours } from '../../features/cours/coursThunks'
@@ -67,6 +67,9 @@ export default function CoursesPage() {
         <div className="flex items-center gap-2">
           <Link to={`/cours/${c.id}`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
             <Eye size={18} />
+          </Link>
+          <Link to={`/professor/courses/${c.id}/lessons`} className="p-1.5 text-surface-400 hover:text-amber-600 transition rounded-lg hover:bg-amber-50">
+            <BookOpen size={18} />
           </Link>
           <Link to={`/professor/courses/${c.id}/edit`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
             <Edit size={18} />

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { ClipboardList, Search, Eye, Trash2 } from 'lucide-react'
+import { ClipboardList, Search, Eye, Check, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { fetchQuizzes, deleteQuiz } from '../../features/quiz/quizThunks'
+import { fetchQuizzes, approveQuiz, rejectQuiz } from '../../features/quiz/quizThunks'
 import { selectAllQuizzes, selectQuizLoading } from '../../features/quiz/quizSelectors'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
@@ -15,29 +15,42 @@ export default function QuizzesPage() {
   const quizzes = useAppSelector(selectAllQuizzes)
   const loading = useAppSelector(selectQuizLoading)
   const [search, setSearch] = useState('')
+  const [activeTab, setActiveTab] = useState('tous')
 
   useEffect(() => {
     dispatch(fetchQuizzes())
   }, [dispatch])
 
-  const filtered = quizzes.filter((q) =>
-    q.titre.toLowerCase().includes(search.toLowerCase())
-  )
+  const tabs = ['tous', 'en_attente', 'publié', 'rejeté']
+  const filtered = (activeTab === 'tous' ? quizzes : quizzes.filter((q) => q.status === activeTab))
+    .filter((q) => q.titre.toLowerCase().includes(search.toLowerCase()))
 
   const columns: Column<(typeof quizzes)[0]>[] = [
     { key: 'titre', header: 'Titre', render: (q) => <span className="font-medium text-surface-900">{q.titre}</span> },
     {
-      key: 'coursId',
-      header: 'Questions',
-      render: () => <Badge>10</Badge>,
+      key: 'status',
+      header: 'Statut',
+      render: (q) => (
+        <Badge variant={q.status === 'publié' ? 'success' : q.status === 'rejeté' ? 'error' : 'warning'}>
+          {q.status || 'en_attente'}
+        </Badge>
+      ),
     },
     {
       key: 'actions',
       header: 'Actions',
       render: (q) => (
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate(`/professor/quizzes/${q.id}`)} className="text-primary-500 hover:text-primary-700 transition p-1" title="Voir"><Eye size={16} /></button>
-          <button onClick={() => { if (confirm('Supprimer ce quiz ?')) dispatch(deleteQuiz(q.id as any)) }} className="text-error-500 hover:text-error-700 transition p-1" title="Supprimer"><Trash2 size={16} /></button>
+          <button onClick={() => navigate(`/professor/quizzes/${q.id}`)} className="p-1.5 text-primary-500 hover:text-primary-700 transition rounded-lg hover:bg-primary-50" title="Voir"><Eye size={16} /></button>
+          {q.status === 'en_attente' && (
+            <>
+              <button onClick={() => dispatch(approveQuiz(q.id as any))} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Valider"><Check size={16} /></button>
+              <button onClick={() => dispatch(rejectQuiz(q.id as any))} className="p-1.5 text-error-500 hover:bg-error-50 transition rounded-lg" title="Rejeter"><X size={16} /></button>
+            </>
+          )}
+          {q.status === 'rejeté' && (
+            <button onClick={() => dispatch(approveQuiz(q.id as any))} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Réapprouver"><Check size={16} /></button>
+          )}
         </div>
       ),
     },
@@ -62,6 +75,16 @@ export default function QuizzesPage() {
       </div>
 
       <Card>
+        <div className="flex gap-1 mb-4 flex-wrap">
+          {tabs.map((t) => (
+            <button key={t} onClick={() => setActiveTab(t)}
+              className={`px-3 py-1.5 text-sm rounded-lg font-medium transition ${
+                activeTab === t ? 'bg-primary-50 text-primary-600' : 'text-surface-500 hover:text-surface-700 hover:bg-surface-100'
+              }`}>
+              {t === 'tous' ? 'Tous' : t.charAt(0).toUpperCase() + t.slice(1)}
+            </button>
+          ))}
+        </div>
         {loading ? (
           <div className="text-center py-8 text-surface-400">Chargement...</div>
         ) : (

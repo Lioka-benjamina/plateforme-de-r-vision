@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { fetchUsers, updateUserStatus } from './userThunks'
+import { fetchUsers, createUser, updateUserStatus } from './userThunks'
 
 interface UserProfile {
   id: number
@@ -38,6 +38,13 @@ const userSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false; state.error = action.payload as string
+      })
+      .addCase(createUser.pending, (state) => { state.error = null })
+      .addCase(createUser.fulfilled, (state, action: PayloadAction<UserProfile>) => {
+        state.items.unshift(action.payload)
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.error = action.payload as string
       })
       .addCase(updateUserStatus.fulfilled, (state, action: PayloadAction<UserProfile>) => {
         const idx = state.items.findIndex((u) => u.id === action.payload.id)

@@ -148,11 +148,15 @@ export default function CatalogPage() {
       <div className="bg-white rounded-2xl overflow-hidden border border-surface-100 hover:border-surface-200 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-200 h-full flex flex-col">
 
         {/* Cover */}
-        <div className={`relative h-40 ${course.color || 'bg-primary-600'} flex items-end p-4`}>
-          {/* large letter watermark */}
-          <span className="absolute top-2 right-3 text-[80px] font-black text-white/10 leading-none select-none pointer-events-none">
-            {course.titre[0]}
-          </span>
+        <div className={`relative h-40 ${!course.imageUrl ? (course.color || 'bg-primary-600') : ''} flex items-end p-4`}>
+          {course.imageUrl ? (
+            <img src={`http://localhost:3000${course.imageUrl}`} alt={course.titre}
+              className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <span className="absolute top-2 right-3 text-[80px] font-black text-white/10 leading-none select-none pointer-events-none">
+              {course.titre[0]}
+            </span>
+          )}
           {/* category badge on image */}
           {course.category && (
             <span className="relative z-10 text-[11px] font-semibold bg-black/20 text-white backdrop-blur-sm px-2.5 py-1 rounded-full">

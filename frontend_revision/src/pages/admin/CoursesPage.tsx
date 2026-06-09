@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Eye, Check, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { fetchCours, updateCours } from '../../features/cours/coursThunks'
+import { fetchCours, approveCours, rejectCours } from '../../features/cours/coursThunks'
 import { selectAllCours, selectCoursLoading } from '../../features/cours/coursSelectors'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
@@ -31,11 +31,11 @@ export default function CoursesPage() {
   const filtered = activeTab === 'tous' ? cours : cours.filter((c) => c.status === activeTab)
 
   const handleValidate = (id: number) => {
-    dispatch(updateCours({ id, status: 'publié' }))
+    dispatch(approveCours(id))
   }
 
   const handleReject = (id: number) => {
-    dispatch(updateCours({ id, status: 'rejeté' }))
+    dispatch(rejectCours(id))
   }
 
   const columns: Column<(typeof cours)[0]>[] = [
@@ -72,6 +72,11 @@ export default function CoursesPage() {
                 <X size={16} />
               </button>
             </>
+          )}
+          {c.status === 'rejeté' && (
+            <button onClick={() => handleValidate(c.id)} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Réapprouver">
+              <Check size={16} />
+            </button>
           )}
         </div>
       ),

@@ -16,13 +16,15 @@ interface UpdateCoursData {
   lessonCount?: number
   studentCount?: number
   color?: string
+  imageUrl?: string
 }
 
 export const fetchCours = createAsyncThunk(
   'cours/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (statusFilter?: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(API.cours)
+      const params = statusFilter ? { status: statusFilter } : {}
+      const response = await axios.get(API.cours, { params })
       return (response.data || []).map((res: any) => ({
         id: res.id,
         titre: res.titre,
@@ -31,8 +33,9 @@ export const fetchCours = createAsyncThunk(
         professorId: res.auteur?.id,
         professor: res.auteur ? `${res.auteur.prenom} ${res.auteur.nom}` : '',
         category: res.matiere?.nom,
+        imageUrl: res.image_url || '',
         createdAt: res.date_publication,
-        status: res.valide ? 'publié' : 'brouillon',
+        status: res.status || (res.valide ? 'publié' : 'brouillon'),
       }))
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
@@ -43,16 +46,53 @@ export const fetchCours = createAsyncThunk(
   }
 )
 
+export const approveCours = createAsyncThunk(
+  'cours/approve',
+  async (id: number, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as { auth: { token: string } }
+      const response = await axios.patch(`${API.cours}/${id}/approve`, {}, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message)
+      }
+      return rejectWithValue("Erreur d'approbation")
+    }
+  }
+)
+
+export const rejectCours = createAsyncThunk(
+  'cours/reject',
+  async (id: number, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as { auth: { token: string } }
+      const response = await axios.patch(`${API.cours}/${id}/reject`, {}, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message)
+      }
+      return rejectWithValue("Erreur de rejet")
+    }
+  }
+)
+
 export const createCours = createAsyncThunk(
   'cours/create',
   async (data: any, { getState, rejectWithValue }) => {
     try {
       const state = getState() as { auth: { token: string } }
-      const payload = {
+      const payload: Record<string, unknown> = {
         titre: data.titre,
         contenu: data.description,
         matiere_id: data.matiereId,
       }
+      if (data.imageUrl) payload.image_url = data.imageUrl
       const response = await axios.post(API.cours, payload, {
         headers: { Authorization: `Bearer ${state.auth.token}` },
       })
@@ -64,7 +104,9 @@ export const createCours = createAsyncThunk(
         matiereId: res.matiere_id,
         professorId: res.auteur?.id,
         professor: res.auteur ? `${res.auteur.prenom} ${res.auteur.nom}` : '',
+        imageUrl: res.image_url || '',
         createdAt: res.date_publication,
+        status: res.status || 'en_attente',
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
@@ -84,6 +126,8 @@ export const updateCours = createAsyncThunk(
       if (data.titre !== undefined) payload.titre = data.titre
       if (data.description !== undefined) payload.contenu = data.description
       if (data.matiereId !== undefined) payload.matiere_id = data.matiereId
+      if (data.imageUrl !== undefined) payload.image_url = data.imageUrl
+      if (data.status !== undefined) payload.status = data.status
       const response = await axios.patch(`${API.cours}/${id}`, payload, {
         headers: { Authorization: `Bearer ${state.auth.token}` },
       })

@@ -1,15 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { fetchLessons, fetchLessonById, createLesson, updateLesson, deleteLesson } from './lessonThunks'
+import { fetchLessons, fetchLessonById, createLesson, updateLesson, deleteLesson, approveLesson, rejectLesson } from './lessonThunks'
 
-interface Lesson {
-  id: number
+export interface Lesson {
+  id: string
   titre: string
   type: string
   contenu: string
   duree?: string
   ordre: number
-  coursId: number
+  cours_id: string
+  status?: string
 }
 
 interface LessonState {
@@ -65,8 +66,16 @@ const lessonSlice = createSlice({
       .addCase(updateLesson.rejected, (state, action) => {
         state.loading = false; state.error = action.payload as string
       })
+      .addCase(approveLesson.fulfilled, (state, action: PayloadAction<Lesson>) => {
+        const idx = state.items.findIndex((l) => l.id === action.payload.id)
+        if (idx !== -1) state.items[idx] = { ...state.items[idx], status: 'publié' }
+      })
+      .addCase(rejectLesson.fulfilled, (state, action: PayloadAction<Lesson>) => {
+        const idx = state.items.findIndex((l) => l.id === action.payload.id)
+        if (idx !== -1) state.items[idx] = { ...state.items[idx], status: 'rejeté' }
+      })
       .addCase(deleteLesson.pending, (state) => { state.loading = true })
-      .addCase(deleteLesson.fulfilled, (state, action: PayloadAction<number>) => {
+      .addCase(deleteLesson.fulfilled, (state, action: PayloadAction<string>) => {
         state.loading = false; state.items = state.items.filter((l) => l.id !== action.payload)
       })
       .addCase(deleteLesson.rejected, (state, action) => {

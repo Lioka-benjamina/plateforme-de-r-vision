@@ -51,10 +51,10 @@ export default function LoginPage() {
           <div className="text-center mb-8">
             <img src={logo} alt="Revision" className="w-12 h-12 object-contain mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-surface-900">Connexion</h1>
-            <p className="text-sm text-surface-400 mt-1">Choisissez votre rôle pour continuer</p>
+            {/* <p className="text-sm text-surface-400 mt-1">Choisissez votre rôle pour continuer</p> */}
           </div>
 
-          <div className="flex gap-2 mb-8">
+          {/* <div className="flex gap-2 mb-8">
             {roles.map((r) => (
               <button
                 key={r.key}
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 <span>{r.label}</span>
               </button>
             ))}
-          </div>
+          </div> */}
 
           {error && (
             <div className="bg-error-50 border border-error-200 text-error-700 px-4 py-3 rounded-xl mb-6 text-sm flex items-center justify-between">

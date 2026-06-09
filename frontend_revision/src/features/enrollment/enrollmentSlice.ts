@@ -12,6 +12,7 @@ interface Enrollment {
   progress: number
   lessonsCompleted: number
   totalLessons: number
+  completedLessons?: string[]
 }
 
 interface EnrollmentState {

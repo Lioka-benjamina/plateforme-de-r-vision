@@ -6,12 +6,15 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Enrollment } from './entities/enrollment.entity';
+import { Lesson } from 'src/lesson/entities/lesson.entity';
 
 @Injectable()
 export class EnrollmentService {
   constructor(
     @InjectRepository(Enrollment)
     private enrollmentRepo: Repository<Enrollment>,
+    @InjectRepository(Lesson)
+    private lessonRepo: Repository<Lesson>,
   ) {}
 
   async enroll(coursId: string, userId: string) {
@@ -22,9 +25,13 @@ export class EnrollmentService {
     if (existing) {
       throw new ConflictException('Déjà inscrit à ce cours');
     }
+    const totalLessons = await this.lessonRepo.count({
+      where: { cours_id: coursId },
+    });
     const enrollment = this.enrollmentRepo.create({
       cours_id: coursId,
       user_id: userId,
+      totalLessons,
     });
     return await this.enrollmentRepo.save(enrollment);
   }
@@ -45,7 +52,7 @@ export class EnrollmentService {
     });
   }
 
-  async updateProgress(coursId: string, userId: string) {
+  async updateProgress(coursId: string, userId: string, lessonId?: string) {
     const enrollment = await this.enrollmentRepo.findOneBy({
       cours_id: coursId,
       user_id: userId,
@@ -53,7 +60,19 @@ export class EnrollmentService {
     if (!enrollment) {
       throw new NotFoundException('Inscription non trouvée');
     }
-    enrollment.lessonsCompleted += 1;
+    if (enrollment.totalLessons === 0) {
+      enrollment.totalLessons = await this.lessonRepo.count({
+        where: { cours_id: coursId },
+      });
+    }
+    if (lessonId) {
+      if (enrollment.completedLessons.includes(lessonId)) {
+        enrollment.completedLessons = enrollment.completedLessons.filter((id) => id !== lessonId);
+      } else {
+        enrollment.completedLessons = [...enrollment.completedLessons, lessonId];
+      }
+    }
+    enrollment.lessonsCompleted = enrollment.completedLessons.length;
     enrollment.progress =
       enrollment.totalLessons > 0
         ? Math.round(

@@ -20,6 +20,23 @@ export const fetchUsers = createAsyncThunk(
   }
 )
 
+export const createUser = createAsyncThunk(
+  'user/create',
+  async (data: { email: string; mot_de_pass: string; nom: string; prenom: string; role: string }, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState
+      const response = await axios.post(API.user, data, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue("Erreur de création de l'utilisateur")
+    }
+  }
+)
+
 export const updateUserStatus = createAsyncThunk(
   'user/updateStatus',
   async ({ id, status }: { id: number; status: string }, { getState, rejectWithValue }) => {

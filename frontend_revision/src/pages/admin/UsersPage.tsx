@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Search, Eye, Edit2, Trash2, UserCheck, UserX } from 'lucide-react'
+import { Search, Eye, Edit2, Trash2, UserCheck, UserX, Plus } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { fetchUsers, updateUserStatus } from '../../features/user/userThunks'
+import { fetchUsers, updateUserStatus, createUser } from '../../features/user/userThunks'
 import { selectAllUsers, selectUserLoading } from '../../features/user/userSelectors'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
@@ -16,6 +16,15 @@ const roleColors: Record<string, string> = {
   student: 'default',
 } as const
 
+const roles = [
+  { value: 'admin', label: 'Admin' },
+  { value: 'professor', label: 'Professeur' },
+  { value: 'moderator', label: 'Modérateur' },
+  { value: 'student', label: 'Étudiant' },
+  { value: 'eleve', label: 'Élève' },
+  { value: 'parent', label: 'Parent' },
+]
+
 export default function UsersPage() {
   const dispatch = useAppDispatch()
   const users = useAppSelector(selectAllUsers)
@@ -23,6 +32,8 @@ export default function UsersPage() {
   const [search, setSearch] = useState('')
   const [roleFilter, setRoleFilter] = useState('Tous')
   const [selectedUser, setSelectedUser] = useState<(typeof users)[0] | null>(null)
+  const [showCreate, setShowCreate] = useState(false)
+  const [form, setForm] = useState({ email: '', mot_de_pass: '', nom: '', prenom: '', role: 'professor' })
 
   useEffect(() => {
     dispatch(fetchUsers())
@@ -38,6 +49,13 @@ export default function UsersPage() {
   const handleToggleStatus = (user: (typeof users)[0]) => {
     const newStatus = user.status === 'suspended' ? 'active' : 'suspended'
     dispatch(updateUserStatus({ id: user.id, status: newStatus }))
+  }
+
+  const handleCreate = () => {
+    if (!form.email || !form.mot_de_pass || !form.nom || !form.prenom) return
+    dispatch(createUser(form))
+    setForm({ email: '', mot_de_pass: '', nom: '', prenom: '', role: 'professor' })
+    setShowCreate(false)
   }
 
   const columns: Column<(typeof users)[0]>[] = [
@@ -99,9 +117,15 @@ export default function UsersPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-surface-900">Utilisateurs</h1>
-        <p className="text-surface-500 mt-1">{users.length} utilisateurs inscrits</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-surface-900">Utilisateurs</h1>
+          <p className="text-surface-500 mt-1">{users.length} utilisateurs inscrits</p>
+        </div>
+        <button onClick={() => setShowCreate(true)}
+          className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
+          <Plus size={18} /> Créer un utilisateur
+        </button>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
@@ -139,6 +163,50 @@ export default function UsersPage() {
             <p><strong>Inscrit le :</strong> {selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}</p>
           </div>
         )}
+      </Modal>
+
+      <Modal open={showCreate} onClose={() => setShowCreate(false)} title="Créer un utilisateur">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-surface-700 mb-1">Prénom</label>
+            <input value={form.prenom} onChange={(e) => setForm({ ...form, prenom: e.target.value })}
+              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-surface-700 mb-1">Nom</label>
+            <input value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })}
+              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-surface-700 mb-1">Email</label>
+            <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-surface-700 mb-1">Mot de passe</label>
+            <input type="password" value={form.mot_de_pass} onChange={(e) => setForm({ ...form, mot_de_pass: e.target.value })}
+              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-surface-700 mb-1">Rôle</label>
+            <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}
+              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 bg-white">
+              {roles.map((r) => (
+                <option key={r.value} value={r.value}>{r.label}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button onClick={handleCreate} disabled={!form.email || !form.mot_de_pass || !form.nom || !form.prenom}
+              className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition disabled:opacity-60">
+              <Plus size={16} /> Créer
+            </button>
+            <button onClick={() => setShowCreate(false)}
+              className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-surface-200 transition">
+              Annuler
+            </button>
+          </div>
+        </div>
       </Modal>
     </div>
   )

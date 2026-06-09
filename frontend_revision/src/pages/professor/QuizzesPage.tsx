@@ -6,6 +6,7 @@ import { fetchQuizzes, deleteQuiz } from '../../features/quiz/quizThunks'
 import { selectAllQuizzes, selectQuizLoading } from '../../features/quiz/quizSelectors'
 import Table from '../../components/ui/Table'
 import Card from '../../components/ui/Card'
+import Badge from '../../components/ui/Badge'
 import type { Column } from '../../components/ui/Table'
 
 export default function QuizzesPage() {
@@ -26,6 +27,15 @@ export default function QuizzesPage() {
           <p className="font-medium text-surface-900">{q.titre}</p>
           <p className="text-xs text-surface-400">Cours #{q.coursId}</p>
         </div>
+      ),
+    },
+    {
+      key: 'status',
+      header: 'Statut',
+      render: (q) => (
+        <Badge variant={q.status === 'publié' ? 'success' : q.status === 'rejeté' ? 'error' : 'warning'}>
+          {q.status || 'en_attente'}
+        </Badge>
       ),
     },
     {

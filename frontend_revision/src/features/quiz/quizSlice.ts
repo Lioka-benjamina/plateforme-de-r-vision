@@ -2,12 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import {
   fetchQuizzes,
+  fetchQuizzesByCourse,
   fetchQuizById,
   createQuiz,
   updateQuiz,
   deleteQuiz,
   submitQuizAttempt,
   fetchResults,
+  approveQuiz,
+  rejectQuiz,
 } from './quizThunks'
 
 interface Question {
@@ -16,11 +19,14 @@ interface Question {
   options: { id: number; texte: string }[]
 }
 
-interface Quiz {
+export interface Quiz {
   id: number
   titre: string
   coursId: number
+  cours_id?: string
   questions?: Question[]
+  status?: string
+  auteur_id?: string
 }
 
 interface QuizResult {
@@ -34,6 +40,7 @@ interface QuizResult {
 
 interface QuizState {
   items: Quiz[]
+  courseQuizzes: Quiz[]
   currentQuiz: Quiz | null
   results: QuizResult[]
   lastAttempt: { score: number; total: number } | null
@@ -43,6 +50,7 @@ interface QuizState {
 
 const initialState: QuizState = {
   items: [],
+  courseQuizzes: [],
   currentQuiz: null,
   results: [],
   lastAttempt: null,
@@ -70,6 +78,13 @@ const quizSlice = createSlice({
       .addCase(fetchQuizzes.rejected, (state, action) => {
         state.loading = false; state.error = action.payload as string
       })
+      .addCase(fetchQuizzesByCourse.pending, (state) => { state.loading = true })
+      .addCase(fetchQuizzesByCourse.fulfilled, (state, action: PayloadAction<Quiz[]>) => {
+        state.loading = false; state.courseQuizzes = action.payload
+      })
+      .addCase(fetchQuizzesByCourse.rejected, (state, action) => {
+        state.loading = false; state.error = action.payload as string
+      })
       .addCase(fetchQuizById.pending, (state) => { state.loading = true })
       .addCase(fetchQuizById.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false; state.currentQuiz = action.payload
@@ -92,6 +107,14 @@ const quizSlice = createSlice({
       })
       .addCase(updateQuiz.rejected, (state, action) => {
         state.loading = false; state.error = action.payload as string
+      })
+      .addCase(approveQuiz.fulfilled, (state, action: PayloadAction<any>) => {
+        const idx = state.items.findIndex((q) => String(q.id) === String(action.payload.id))
+        if (idx !== -1) state.items[idx] = { ...state.items[idx], status: 'publié' }
+      })
+      .addCase(rejectQuiz.fulfilled, (state, action: PayloadAction<any>) => {
+        const idx = state.items.findIndex((q) => String(q.id) === String(action.payload.id))
+        if (idx !== -1) state.items[idx] = { ...state.items[idx], status: 'rejeté' }
       })
       .addCase(deleteQuiz.pending, (state) => { state.loading = true })
       .addCase(deleteQuiz.fulfilled, (state, action: PayloadAction<any>) => {

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, IsOptional } from 'class-validator';
 
 export class CreateCourDto {
   @IsString()
@@ -12,4 +12,8 @@ export class CreateCourDto {
   @IsUUID()
   @IsNotEmpty()
   matiere_id: string;
+
+  @IsOptional()
+  @IsString()
+  image_url?: string;
 }

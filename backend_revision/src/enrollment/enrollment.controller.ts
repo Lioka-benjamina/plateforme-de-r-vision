@@ -35,6 +35,7 @@ export class EnrollmentController {
       progress: e.progress,
       lessonsCompleted: e.lessonsCompleted,
       totalLessons: e.totalLessons,
+      completedLessons: e.completedLessons || [],
       enrolledAt: e.enrolledAt,
     }));
   }
@@ -47,7 +48,11 @@ export class EnrollmentController {
 
   @Patch(':coursId/progress')
   @UseGuards(JwtAuthGuard)
-  async updateProgress(@Param('coursId') coursId: string, @Request() req: any) {
-    return await this.enrollmentService.updateProgress(coursId, req.user.id);
+  async updateProgress(
+    @Param('coursId') coursId: string,
+    @Body() body: { lessonId?: string },
+    @Request() req: any,
+  ) {
+    return await this.enrollmentService.updateProgress(coursId, req.user.id, body.lessonId);
   }
 }

@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private userRepo: Repository<User>
+    private userRepo: Repository<User>,
   ) {}
 
   async findByEmail(email: string): Promise<User | undefined> {

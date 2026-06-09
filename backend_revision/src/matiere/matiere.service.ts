@@ -9,11 +9,11 @@ import { Repository } from 'typeorm';
 export class MatiereService {
   constructor(
     @InjectRepository(Matiere)
-    private MatiereRepo : Repository<Matiere>
-  ){}
+    private MatiereRepo: Repository<Matiere>,
+  ) {}
 
   async createMatiere(MatiereDto: CreateMatiereDto) {
-    const matiere =  this.MatiereRepo.create(MatiereDto)
+    const matiere = this.MatiereRepo.create(MatiereDto);
     return await this.MatiereRepo.save(matiere);
   }
 
@@ -22,25 +22,24 @@ export class MatiereService {
   }
 
   async findOne(id: string) {
-    const oneMatiere = await this.MatiereRepo.findOne({where : { id }})
+    const oneMatiere = await this.MatiereRepo.findOne({ where: { id } });
     return oneMatiere;
   }
 
   async update(id: string, MatiereDto: UpdateMatiereDto) {
-    const matiere = await this.MatiereRepo.findOneBy({id})
+    const matiere = await this.MatiereRepo.findOneBy({ id });
     if (!matiere) {
-      throw new NotFoundException("matiere non trouvé")
+      throw new NotFoundException('matiere non trouvé');
     }
 
-    await this.MatiereRepo.update(id , MatiereDto)
+    await this.MatiereRepo.update(id, MatiereDto);
 
-    const MatiereUpdate = await this.MatiereRepo.findOneBy({id})
-    return MatiereUpdate
-    
+    const MatiereUpdate = await this.MatiereRepo.findOneBy({ id });
+    return MatiereUpdate;
   }
 
   async remove(id: string) {
-    await this.MatiereRepo.delete(id)
+    await this.MatiereRepo.delete(id);
     return `suppression succèss`;
   }
 }

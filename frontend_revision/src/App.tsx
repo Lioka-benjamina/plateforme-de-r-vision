@@ -40,6 +40,7 @@ import StudentDashboard from './pages/student/DashboardPage'
 import StudentCourses from './pages/student/MyCoursesPage'
 import StudentCourseView from './pages/student/CourseViewPage'
 import StudentQuiz from './pages/student/QuizPage'
+import StudentQuizzes from './pages/student/QuizzesPage'
 import StudentResults from './pages/student/ResultsPage'
 import StudentCertificates from './pages/student/CertificatesPage'
 
@@ -112,6 +113,7 @@ function App() {
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/student/courses" element={<StudentCourses />} />
           <Route path="/student/courses/:id" element={<StudentCourseView />} />
+          <Route path="/student/quizzes" element={<StudentQuizzes />} />
           <Route path="/student/quiz/:id" element={<StudentQuiz />} />
           <Route path="/student/results" element={<StudentResults />} />
           <Route path="/student/certificates" element={<StudentCertificates />} />

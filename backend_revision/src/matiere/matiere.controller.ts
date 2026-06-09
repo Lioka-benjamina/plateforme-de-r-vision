@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { MatiereService } from './matiere.service';
 import { CreateMatiereDto } from './dto/create-matiere.dto';
 import { UpdateMatiereDto } from './dto/update-matiere.dto';
@@ -12,7 +21,7 @@ export class MatiereController {
   constructor(private readonly matiereService: MatiereService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard , RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   create(@Body() createMatiereDto: CreateMatiereDto) {
     return this.matiereService.createMatiere(createMatiereDto);

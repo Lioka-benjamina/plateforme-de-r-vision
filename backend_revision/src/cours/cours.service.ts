@@ -21,7 +21,9 @@ export class CoursService {
   ) {}
 
   async create(CourDto: CreateCourDto, auteurId: string) {
-    const matiere = await this.matiereRepo.findOne({ where: { id: CourDto.matiere_id } });
+    const matiere = await this.matiereRepo.findOne({
+      where: { id: CourDto.matiere_id },
+    });
     if (!matiere) {
       throw new NotFoundException('Matière non trouvée');
     }
@@ -43,7 +45,10 @@ export class CoursService {
   }
 
   async findOne(id: string) {
-    const cours = await this.coursRepo.findOne({ where: { id }, relations: ['matiere', 'auteur'] });
+    const cours = await this.coursRepo.findOne({
+      where: { id },
+      relations: ['matiere', 'auteur'],
+    });
     if (!cours) {
       throw new NotFoundException('Cours non trouvé');
     }
@@ -56,7 +61,10 @@ export class CoursService {
       throw new NotFoundException('Cours non trouvé');
     }
     await this.coursRepo.update(id, updateCourDto as any);
-    return await this.coursRepo.findOne({ where: { id }, relations: ['matiere', 'auteur'] });
+    return await this.coursRepo.findOne({
+      where: { id },
+      relations: ['matiere', 'auteur'],
+    });
   }
 
   async remove(id: string) {

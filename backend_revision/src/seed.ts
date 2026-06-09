@@ -39,7 +39,9 @@ async function seed() {
   ];
 
   for (const m of matieres) {
-    const existingMatiere = await (await import('./matiere/matiere.service')).MatiereService.prototype.findAll.bind(matiereService)();
+    const existingMatiere = await (
+      await import('./matiere/matiere.service')
+    ).MatiereService.prototype.findAll.bind(matiereService)();
   }
 
   for (const m of matieres) {

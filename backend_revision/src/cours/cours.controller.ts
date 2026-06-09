@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { CoursService } from './cours.service';
 import { CreateCourDto } from './dto/create-cour.dto';
 import { UpdateCourDto } from './dto/update-cour.dto';
@@ -13,7 +23,7 @@ export class CoursController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.PROF)
+  @Roles(UserRole.PROF, UserRole.PROFESSOR, UserRole.ADMIN)
   create(@Body() createCourDto: CreateCourDto, @Request() req: any) {
     return this.coursService.create(createCourDto, req.user.id);
   }

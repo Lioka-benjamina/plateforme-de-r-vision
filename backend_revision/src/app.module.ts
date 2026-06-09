@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MatiereModule } from './matiere/matiere.module';
 import { CoursModule } from './cours/cours.module';
+import { QuizModule } from './quiz/quiz.module';
 
 @Module({
   imports: [
@@ -17,12 +18,13 @@ import { CoursModule } from './cours/cours.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     AuthModule,
     UsersModule,
     MatiereModule,
     CoursModule,
+    QuizModule,
   ],
 })
 export class AppModule {}

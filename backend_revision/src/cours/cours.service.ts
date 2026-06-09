@@ -9,42 +9,58 @@ import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class CoursService {
-
   constructor(
     @InjectRepository(Cours)
-    private coursRepo : Repository<Cours>,
+    private coursRepo: Repository<Cours>,
 
     @InjectRepository(Matiere)
-    private matiereRepo : Repository<Matiere>,
+    private matiereRepo: Repository<Matiere>,
 
     @InjectRepository(User)
-    private userRepo : Repository<User>,
-  ){}
+    private userRepo: Repository<User>,
+  ) {}
 
-  async create(CourDto: CreateCourDto) {
-    // const matiere = await this.matiereRepo.findOne({where : {id : CourDto.matiere_id}})
-    // if (!matiere) {
-    //   throw new NotFoundException("matiere non trouver")  : Promise<Cours> /  , auteurId : string
-    // }
-
-
-
-    return 'This action adds a new cour';
+  async create(CourDto: CreateCourDto, auteurId: string) {
+    const matiere = await this.matiereRepo.findOne({ where: { id: CourDto.matiere_id } });
+    if (!matiere) {
+      throw new NotFoundException('Matière non trouvée');
+    }
+    const auteur = await this.userRepo.findOne({ where: { id: auteurId } });
+    if (!auteur) {
+      throw new NotFoundException('Utilisateur non trouvé');
+    }
+    const cours = this.coursRepo.create({
+      titre: CourDto.titre,
+      contenu: CourDto.contenu,
+      matiere_id: CourDto.matiere_id,
+      auteur,
+    });
+    return await this.coursRepo.save(cours);
   }
 
-  findAll() {
-    return `This action returns all cours`;
+  async findAll() {
+    return await this.coursRepo.find({ relations: ['matiere', 'auteur'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cour`;
+  async findOne(id: string) {
+    const cours = await this.coursRepo.findOne({ where: { id }, relations: ['matiere', 'auteur'] });
+    if (!cours) {
+      throw new NotFoundException('Cours non trouvé');
+    }
+    return cours;
   }
 
-  update(id: number, updateCourDto: UpdateCourDto) {
-    return `This action updates a #${id} cour`;
+  async update(id: string, updateCourDto: UpdateCourDto) {
+    const cours = await this.coursRepo.findOneBy({ id });
+    if (!cours) {
+      throw new NotFoundException('Cours non trouvé');
+    }
+    await this.coursRepo.update(id, updateCourDto as any);
+    return await this.coursRepo.findOne({ where: { id }, relations: ['matiere', 'auteur'] });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cour`;
+  async remove(id: string) {
+    await this.coursRepo.delete(id);
+    return { message: 'Suppression réussie' };
   }
 }

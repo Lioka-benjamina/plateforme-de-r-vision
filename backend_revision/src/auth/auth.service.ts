@@ -1,6 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import * as bcrypt from 'bcrypt'
 import { User, UserRole, UserStatus } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -12,7 +11,6 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService
   ) { }
-
 
   async register(AuthDto: CreateAuthDto): Promise<{ message: string }> {
     const existing = await this.usersService.findByEmail(AuthDto.email)
@@ -46,37 +44,28 @@ export class AuthService {
     return { message: "Inscription réussi" };
   }
 
-  async login(email: string, mot_de_pass: string): Promise<{ token: string }> {
+  async login(email: string, password: string): Promise<{ access_token: string, user: Partial<User> }> {
     const user = await this.usersService.findByEmail(email)
     if (!user) {
       throw new BadRequestException("email incorrect")
     }
 
-    // console.log('mot_de_pass reçu :', mot_de_pass)
-    // console.log('mot_de_pass utilisateur:', user.mot_de_pass)
-
-    const passwordMatch = await bcrypt.compare(mot_de_pass, user.mot_de_pass)
+    const passwordMatch = await bcrypt.compare(password, user.mot_de_pass)
     if (!passwordMatch) throw new BadRequestException('Mot de passe incorrect');
 
-    const paylod = { sub: user.id, email: user.email , role : user.role}
+    const payload = { sub: user.id, email: user.email, role: user.role }
 
-    const token = await this.jwtService.signAsync(paylod)
-    return { token }
+    const access_token = await this.jwtService.signAsync(payload)
+    const { mot_de_pass, ...userWithoutPassword } = user
+    return { access_token, user: userWithoutPassword }
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async getProfile(userId: string): Promise<Partial<User>> {
+    const user = await this.usersService.findOne(userId)
+    if (!user) {
+      throw new UnauthorizedException('Utilisateur non trouvé')
+    }
+    const { mot_de_pass, ...userWithoutPassword } = user
+    return userWithoutPassword
   }
 }

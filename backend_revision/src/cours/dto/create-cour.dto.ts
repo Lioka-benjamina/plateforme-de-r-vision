@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString, IsUUID } from "class-validator";
 export class CreateCourDto {
     @IsString()
     @IsNotEmpty()
-    nom : string
+    titre : string
 
     @IsString()
     @IsNotEmpty()

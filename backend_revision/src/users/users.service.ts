@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,32 +9,41 @@ import { Repository } from 'typeorm';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private userRepo : Repository<User>
-  ){}
+    private userRepo: Repository<User>
+  ) {}
 
-  
-  async findByEmail(email : string): Promise<User | undefined>{
-    return await this.userRepo.findOne({where : {email}})
-  }
-  
-  async create(UserDto: CreateUserDto) {
-    const user = this.userRepo.create(UserDto)
-    return await this.userRepo.save(user)
+  async findByEmail(email: string): Promise<User | undefined> {
+    return await this.userRepo.findOne({ where: { email } });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async create(UserDto: Partial<User>) {
+    const user = this.userRepo.create(UserDto);
+    return await this.userRepo.save(user);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findAll() {
+    return await this.userRepo.find();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOne(id: string) {
+    const user = await this.userRepo.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('Utilisateur non trouvé');
+    }
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepo.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('Utilisateur non trouvé');
+    }
+    await this.userRepo.update(id, updateUserDto as any);
+    return await this.userRepo.findOneBy({ id });
+  }
+
+  async remove(id: string) {
+    await this.userRepo.delete(id);
+    return { message: 'Suppression réussie' };
   }
 }

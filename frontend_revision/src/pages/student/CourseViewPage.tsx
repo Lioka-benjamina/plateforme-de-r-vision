@@ -76,7 +76,7 @@ export default function CourseViewPage() {
     if (type === 'video' && contenu) {
       const videoUrl = contenu.startsWith('http') ? contenu : `${API_BASE}${contenu}`
       return (
-        <div className="bg-black rounded-lg overflow-hidden mb-6">
+        <div className="bg-black rounded-2xl overflow-hidden mb-6">
           <video controls className="w-full max-h-[500px] outline-none" key={videoUrl}>
             <source src={videoUrl} />
           </video>
@@ -95,21 +95,21 @@ export default function CourseViewPage() {
               <FileDown size={16} /> Télécharger
             </a>
           </div>
-          <iframe src={pdfUrl} className="w-full h-[500px] rounded-lg border border-surface-200" />
+          <iframe src={pdfUrl} className="w-full h-[500px] rounded-2xl border border-surface-200" />
         </div>
       )
     }
 
     if (type === 'exercice' && contenu) {
       return (
-        <div className="min-h-[300px] bg-surface-50 rounded-lg p-8 text-surface-700 mb-6 whitespace-pre-wrap leading-relaxed">
+        <div className="min-h-[300px] bg-surface-50 rounded-2xl p-8 text-surface-700 mb-6 whitespace-pre-wrap leading-relaxed">
           {contenu}
         </div>
       )
     }
 
     return (
-      <div className="min-h-[300px] bg-surface-50 rounded-lg p-8 text-surface-700 mb-6 whitespace-pre-wrap leading-relaxed">
+      <div className="min-h-[300px] bg-surface-50 rounded-2xl p-8 text-surface-700 mb-6 whitespace-pre-wrap leading-relaxed">
         {contenu || 'Contenu à venir...'}
       </div>
     )
@@ -164,7 +164,7 @@ export default function CourseViewPage() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <p className="text-sm text-surface-400">Leçon {currentIndex + 1} sur {lessons.length}</p>
-                <h1 className="text-2xl font-bold text-surface-900 mt-1">{currentLesson.titre}</h1>
+                <h1 className="text-2xl font-bold tracking-tight text-surface-900 mt-1">{currentLesson.titre}</h1>
               </div>
               <Badge variant="info">{currentLesson.type}</Badge>
             </div>
@@ -174,7 +174,7 @@ export default function CourseViewPage() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <button onClick={handleComplete}
-                  className={`inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg transition ${
+                  className={`inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-xl active:scale-[0.98] transition-all ${
                     isCurrentCompleted
                       ? 'text-warning-600 bg-warning-50 hover:bg-warning-100'
                       : 'text-primary-600 bg-primary-50 hover:bg-primary-100'
@@ -206,7 +206,7 @@ export default function CourseViewPage() {
 
   const renderExercicesTab = () => (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-surface-900">Exercices et quiz</h2>
+      <h2 className="text-lg font-bold tracking-tight text-surface-900">Exercices et quiz</h2>
       {courseQuizzes.length === 0 ? (
         <div className="text-center py-12 text-surface-400">Aucun exercice disponible pour ce cours.</div>
       ) : (
@@ -224,7 +224,7 @@ export default function CourseViewPage() {
                 {quiz.questions?.length || 0} question{(quiz.questions?.length || 0) > 1 ? 's' : ''}
               </p>
               <Link to={`/student/quiz/${quiz.id}`}
-                className="inline-flex items-center justify-center gap-2 w-full bg-primary-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
+                className="inline-flex items-center justify-center gap-2 w-full bg-primary-600 text-white py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700 active:scale-[0.98] shadow-soft transition-all">
                 Commencer
               </Link>
             </Card>
@@ -235,13 +235,13 @@ export default function CourseViewPage() {
   )
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-1 bg-surface-100 rounded-lg p-1 w-fit">
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-center gap-1 bg-surface-100 rounded-xl p-1 w-fit">
         {tabs.map((tab) => {
           const Icon = tab.icon
           return (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                 activeTab === tab.key
                   ? 'bg-white text-surface-900 shadow-sm'
                   : 'text-surface-500 hover:text-surface-700'

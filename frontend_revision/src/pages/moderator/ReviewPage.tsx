@@ -82,22 +82,22 @@ export default function ReviewPage() {
   const loading = coursLoading || lessonLoading || quizLoading
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Contenu à valider</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-surface-900">Contenu à valider</h1>
         <p className="text-surface-500 mt-1">
           {pendingCours.length + pendingLessons.length + pendingQuizzes.length} élément{pendingCours.length + pendingLessons.length + pendingQuizzes.length !== 1 ? 's' : ''} en attente
         </p>
       </div>
 
-      <div className="flex gap-1 bg-surface-100 rounded-lg p-1 w-fit">
+      <div className="flex gap-1 bg-surface-100 rounded-xl p-1 w-fit">
         {tabs.map((tab) => {
           const Icon = tab.icon
           return (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                 activeTab === tab.key
-                  ? 'bg-white text-surface-900 shadow-sm'
+                  ? 'bg-primary-50 text-primary-600 shadow-soft'
                   : 'text-surface-500 hover:text-surface-700'
               }`}>
               <Icon size={16} />
@@ -117,7 +117,7 @@ export default function ReviewPage() {
       ) : (
         <>
           {activeTab === 'cours' && (
-            <Card padding={false}>
+            <Card padding={false} className="rounded-2xl shadow-card border border-surface-100/80">
               {pendingCours.length === 0 ? (
                 <div className="text-center py-12 text-surface-400">Aucun cours en attente</div>
               ) : (
@@ -125,30 +125,30 @@ export default function ReviewPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-surface-200">
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Titre</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Professeur</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Matière</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Actions</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Titre</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Professeur</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Matière</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pendingCours.map((c) => (
-                        <tr key={c.id} className="border-b border-surface-100 hover:bg-surface-50 transition">
+                        <tr key={c.id} className="border-b border-surface-100 hover:bg-surface-50/60 transition-colors">
                           <td className="py-3 px-4 font-medium text-surface-900">{c.titre}</td>
                           <td className="py-3 px-4 text-surface-600">{c.professor || 'N/A'}</td>
                           <td className="py-3 px-4 text-surface-600">{c.category || 'N/A'}</td>
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-1">
                               <button onClick={() => setViewItem({ type: 'cours', data: c })}
-                                className="p-1.5 rounded-lg text-primary-500 hover:bg-primary-50 transition" title="Voir">
+                                className="p-2 rounded-xl text-primary-500 hover:bg-primary-50 transition-all" title="Voir">
                                 <Eye size={16} />
                               </button>
                               <button onClick={() => handleApproveCours(c.id)}
-                                className="p-1.5 rounded-lg text-success-500 hover:bg-success-50 transition" title="Approuver">
+                                className="p-2 rounded-xl text-success-500 hover:bg-success-50 transition-all" title="Approuver">
                                 <Check size={16} />
                               </button>
                               <button onClick={() => handleRejectCours(c.id)}
-                                className="p-1.5 rounded-lg text-error-500 hover:bg-error-50 transition" title="Rejeter">
+                                className="p-2 rounded-xl text-error-500 hover:bg-error-50 transition-all" title="Rejeter">
                                 <X size={16} />
                               </button>
                             </div>
@@ -163,7 +163,7 @@ export default function ReviewPage() {
           )}
 
           {activeTab === 'lessons' && (
-            <Card padding={false}>
+            <Card padding={false} className="rounded-2xl shadow-card border border-surface-100/80">
               {pendingLessons.length === 0 ? (
                 <div className="text-center py-12 text-surface-400">Aucune leçon en attente</div>
               ) : (
@@ -171,15 +171,15 @@ export default function ReviewPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-surface-200">
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Titre</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Type</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Cours</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Actions</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Titre</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Type</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Cours</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pendingLessons.map((l) => (
-                        <tr key={l.id} className="border-b border-surface-100 hover:bg-surface-50 transition">
+                        <tr key={l.id} className="border-b border-surface-100 hover:bg-surface-50/60 transition-colors">
                           <td className="py-3 px-4 font-medium text-surface-900">{l.titre}</td>
                           <td className="py-3 px-4 text-surface-600">
                             <Badge variant="default">{l.type}</Badge>
@@ -188,15 +188,15 @@ export default function ReviewPage() {
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-1">
                               <button onClick={() => setViewItem({ type: 'lesson', data: l })}
-                                className="p-1.5 rounded-lg text-primary-500 hover:bg-primary-50 transition" title="Voir">
+                                className="p-2 rounded-xl text-primary-500 hover:bg-primary-50 transition-all" title="Voir">
                                 <Eye size={16} />
                               </button>
                               <button onClick={() => handleApproveLesson(l.id)}
-                                className="p-1.5 rounded-lg text-success-500 hover:bg-success-50 transition" title="Approuver">
+                                className="p-2 rounded-xl text-success-500 hover:bg-success-50 transition-all" title="Approuver">
                                 <Check size={16} />
                               </button>
                               <button onClick={() => handleRejectLesson(l.id)}
-                                className="p-1.5 rounded-lg text-error-500 hover:bg-error-50 transition" title="Rejeter">
+                                className="p-2 rounded-xl text-error-500 hover:bg-error-50 transition-all" title="Rejeter">
                                 <X size={16} />
                               </button>
                             </div>
@@ -211,7 +211,7 @@ export default function ReviewPage() {
           )}
 
           {activeTab === 'quizzes' && (
-            <Card padding={false}>
+            <Card padding={false} className="rounded-2xl shadow-card border border-surface-100/80">
               {pendingQuizzes.length === 0 ? (
                 <div className="text-center py-12 text-surface-400">Aucun quiz en attente</div>
               ) : (
@@ -219,30 +219,30 @@ export default function ReviewPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-surface-200">
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Titre</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Questions</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Cours</th>
-                        <th className="text-left py-3 px-4 font-medium text-surface-500">Actions</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Titre</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Questions</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Cours</th>
+                        <th className="text-left py-3 px-4 font-semibold text-surface-500">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pendingQuizzes.map((q) => (
-                        <tr key={q.id} className="border-b border-surface-100 hover:bg-surface-50 transition">
+                        <tr key={q.id} className="border-b border-surface-100 hover:bg-surface-50/60 transition-colors">
                           <td className="py-3 px-4 font-medium text-surface-900">{q.titre}</td>
                           <td className="py-3 px-4 text-surface-600">{q.questions?.length || 0} questions</td>
                           <td className="py-3 px-4 text-surface-600">{q.cours_id?.slice(0, 8)}...</td>
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-1">
                               <button onClick={() => setViewItem({ type: 'quiz', data: q })}
-                                className="p-1.5 rounded-lg text-primary-500 hover:bg-primary-50 transition" title="Voir">
+                                className="p-2 rounded-xl text-primary-500 hover:bg-primary-50 transition-all" title="Voir">
                                 <Eye size={16} />
                               </button>
                               <button onClick={() => handleApproveQuiz(q.id)}
-                                className="p-1.5 rounded-lg text-success-500 hover:bg-success-50 transition" title="Approuver">
+                                className="p-2 rounded-xl text-success-500 hover:bg-success-50 transition-all" title="Approuver">
                                 <Check size={16} />
                               </button>
                               <button onClick={() => handleRejectQuiz(q.id)}
-                                className="p-1.5 rounded-lg text-error-500 hover:bg-error-50 transition" title="Rejeter">
+                                className="p-2 rounded-xl text-error-500 hover:bg-error-50 transition-all" title="Rejeter">
                                 <X size={16} />
                               </button>
                             </div>
@@ -259,13 +259,13 @@ export default function ReviewPage() {
       )}
 
       {viewItem && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setViewItem(null)}>
-          <div className="bg-white rounded-xl w-full max-w-lg p-6 shadow-xl max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setViewItem(null)}>
+          <div className="bg-white rounded-2xl w-full max-w-lg p-6 shadow-xl max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-surface-900">
+              <h2 className="text-lg font-bold tracking-tight text-surface-900">
                 {viewItem.type === 'cours' ? 'Détail du cours' : viewItem.type === 'lesson' ? 'Détail de la leçon' : 'Détail du quiz'}
               </h2>
-              <button onClick={() => setViewItem(null)} className="p-1 hover:bg-surface-100 rounded-lg transition">
+              <button onClick={() => setViewItem(null)} className="p-2 hover:bg-surface-100 rounded-xl transition-all">
                 <XIcon size={20} className="text-surface-400" />
               </button>
             </div>
@@ -273,19 +273,19 @@ export default function ReviewPage() {
             {viewItem.type === 'cours' && (
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Titre</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Titre</p>
                   <p className="text-sm font-medium text-surface-900">{viewItem.data.titre}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Professeur</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Professeur</p>
                   <p className="text-sm text-surface-700">{viewItem.data.professor || 'N/A'}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Matière</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Matière</p>
                   <p className="text-sm text-surface-700">{viewItem.data.category || 'N/A'}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Description</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Description</p>
                   <p className="text-sm text-surface-700 whitespace-pre-wrap">{viewItem.data.description || 'Aucune description'}</p>
                 </div>
               </div>
@@ -294,22 +294,22 @@ export default function ReviewPage() {
             {viewItem.type === 'lesson' && (
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Titre</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Titre</p>
                   <p className="text-sm font-medium text-surface-900">{viewItem.data.titre}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Type</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Type</p>
                   <Badge variant="default">{viewItem.data.type}</Badge>
                 </div>
                 {viewItem.data.duree && (
                   <div>
-                    <p className="text-xs text-surface-400 uppercase tracking-wide">Durée</p>
+                    <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Durée</p>
                     <p className="text-sm text-surface-700">{viewItem.data.duree}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Contenu</p>
-                  <div className="text-sm text-surface-700 whitespace-pre-wrap bg-surface-50 rounded-lg p-3 max-h-48 overflow-y-auto">
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Contenu</p>
+                  <div className="text-sm text-surface-700 whitespace-pre-wrap bg-surface-50 rounded-xl p-3 max-h-48 overflow-y-auto">
                     {viewItem.data.contenu || 'Aucun contenu'}
                   </div>
                 </div>
@@ -319,19 +319,19 @@ export default function ReviewPage() {
             {viewItem.type === 'quiz' && (
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Titre</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Titre</p>
                   <p className="text-sm font-medium text-surface-900">{viewItem.data.titre}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-surface-400 uppercase tracking-wide">Nombre de questions</p>
+                  <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold">Nombre de questions</p>
                   <p className="text-sm text-surface-700">{viewItem.data.questions?.length || 0}</p>
                 </div>
                 {viewItem.data.questions && viewItem.data.questions.length > 0 && (
                   <div>
-                    <p className="text-xs text-surface-400 uppercase tracking-wide mb-2">Questions</p>
+                    <p className="text-xs text-surface-400 uppercase tracking-wide font-semibold mb-2">Questions</p>
                     <div className="space-y-2 max-h-64 overflow-y-auto">
                       {viewItem.data.questions.map((q: any, i: number) => (
-                        <div key={q.id || i} className="bg-surface-50 rounded-lg p-3">
+                        <div key={q.id || i} className="bg-surface-50 rounded-xl p-3">
                           <p className="text-sm font-medium text-surface-900 mb-1">{i + 1}. {q.texte}</p>
                           {q.options && (
                             <div className="space-y-1 ml-4">
@@ -356,7 +356,7 @@ export default function ReviewPage() {
                 else if (viewItem.type === 'lesson') handleApproveLesson(viewItem.data.id)
                 else handleApproveQuiz(viewItem.data.id)
                 setViewItem(null)
-              }} className="flex-1 inline-flex items-center justify-center gap-2 bg-emerald-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition">
+              }} className="flex-1 inline-flex items-center justify-center gap-2 bg-emerald-600 text-white py-2 rounded-2xl text-sm font-semibold hover:bg-emerald-700 transition-all active:scale-[0.98] shadow-soft">
                 <Check size={16} /> Approuver
               </button>
               <button onClick={() => {
@@ -364,7 +364,7 @@ export default function ReviewPage() {
                 else if (viewItem.type === 'lesson') handleRejectLesson(viewItem.data.id)
                 else handleRejectQuiz(viewItem.data.id)
                 setViewItem(null)
-              }} className="flex-1 inline-flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition">
+              }} className="flex-1 inline-flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-2xl text-sm font-semibold hover:bg-red-700 transition-all active:scale-[0.98] shadow-soft">
                 <X size={16} /> Rejeter
               </button>
             </div>

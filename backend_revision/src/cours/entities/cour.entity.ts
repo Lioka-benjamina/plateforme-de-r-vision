@@ -22,6 +22,9 @@ export class Cours {
   @Column({ nullable: true })
   image_url: string;
 
+  @Column({ nullable: true })
+  duree: string;
+
   @ManyToOne(() => Matiere, (matiere) => matiere.cours, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'matiere_id' })
   matiere: Matiere;

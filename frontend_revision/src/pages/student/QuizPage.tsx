@@ -65,12 +65,12 @@ export default function QuizPage() {
   if (attempt) {
     const percentage = Math.round((attempt.score / attempt.total) * 100);
     return (
-      <div className="max-w-2xl mx-auto text-center space-y-6">
+      <div className="max-w-2xl mx-auto text-center space-y-6 animate-fade-in">
         <Card className="p-10">
           <div className="w-20 h-20 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center mx-auto mb-4">
             <CheckCircle size={40} />
           </div>
-          <h2 className="text-2xl font-bold text-surface-900 mb-2">
+          <h2 className="text-2xl font-bold tracking-tight text-surface-900 mb-2">
             Quiz terminé !
           </h2>
           <p className="text-surface-500 mb-6">Voici votre score</p>
@@ -83,7 +83,7 @@ export default function QuizPage() {
           <div className="flex items-center justify-center gap-3">
             <button
               onClick={() => navigate("/student/results")}
-              className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg transition text-sm font-medium"
+              className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-2xl transition-all text-sm font-semibold active:scale-[0.98] shadow-soft"
             >
               <ArrowLeft size={16} /> Voir mes résultats
             </button>
@@ -96,10 +96,10 @@ export default function QuizPage() {
   const q = questions[currentQuestion];
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-surface-900">{quiz.titre}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-surface-900">{quiz.titre}</h1>
           <p className="text-sm text-surface-500">
             {answeredCount}/{total} questions répondues
           </p>
@@ -120,7 +120,7 @@ export default function QuizPage() {
               Question {currentQuestion + 1} sur {total}
             </span>
           </div>
-          <h2 className="text-xl font-semibold text-surface-900 mb-6">
+          <h2 className="text-xl font-bold tracking-tight text-surface-900 mb-6">
             {q.texte}
           </h2>
 
@@ -129,7 +129,7 @@ export default function QuizPage() {
               <button
                 key={option.id}
                 onClick={() => handleAnswer(q.id, option.id)}
-                className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                className={`w-full text-left p-4 rounded-2xl border-2 transition-all ${
                   answers[q.id] === option.id
                     ? "border-primary-500 bg-primary-50 text-primary-700"
                     : "border-surface-200 hover:border-primary-300 text-surface-700"
@@ -162,7 +162,7 @@ export default function QuizPage() {
               <button
                 onClick={handleSubmit}
                 disabled={answeredCount < total}
-                className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2 rounded-lg transition text-sm font-medium disabled:opacity-50"
+                className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2 rounded-2xl transition-all text-sm font-semibold disabled:opacity-50 active:scale-[0.98] shadow-soft"
               >
                 <Send size={16} /> Soumettre
               </button>

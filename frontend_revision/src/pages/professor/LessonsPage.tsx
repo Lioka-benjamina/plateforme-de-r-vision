@@ -91,26 +91,26 @@ export default function LessonsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <nav className="flex items-center gap-2 text-sm text-surface-400">
-        <Link to="/professor/courses" className="hover:text-primary-500 transition">Cours</Link>
+        <Link to="/professor/courses" className="hover:text-primary-500 transition-all">Cours</Link>
         <span>/</span>
-        <Link to={`/professor/courses/${courseId}`} className="hover:text-primary-500 transition">{courseName}</Link>
+        <Link to={`/professor/courses/${courseId}`} className="hover:text-primary-500 transition-all">{courseName}</Link>
         <span>/</span>
-        <span className="text-surface-600 font-medium">Leçons</span>
+        <span className="text-surface-600 font-semibold">Leçons</span>
       </nav>
 
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-surface-900">Gestion des leçons</h1>
+        <h1 className="text-2xl font-bold text-surface-900 tracking-tight">Gestion des leçons</h1>
         <button onClick={() => setShowModal(true)}
-          className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
+          className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all shadow-soft active:scale-[0.98]">
           <Plus size={18} /> Ajouter une leçon
         </button>
       </div>
 
       <Card>
         {loading ? (
-          <div className="text-center py-8 text-surface-400">Chargement...</div>
+          <div className="text-center py-12 text-surface-400">Chargement...</div>
         ) : lessons.length === 0 ? (
           <div className="text-center py-12 text-surface-400">Aucune leçon. Cliquez sur "Ajouter une leçon" pour commencer.</div>
         ) : (
@@ -118,11 +118,11 @@ export default function LessonsPage() {
             {lessons.map((lesson) => {
               const Icon = typeIcons[lesson.type] || FileText
               return (
-                <div key={lesson.id} className="flex items-center gap-4 px-4 py-3 hover:bg-surface-50/50 transition">
+                <div key={lesson.id} className="flex items-center gap-4 px-4 py-3 hover:bg-surface-50/60 transition-all">
                   <GripVertical size={16} className="text-surface-300 shrink-0" />
-                  <span className="w-6 text-xs text-surface-400 font-medium text-center">{lesson.ordre}</span>
+                  <span className="w-6 text-xs text-surface-400 font-semibold text-center">{lesson.ordre}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-surface-900 truncate">{lesson.titre}</p>
+                    <p className="text-sm font-semibold text-surface-900 truncate">{lesson.titre}</p>
                   </div>
                   <Badge variant={lesson.status === 'publié' ? 'success' : lesson.status === 'rejeté' ? 'error' : 'warning'}>
                     {lesson.status || 'en_attente'}
@@ -132,11 +132,11 @@ export default function LessonsPage() {
                   </Badge>
                   <span className="text-xs text-surface-400 w-16 text-right">{lesson.duree || '-'}</span>
                   <div className="flex items-center gap-1">
-                    <button className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
+                    <button className="p-2 text-surface-400 hover:text-primary-500 transition-all rounded-xl hover:bg-primary-50">
                       <Edit size={16} />
                     </button>
                     <button onClick={() => handleDelete(lesson.id)}
-                      className="p-1.5 text-surface-400 hover:text-error-500 transition rounded-lg hover:bg-error-50">
+                      className="p-2 text-surface-400 hover:text-error-500 transition-all rounded-xl hover:bg-error-50">
                       <Trash2 size={16} />
                     </button>
                   </div>
@@ -148,26 +148,26 @@ export default function LessonsPage() {
       </Card>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => resetForm()}>
-          <div className="bg-white rounded-xl w-full max-w-lg p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => resetForm()}>
+          <div className="bg-white rounded-3xl w-full max-w-lg p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-surface-900">Nouvelle leçon</h2>
-              <button onClick={() => resetForm()} className="p-1 hover:bg-surface-100 rounded-lg transition">
+              <button onClick={() => resetForm()} className="p-2 hover:bg-surface-100 rounded-xl transition-all">
                 <X size={20} className="text-surface-400" />
               </button>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-surface-700 mb-1">Titre</label>
+                <label className="block text-sm font-semibold text-surface-700 mb-1">Titre</label>
                 <input value={titre} onChange={(e) => setTitre(e.target.value)}
-                  className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+                  className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
               </div>
 
               <div>
-                  <label className="block text-sm font-medium text-surface-700 mb-1">Type</label>
+                  <label className="block text-sm font-semibold text-surface-700 mb-1">Type</label>
                   <select value={type} onChange={(e) => setType(e.target.value)}
-                    className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 bg-white">
+                    className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 bg-white transition-all">
                     <option value="text">Texte</option>
                     <option value="pdf">PDF</option>
                     <option value="video">Vidéo</option>
@@ -177,8 +177,8 @@ export default function LessonsPage() {
 
               {(type === 'pdf' || type === 'video') ? (
                 <div>
-                  <label className="block text-sm font-medium text-surface-700 mb-1">Fichier</label>
-                  <label className="flex flex-col items-center justify-center border-2 border-dashed border-surface-300 rounded-lg p-6 cursor-pointer hover:border-primary-400 transition">
+                  <label className="block text-sm font-semibold text-surface-700 mb-1">Fichier</label>
+                  <label className="flex flex-col items-center justify-center border-2 border-dashed border-surface-300 rounded-2xl p-6 cursor-pointer hover:border-primary-400 transition-all">
                     <Upload size={24} className="text-surface-400 mb-2" />
                     <p className="text-sm text-surface-500">{file ? file.name : 'Cliquez pour uploader un fichier'}</p>
                     <p className="text-xs text-surface-400 mt-1">
@@ -192,20 +192,20 @@ export default function LessonsPage() {
                 </div>
               ) : (
                 <div>
-                  <label className="block text-sm font-medium text-surface-700 mb-1">Contenu</label>
+                  <label className="block text-sm font-semibold text-surface-700 mb-1">Contenu</label>
                   <textarea value={contenu} onChange={(e) => setContenu(e.target.value)} rows={5}
-                    className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 resize-vertical" />
+                    className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 resize-vertical transition-all" />
                 </div>
               )}
 
               <div className="flex gap-3 pt-2">
                 <button onClick={handleSubmit} disabled={!titre || uploading}
-                  className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition disabled:opacity-60">
+                  className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all disabled:opacity-60 shadow-soft active:scale-[0.98]">
                   {uploading ? 'Upload...' : <FileUp size={16} />}
                   {uploading ? 'En cours...' : 'Ajouter'}
                 </button>
                 <button onClick={() => resetForm()}
-                  className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-surface-200 transition">
+                  className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-surface-200 transition-all active:scale-[0.98]">
                   Annuler
                 </button>
               </div>

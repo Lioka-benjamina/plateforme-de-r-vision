@@ -19,9 +19,9 @@ export default function ResultsPage() {
     : 0
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Mes résultats</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-surface-900">Mes résultats</h1>
         <p className="text-surface-500 mt-1">{results.length} quiz tentés</p>
       </div>
 

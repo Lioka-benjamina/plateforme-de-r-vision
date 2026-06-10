@@ -29,9 +29,9 @@ export default function StudentDashboardPage() {
     : 0
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Tableau de bord Étudiant</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-surface-900">Tableau de bord Étudiant</h1>
         <p className="text-surface-500 mt-1">Bonjour, {user?.prenom || 'Étudiant'}. Continuez à apprendre !</p>
       </div>
 
@@ -45,7 +45,7 @@ export default function StudentDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-surface-900">Mes cours en cours</h2>
+            <h2 className="text-lg font-bold tracking-tight text-surface-900">Mes cours en cours</h2>
             <Link to="/student/courses" className="text-sm text-primary-500 hover:text-primary-700 flex items-center gap-1">
               Voir tout <ArrowRight size={16} />
             </Link>
@@ -57,7 +57,7 @@ export default function StudentDashboardPage() {
           ) : (
             <div className="space-y-4">
               {enrollments.slice(0, 3).map((e) => (
-                <div key={e.id} className="p-3 rounded-lg border border-surface-100 hover:border-primary-200 hover:shadow-card-hover transition">
+                <div key={e.id} className="p-3 rounded-2xl border border-surface-100 hover:border-primary-200 hover:shadow-card-hover transition-all">
                   <div className="flex items-center justify-between mb-2">
                     <div>
                       <p className="text-sm font-medium text-surface-900">{e.coursTitre}</p>
@@ -76,7 +76,7 @@ export default function StudentDashboardPage() {
 
         <Card>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-surface-900">Résultats récents</h2>
+            <h2 className="text-lg font-bold tracking-tight text-surface-900">Résultats récents</h2>
             <Link to="/student/results" className="text-sm text-primary-500 hover:text-primary-700 flex items-center gap-1">
               Voir tout <ArrowRight size={16} />
             </Link>

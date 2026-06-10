@@ -28,7 +28,7 @@ export default function StudentsPage() {
             {s.prenom[0]}{s.nom[0]}
           </div>
           <div>
-            <p className="font-medium text-surface-900">{s.prenom} {s.nom}</p>
+            <p className="font-semibold text-surface-900">{s.prenom} {s.nom}</p>
             <p className="text-xs text-surface-400">{s.email}</p>
           </div>
         </div>
@@ -46,25 +46,25 @@ export default function StudentsPage() {
     {
       key: 'status',
       header: 'Statut',
-      render: (s) => <span className="text-surface-600">{s.status || 'actif'}</span>,
+      render: (s) => <span className="text-surface-600 font-semibold">{s.status || 'actif'}</span>,
     },
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
           <User size={20} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-surface-900">Mes étudiants</h1>
+          <h1 className="text-2xl font-bold text-surface-900 tracking-tight">Mes étudiants</h1>
           <p className="text-surface-500 text-sm">{students.length} étudiants inscrits</p>
         </div>
       </div>
 
       <Card>
         {loading ? (
-          <div className="text-center py-8 text-surface-400">Chargement...</div>
+          <div className="text-center py-12 text-surface-400">Chargement...</div>
         ) : (
           <Table columns={columns} data={students} keyExtractor={(s) => s.id} emptyMessage="Aucun étudiant" />
         )}

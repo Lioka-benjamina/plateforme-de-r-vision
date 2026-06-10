@@ -35,7 +35,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     if (toasts.length === 0) return
     const timer = setTimeout(() => {
       setToasts((prev) => prev.slice(1))
-    }, 3000)
+    }, 3500)
     return () => clearTimeout(timer)
   }, [toasts, counter])
 
@@ -50,26 +50,25 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }
 
   const colors: Record<ToastType, string> = {
-    success: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-    error: 'bg-red-50 border-red-200 text-red-800',
-    warning: 'bg-amber-50 border-amber-200 text-amber-800',
+    success: 'bg-success-50 border-success-200 text-success-700',
+    error: 'bg-error-50 border-error-200 text-error-700',
+    warning: 'bg-warning-50 border-warning-200 text-warning-700',
   }
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 z-[9999] flex flex-col gap-2 pointer-events-none">
+      <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none">
         {toasts.map((toast) => {
           const Icon = icons[toast.type]
           return (
             <div
               key={toast.id}
-              className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-lg border shadow-lg animate-[slideIn_0.2s_ease-out] ${colors[toast.type]}`}
-              style={{ animation: 'slideIn 0.2s ease-out' }}
+              className={`pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl border shadow-dropdown animate-slide-in-right ${colors[toast.type]}`}
             >
               <Icon size={18} className="shrink-0" />
               <span className="text-sm font-medium flex-1">{toast.message}</span>
-              <button onClick={() => removeToast(toast.id)} className="shrink-0 p-0.5 rounded hover:bg-black/5 transition">
+              <button onClick={() => removeToast(toast.id)} className="shrink-0 p-1 rounded-lg hover:bg-black/5 transition">
                 <X size={14} />
               </button>
             </div>
@@ -77,9 +76,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         })}
       </div>
       <style>{`
-        @keyframes slideIn {
+        @keyframes slideInRight {
           from { transform: translateX(100%); opacity: 0; }
           to { transform: translateX(0); opacity: 1; }
+        }
+        .animate-slide-in-right {
+          animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
       `}</style>
     </ToastContext.Provider>

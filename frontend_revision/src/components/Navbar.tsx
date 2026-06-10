@@ -36,14 +36,16 @@ export default function Navbar() {
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <nav className="bg-white border-b border-surface-100 sticky top-0 z-50">
+    <nav className="bg-white/80 backdrop-blur-xl border-b border-surface-100/80 sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-[72px]">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 font-bold text-xl text-surface-900 hover:opacity-80 transition-opacity">
-            <img src={logo} alt="Revision" className="w-8 h-8 object-contain" />
-            Revision
+          <Link to="/" className="flex items-center gap-3 font-bold text-xl text-surface-900 hover:opacity-80 transition-opacity">
+            <div className="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center shadow-soft">
+              <img src={logo} alt="Revision" className="w-5 h-5 object-contain brightness-0 invert" />
+            </div>
+            <span className="tracking-tight">Revision</span>
           </Link>
 
           {/* Desktop links */}
@@ -54,16 +56,13 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`relative text-sm font-medium px-3.5 py-2 rounded-lg transition-colors ${
+                  className={`relative text-sm font-medium px-4 py-2 rounded-xl transition-colors duration-200 ${
                     active
                       ? 'text-primary-600 bg-primary-50'
-                      : 'text-surface-500 hover:text-surface-900 hover:bg-surface-100'
+                      : 'text-surface-500 hover:text-surface-900 hover:bg-surface-50'
                   }`}
                 >
                   {link.label}
-                  {active && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary-600 rounded-full" />
-                  )}
                 </Link>
               )
             })}
@@ -75,14 +74,14 @@ export default function Navbar() {
               <>
                 <Link
                   to={roleHome[user?.role || ''] || '/'}
-                  className="text-sm font-semibold text-primary-600 hover:text-primary-700 px-3.5 py-2 rounded-lg hover:bg-primary-50 transition-colors"
+                  className="text-sm font-semibold text-primary-600 hover:text-primary-700 px-4 py-2.5 rounded-xl hover:bg-primary-50 transition-colors"
                 >
                   Dashboard
                 </Link>
                 <span className="text-sm text-surface-400 px-2">{user?.prenom} {user?.nom}</span>
                 <button
                   onClick={() => setShowLogout(true)}
-                  className="text-sm font-medium text-surface-500 hover:text-surface-800 px-3.5 py-2 rounded-lg hover:bg-surface-100 transition-colors"
+                  className="text-sm font-medium text-surface-500 hover:text-surface-800 px-4 py-2.5 rounded-xl hover:bg-surface-50 transition-colors"
                 >
                   Déconnexion
                 </button>
@@ -91,13 +90,13 @@ export default function Navbar() {
               <>
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-surface-600 hover:text-surface-900 px-3.5 py-2 rounded-lg hover:bg-surface-100 transition-colors"
+                  className="text-sm font-medium text-surface-600 hover:text-surface-900 px-4 py-2.5 rounded-xl hover:bg-surface-50 transition-colors"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm font-semibold bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
+                  className="text-sm font-semibold bg-primary-600 text-white px-5 py-2.5 rounded-xl hover:bg-primary-700 transition-all active:scale-[0.98] shadow-soft"
                 >
                   Inscription
                 </Link>
@@ -107,7 +106,7 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden p-2 text-surface-500 hover:bg-surface-100 rounded-xl transition-colors"
+            className="md:hidden p-2.5 text-surface-500 hover:bg-surface-100 rounded-2xl transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -116,7 +115,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden pb-4 pt-2 space-y-0.5 border-t border-surface-50 mt-1">
+          <div className="md:hidden pb-4 pt-2 space-y-1 border-t border-surface-100 mt-1 animate-fade-in">
             {publicLinks.map((link) => {
               const active = isActive(link.href)
               return (
@@ -124,7 +123,7 @@ export default function Navbar() {
                   key={link.href}
                   to={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`flex items-center gap-2.5 text-sm font-medium px-3 py-2.5 rounded-lg transition-colors ${
+                  className={`flex items-center gap-3 text-sm font-medium px-4 py-3 rounded-xl transition-colors ${
                     active
                       ? 'text-primary-600 bg-primary-50'
                       : 'text-surface-600 hover:text-surface-900 hover:bg-surface-50'
@@ -139,23 +138,23 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <button
                   onClick={() => { setShowLogout(true); setMenuOpen(false) }}
-                  className="block w-full text-left text-sm font-medium text-surface-600 hover:bg-surface-50 px-3 py-2.5 rounded-lg transition-colors"
+                  className="block w-full text-left text-sm font-medium text-surface-600 hover:bg-surface-50 px-4 py-3 rounded-xl transition-colors"
                 >
                   Déconnexion
                 </button>
               ) : (
-                <div className="flex gap-2 pt-1">
+                <div className="flex gap-3 pt-1">
                   <Link
                     to="/login"
                     onClick={() => setMenuOpen(false)}
-                    className="flex-1 text-center text-sm font-medium text-surface-700 border border-surface-200 px-4 py-2.5 rounded-lg hover:bg-surface-50 transition-colors"
+                    className="flex-1 text-center text-sm font-medium text-surface-700 border border-surface-200 px-4 py-3 rounded-xl hover:bg-surface-50 transition-colors"
                   >
                     Connexion
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setMenuOpen(false)}
-                    className="flex-1 text-center text-sm font-semibold bg-primary-600 text-white px-4 py-2.5 rounded-lg hover:bg-primary-700 transition-colors"
+                    className="flex-1 text-center text-sm font-semibold bg-primary-600 text-white px-4 py-3 rounded-xl hover:bg-primary-700 transition-colors"
                   >
                     Inscription
                   </Link>

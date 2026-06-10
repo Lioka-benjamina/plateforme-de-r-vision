@@ -40,16 +40,16 @@ export default function SignalsPage() {
       })
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Signalements</h1>
+        <h1 className="text-2xl font-bold text-surface-900 tracking-tight">Signalements</h1>
         <p className="text-sm text-surface-500 mt-1">{signals.length} signalements</p>
       </div>
 
-      <div className="flex gap-2 border-b border-surface-200">
+      <div className="flex gap-1 border-b border-surface-200">
         {tabs.map((tab) => (
           <button key={tab} onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition ${
+            className={`px-5 py-3 text-sm font-medium border-b-2 transition-all ${
               activeTab === tab ? 'border-primary-600 text-primary-600' : 'border-transparent text-surface-500 hover:text-surface-700'
             }`}>{tab}</button>
         ))}
@@ -57,50 +57,50 @@ export default function SignalsPage() {
 
       <Card padding={false}>
         {loading ? (
-          <div className="text-center py-12 text-surface-400">Chargement...</div>
+          <div className="text-center py-16 text-surface-400">Chargement...</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-surface-200">
-                  <th className="text-left py-3 px-4 font-medium text-surface-500">Cible</th>
-                  <th className="text-left py-3 px-4 font-medium text-surface-500">Motif</th>
-                  <th className="text-left py-3 px-4 font-medium text-surface-500">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-surface-500">Statut</th>
-                  <th className="text-left py-3 px-4 font-medium text-surface-500">Actions</th>
+                  <th className="text-left py-4 px-5 text-[11px] font-semibold text-surface-400 uppercase tracking-wider">Cible</th>
+                  <th className="text-left py-4 px-5 text-[11px] font-semibold text-surface-400 uppercase tracking-wider">Motif</th>
+                  <th className="text-left py-4 px-5 text-[11px] font-semibold text-surface-400 uppercase tracking-wider">Date</th>
+                  <th className="text-left py-4 px-5 text-[11px] font-semibold text-surface-400 uppercase tracking-wider">Statut</th>
+                  <th className="text-left py-4 px-5 text-[11px] font-semibold text-surface-400 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((s) => (
-                  <tr key={s.id} className="border-b border-surface-100 hover:bg-surface-50 transition">
-                    <td className="py-3 px-4">
-                      <p className="font-medium text-surface-900">{s.targetName}</p>
+                  <tr key={s.id} className="border-b border-surface-100 hover:bg-surface-50/60 transition-colors">
+                    <td className="py-4 px-5">
+                      <p className="font-semibold text-surface-900">{s.targetName}</p>
                       <p className="text-xs text-surface-400">{s.reportedBy}</p>
                     </td>
-                    <td className="py-3 px-4 text-surface-600">{s.reason}</td>
-                    <td className="py-3 px-4 text-surface-500">{s.date}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-5 text-surface-600">{s.reason}</td>
+                    <td className="py-4 px-5 text-surface-500">{s.date}</td>
+                    <td className="py-4 px-5">
                       <Badge variant={statusVariants[s.status] || 'warning'}>{statusLabels[s.status] || s.status}</Badge>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-5">
                       <div className="flex items-center gap-1">
                         {s.status === 'pending' && (
                           <>
                             <button onClick={() => dispatch(approveSignal(s.id))}
-                              className="p-1.5 rounded-lg text-success-500 hover:bg-success-50 transition" title="Approuver">
+                              className="p-2 rounded-xl text-success-500 hover:bg-success-50 transition" title="Approuver">
                               <Check className="w-4 h-4" />
                             </button>
                             <button onClick={() => dispatch(rejectSignal(s.id))}
-                              className="p-1.5 rounded-lg text-error-500 hover:bg-error-50 transition" title="Rejeter">
+                              className="p-2 rounded-xl text-error-500 hover:bg-error-50 transition" title="Rejeter">
                               <X className="w-4 h-4" />
                             </button>
                           </>
                         )}
-                        <button className="p-1.5 rounded-lg text-primary-500 hover:bg-primary-50 transition" title="Examiner">
+                        <button className="p-2 rounded-xl text-primary-500 hover:bg-primary-50 transition" title="Examiner">
                           <Eye className="w-4 h-4" />
                         </button>
                         <button onClick={() => dispatch(escalateSignal(s.id))}
-                          className="p-1.5 rounded-lg text-warning-500 hover:bg-warning-50 transition" title="Escalader">
+                          className="p-2 rounded-xl text-warning-500 hover:bg-warning-50 transition" title="Escalader">
                           <ArrowUpRight className="w-4 h-4" />
                         </button>
                       </div>
@@ -112,7 +112,7 @@ export default function SignalsPage() {
           </div>
         )}
         {!loading && filtered.length === 0 && (
-          <div className="text-center py-12 text-surface-400">Aucun signalement trouvé.</div>
+          <div className="text-center py-16 text-surface-400">Aucun signalement trouvé.</div>
         )}
       </Card>
     </div>

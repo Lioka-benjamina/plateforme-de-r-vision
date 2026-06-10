@@ -37,14 +37,14 @@ export default function MyCoursesPage() {
     .slice(0, 4)
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-surface-900">Mes cours</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-surface-900">Mes cours</h1>
         <div className="relative w-full max-w-xs">
           <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" />
           <input type="text" placeholder="Rechercher un cours..." value={search} onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 text-sm border border-surface-200 rounded-lg bg-white placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 transition" />
+            className="w-full pl-10 pr-4 py-3 text-sm border border-surface-200 rounded-2xl bg-white placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
         </div>
       </div>
 
@@ -61,7 +61,7 @@ export default function MyCoursesPage() {
             <Card key={e.id} className="flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
                     <BookOpen size={20} />
                   </div>
                   {e.category && <Badge variant="info">{e.category}</Badge>}
@@ -76,7 +76,7 @@ export default function MyCoursesPage() {
                 <p className="text-xs text-surface-400 mb-4">{e.progress}% complété</p>
               </div>
               <Link to={`/student/courses/${e.coursId}`}
-                className="inline-flex items-center justify-center gap-2 w-full bg-primary-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
+                className="inline-flex items-center justify-center gap-2 w-full bg-primary-600 text-white py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700 active:scale-[0.98] shadow-soft transition-all">
                 <Play size={16} /> Commencer
               </Link>
             </Card>
@@ -89,7 +89,7 @@ export default function MyCoursesPage() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-semibold text-surface-900">Cours suggérés</h2>
+              <h2 className="text-lg font-bold tracking-tight text-surface-900">Cours suggérés</h2>
             </div>
             <Link to="/catalog" className="text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 transition">
               Voir tout <ArrowRight size={14} />
@@ -98,7 +98,7 @@ export default function MyCoursesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {suggestions.map((c) => (
               <Link key={c.id} to={`/cours/${c.id}`} className="group">
-                <div className="bg-white rounded-xl border border-surface-100 overflow-hidden hover:border-surface-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-all duration-200 h-full flex flex-col">
+                <div className="bg-white rounded-2xl border border-surface-100 overflow-hidden hover:border-surface-200 hover:shadow-card transition-all duration-200 h-full flex flex-col">
                   <div className={`relative h-28 ${!c.imageUrl ? 'bg-primary-600' : ''} flex items-end p-3`}>
                     {c.imageUrl ? (
                       <img src={`http://localhost:3000${c.imageUrl}`} alt={c.titre}

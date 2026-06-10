@@ -20,6 +20,7 @@ export default function CourseFormPage() {
   const [titre, setTitre] = useState('')
   const [description, setDescription] = useState('')
   const [matiereId, setMatiereId] = useState('')
+  const [duree, setDuree] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [uploading, setUploading] = useState(false)
 
@@ -30,11 +31,12 @@ export default function CourseFormPage() {
 
   useEffect(() => {
     if (isEdit && id) {
-      const course = coursList.find((c: { id: number; titre: string; description: string; matiereId: number; imageUrl?: string }) => String(c.id) === id)
+      const course = coursList.find((c: { id: number; titre: string; description: string; matiereId: number; duree?: string; imageUrl?: string }) => String(c.id) === id)
       if (course) {
         setTitre(course.titre || '')
         setDescription(course.description || '')
         setMatiereId(String(course.matiereId) || '')
+        setDuree(course.duree || '')
         setImageUrl(course.imageUrl || '')
       }
     }
@@ -65,6 +67,7 @@ export default function CourseFormPage() {
         titre,
         description,
         matiereId: matiereId as unknown as number,
+        duree,
         imageUrl,
       } as unknown as Parameters<typeof updateCours>[0]))
       if (updateCours.fulfilled.match(result)) {
@@ -75,6 +78,7 @@ export default function CourseFormPage() {
         titre,
         description,
         matiereId,
+        duree,
         imageUrl,
       } as unknown as Parameters<typeof createCours>[0]))
       if (createCours.fulfilled.match(result)) {
@@ -84,26 +88,26 @@ export default function CourseFormPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
-      <h1 className="text-2xl font-bold text-surface-900">{isEdit ? 'Modifier le cours' : 'Nouveau cours'}</h1>
+    <div className="space-y-6 max-w-2xl animate-fade-in">
+      <h1 className="text-2xl font-bold text-surface-900 tracking-tight">{isEdit ? 'Modifier le cours' : 'Nouveau cours'}</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-surface-700 mb-1">Titre</label>
+          <label className="block text-sm font-semibold text-surface-700 mb-2">Titre</label>
           <input value={titre} onChange={(e) => setTitre(e.target.value)} required
-            className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+            className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-surface-700 mb-1">Description</label>
+          <label className="block text-sm font-semibold text-surface-700 mb-2">Description</label>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} required rows={4}
-            className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-vertical" />
+            className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 resize-vertical transition-all" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-surface-700 mb-1">Matière</label>
+          <label className="block text-sm font-semibold text-surface-700 mb-2">Matière</label>
           <select value={matiereId} onChange={(e) => setMatiereId(e.target.value)} required
-            className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white">
+            className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 bg-white transition-all">
             <option value="">Sélectionner une matière</option>
             {matieres.map((m: { id: number; nom: string }) => (
               <option key={m.id} value={m.id}>{m.nom}</option>
@@ -112,11 +116,23 @@ export default function CourseFormPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-surface-700 mb-1">Image de présentation</label>
-          <label className="flex flex-col items-center justify-center border-2 border-dashed border-surface-300 rounded-lg p-6 cursor-pointer hover:border-primary-400 transition">
+          <label className="block text-sm font-semibold text-surface-700 mb-2">Durée estimée</label>
+          <input
+            type="text"
+            value={duree}
+            onChange={(e) => setDuree(e.target.value)}
+            placeholder="ex: 12 heures, 3 semaines, 45 min"
+            className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all"
+          />
+          <p className="text-xs text-surface-400 mt-1.5">Durée totale estimée du cours</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-surface-700 mb-2">Image de présentation</label>
+          <label className="flex flex-col items-center justify-center border-2 border-dashed border-surface-200 rounded-2xl p-8 cursor-pointer hover:border-primary-400 hover:bg-primary-50/50 transition-all">
             {imageUrl ? (
               <div className="text-center">
-                <img src={`${API_BASE}${imageUrl}`} alt="Aperçu" className="max-h-32 rounded-lg mb-2" />
+                <img src={`${API_BASE}${imageUrl}`} alt="Aperçu" className="max-h-32 rounded-2xl mb-2" />
                 <p className="text-xs text-surface-400">Cliquez pour changer l'image</p>
               </div>
             ) : (
@@ -133,11 +149,11 @@ export default function CourseFormPage() {
 
         <div className="flex gap-3 pt-2">
           <button type="submit" disabled={loading || uploading}
-            className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition disabled:opacity-60">
+            className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all active:scale-[0.98] disabled:opacity-60 shadow-soft">
             {uploading ? 'Upload...' : loading ? 'Enregistrement...' : isEdit ? 'Enregistrer' : 'Créer le cours'}
           </button>
           <button type="button" onClick={() => navigate('/professor/courses')}
-            className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-surface-200 transition">
+            className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-6 py-3 rounded-2xl text-sm font-medium hover:bg-surface-200 transition-colors">
             Annuler
           </button>
         </div>

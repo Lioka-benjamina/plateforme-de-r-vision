@@ -33,6 +33,7 @@ export const fetchCours = createAsyncThunk(
         professorId: res.auteur?.id,
         professor: res.auteur ? `${res.auteur.prenom} ${res.auteur.nom}` : '',
         category: res.matiere?.nom,
+        duree: res.duree || '',
         imageUrl: res.image_url || '',
         createdAt: res.date_publication,
         status: res.status || (res.valide ? 'publié' : 'brouillon'),
@@ -93,6 +94,7 @@ export const createCours = createAsyncThunk(
         matiere_id: data.matiereId,
       }
       if (data.imageUrl) payload.image_url = data.imageUrl
+      if (data.duree) payload.duree = data.duree
       const response = await axios.post(API.cours, payload, {
         headers: { Authorization: `Bearer ${state.auth.token}` },
       })
@@ -104,6 +106,7 @@ export const createCours = createAsyncThunk(
         matiereId: res.matiere_id,
         professorId: res.auteur?.id,
         professor: res.auteur ? `${res.auteur.prenom} ${res.auteur.nom}` : '',
+        duree: res.duree || '',
         imageUrl: res.image_url || '',
         createdAt: res.date_publication,
         status: res.status || 'en_attente',
@@ -127,6 +130,7 @@ export const updateCours = createAsyncThunk(
       if (data.description !== undefined) payload.contenu = data.description
       if (data.matiereId !== undefined) payload.matiere_id = data.matiereId
       if (data.imageUrl !== undefined) payload.image_url = data.imageUrl
+      if (data.duree !== undefined) payload.duree = data.duree
       if (data.status !== undefined) payload.status = data.status
       const response = await axios.patch(`${API.cours}/${id}`, payload, {
         headers: { Authorization: `Bearer ${state.auth.token}` },

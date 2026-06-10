@@ -32,7 +32,7 @@ export default function LessonsPage() {
       header: 'Titre',
       render: (l) => (
         <div>
-          <p className="font-medium text-surface-900">{l.titre}</p>
+          <p className="font-semibold text-surface-900">{l.titre}</p>
           <p className="text-xs text-surface-400">Cours #{l.cours_id?.slice(0, 8)}...</p>
         </div>
       ),
@@ -62,19 +62,19 @@ export default function LessonsPage() {
       key: 'actions',
       header: 'Actions',
       render: (l) => (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {l.status === 'en_attente' && (
             <>
               <button onClick={() => dispatch(approveLesson(l.id)).then((result) => {
                 if (approveLesson.fulfilled.match(result)) showToast('Leçon approuvée', 'success')
                 else showToast("Erreur d'approbation", 'error')
-              })} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Valider">
+              })} className="p-2 text-success-500 hover:bg-success-50 transition rounded-xl" title="Valider">
                 <Check size={16} />
               </button>
               <button onClick={() => dispatch(rejectLesson(l.id)).then((result) => {
                 if (rejectLesson.fulfilled.match(result)) showToast('Leçon rejetée', 'warning')
                 else showToast('Erreur de rejet', 'error')
-              })} className="p-1.5 text-error-500 hover:bg-error-50 transition rounded-lg" title="Rejeter">
+              })} className="p-2 text-error-500 hover:bg-error-50 transition rounded-xl" title="Rejeter">
                 <X size={16} />
               </button>
             </>
@@ -83,7 +83,7 @@ export default function LessonsPage() {
             <button onClick={() => dispatch(approveLesson(l.id)).then((result) => {
               if (approveLesson.fulfilled.match(result)) showToast('Leçon réapprouvée', 'success')
               else showToast("Erreur d'approbation", 'error')
-            })} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Réapprouver">
+            })} className="p-2 text-success-500 hover:bg-success-50 transition rounded-xl" title="Réapprouver">
               <Check size={16} />
             </button>
           )}
@@ -93,25 +93,25 @@ export default function LessonsPage() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Gestion des leçons</h1>
+        <h1 className="text-2xl font-bold text-surface-900 tracking-tight">Gestion des leçons</h1>
         <p className="text-surface-500 mt-1">{lessons.length} leçons sur la plateforme</p>
       </div>
 
       <Card>
-        <div className="flex gap-1 mb-4 flex-wrap">
+        <div className="flex gap-1 mb-5 flex-wrap">
           {tabs.map((t) => (
             <button key={t} onClick={() => setActiveTab(t)}
-              className={`px-3 py-1.5 text-sm rounded-lg font-medium transition ${
-                activeTab === t ? 'bg-primary-50 text-primary-600' : 'text-surface-500 hover:text-surface-700 hover:bg-surface-100'
+              className={`px-4 py-2 text-sm rounded-xl font-medium transition-all ${
+                activeTab === t ? 'bg-primary-50 text-primary-600 shadow-soft' : 'text-surface-500 hover:text-surface-700 hover:bg-surface-100'
               }`}>
               {t === 'tous' ? 'Tous' : t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
           ))}
         </div>
         {loading ? (
-          <div className="text-center py-8 text-surface-400">Chargement...</div>
+          <div className="text-center py-12 text-surface-400">Chargement...</div>
         ) : (
           <Table columns={columns} data={filtered} keyExtractor={(l) => l.id} emptyMessage="Aucune leçon" />
         )}

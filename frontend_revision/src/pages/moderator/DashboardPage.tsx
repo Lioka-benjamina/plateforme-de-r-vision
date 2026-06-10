@@ -42,10 +42,10 @@ export default function ModeratorDashboardPage() {
   const recentSignals = signals.slice(0, 5)
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-surface-900">Tableau de bord Modérateur</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-surface-900">Tableau de bord Modérateur</h1>
           <p className="text-sm text-surface-500 mt-1">Gérez les signalements et les validations de contenu.</p>
         </div>
       </div>
@@ -58,9 +58,9 @@ export default function ModeratorDashboardPage() {
       </div>
 
       {totalPending > 0 && (
-        <Card className="border-amber-200 bg-amber-50 p-4">
+        <Card className="border-amber-200 bg-amber-50 p-4 rounded-2xl shadow-card">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
               <AlertTriangle size={20} />
             </div>
             <div>
@@ -71,17 +71,17 @@ export default function ModeratorDashboardPage() {
                 {pendingCourses} cours, {pendingLessons} leçons, {pendingQuizzes} quiz
               </p>
             </div>
-            <Link to="/moderator/review" className="ml-auto text-sm font-medium text-amber-700 hover:text-amber-800 underline">
+            <Link to="/moderator/review" className="ml-auto text-sm font-semibold text-amber-700 hover:text-amber-800 underline">
               Traiter
             </Link>
           </div>
         </Card>
       )}
 
-      <Card className="p-6">
+      <Card className="p-6 rounded-2xl shadow-card border border-surface-100/80">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-surface-900">Signalements récents</h2>
-          <Link to="/moderator/signals" className="text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1">
+          <h2 className="text-lg font-bold tracking-tight text-surface-900">Signalements récents</h2>
+          <Link to="/moderator/signals" className="text-sm text-primary-600 hover:text-primary-700 font-semibold flex items-center gap-1">
             Voir tout <ArrowUpRight className="w-4 h-4" />
           </Link>
         </div>
@@ -94,15 +94,15 @@ export default function ModeratorDashboardPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-surface-200">
-                  <th className="text-left py-3 px-3 font-medium text-surface-500">Cible</th>
-                  <th className="text-left py-3 px-3 font-medium text-surface-500">Motif</th>
-                  <th className="text-left py-3 px-3 font-medium text-surface-500">Date</th>
-                  <th className="text-left py-3 px-3 font-medium text-surface-500">Statut</th>
+                  <th className="text-left py-3 px-3 font-semibold text-surface-500">Cible</th>
+                  <th className="text-left py-3 px-3 font-semibold text-surface-500">Motif</th>
+                  <th className="text-left py-3 px-3 font-semibold text-surface-500">Date</th>
+                  <th className="text-left py-3 px-3 font-semibold text-surface-500">Statut</th>
                 </tr>
               </thead>
               <tbody>
                 {recentSignals.map((s) => (
-                  <tr key={s.id} className="border-b border-surface-100 hover:bg-surface-50 transition">
+                  <tr key={s.id} className="border-b border-surface-100 hover:bg-surface-50/60 transition-colors">
                     <td className="py-3 px-3 text-surface-900">{s.targetName}</td>
                     <td className="py-3 px-3 text-surface-600">{s.reason}</td>
                     <td className="py-3 px-3 text-surface-500">{s.date}</td>
@@ -119,8 +119,8 @@ export default function ModeratorDashboardPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Link to="/moderator/signals">
-          <Card className="p-5 hover:shadow-card-hover transition flex items-center gap-4">
-            <div className="w-11 h-11 rounded-lg bg-warning-50 text-warning-500 flex items-center justify-center">
+          <Card className="p-5 rounded-2xl shadow-card border border-surface-100/80 hover:shadow-card-hover transition-all flex items-center gap-4">
+            <div className="w-11 h-11 rounded-xl bg-warning-50 text-warning-500 flex items-center justify-center">
               <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
@@ -130,8 +130,8 @@ export default function ModeratorDashboardPage() {
           </Card>
         </Link>
         <Link to="/moderator/review">
-          <Card className="p-5 hover:shadow-card-hover transition flex items-center gap-4">
-            <div className="w-11 h-11 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center">
+          <Card className="p-5 rounded-2xl shadow-card border border-surface-100/80 hover:shadow-card-hover transition-all flex items-center gap-4">
+            <div className="w-11 h-11 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
@@ -141,8 +141,8 @@ export default function ModeratorDashboardPage() {
           </Card>
         </Link>
         <Link to="/moderator/review">
-          <Card className="p-5 hover:shadow-card-hover transition flex items-center gap-4">
-            <div className="w-11 h-11 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <Card className="p-5 rounded-2xl shadow-card border border-surface-100/80 hover:shadow-card-hover transition-all flex items-center gap-4">
+            <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <FileText className="w-5 h-5" />
             </div>
             <div>

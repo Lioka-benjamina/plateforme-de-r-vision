@@ -15,46 +15,46 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="max-w-2xl space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Paramètres</h1>
+        <h1 className="text-2xl font-bold text-surface-900 tracking-tight">Paramètres</h1>
         <p className="text-surface-500 mt-1">Configuration générale de la plateforme</p>
       </div>
 
       {saved && (
-        <div className="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded text-sm">
+        <div className="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded-2xl text-sm font-medium">
           Paramètres enregistrés avec succès.
         </div>
       )}
 
       <form onSubmit={handleSave}>
-        <Card className="p-6 space-y-4">
+        <Card className="p-8 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-surface-600 mb-1">Nom de la plateforme</label>
+            <label className="block text-sm font-semibold text-surface-700 mb-2">Nom de la plateforme</label>
             <input type="text" value={platformName} onChange={(e) => setPlatformName(e.target.value)}
-              className="w-full border border-surface-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+              className="w-full border border-surface-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-surface-600 mb-1">Description</label>
+            <label className="block text-sm font-semibold text-surface-700 mb-2">Description</label>
             <textarea rows={3} value={description} onChange={(e) => setDescription(e.target.value)}
-              className="w-full border border-surface-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+              className="w-full border border-surface-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 resize-none transition-all" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-surface-600 mb-1">Email de contact</label>
+            <label className="block text-sm font-semibold text-surface-700 mb-2">Email de contact</label>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-surface-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+              className="w-full border border-surface-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-surface-600 mb-1">Langue</label>
+            <label className="block text-sm font-semibold text-surface-700 mb-2">Langue</label>
             <select value={language} onChange={(e) => setLanguage(e.target.value)}
-              className="w-full border border-surface-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400">
+              className="w-full border border-surface-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 bg-white transition-all">
               <option value="fr">Français</option>
               <option value="en">English</option>
               <option value="mg">Malagasy</option>
             </select>
           </div>
           <button type="submit"
-            className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2.5 rounded-lg transition font-medium">
+            className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-2xl transition-all font-semibold text-sm active:scale-[0.98] shadow-soft">
             Enregistrer
           </button>
         </Card>

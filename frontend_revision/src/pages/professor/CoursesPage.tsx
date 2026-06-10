@@ -42,7 +42,7 @@ export default function CoursesPage() {
       header: 'Titre',
       render: (c) => (
         <div>
-          <p className="font-medium text-surface-900">{c.titre}</p>
+          <p className="font-semibold text-surface-900">{c.titre}</p>
           <p className="text-xs text-surface-400">{c.category || 'N/A'}</p>
         </div>
       ),
@@ -66,17 +66,17 @@ export default function CoursesPage() {
       key: 'actions',
       header: 'Actions',
       render: (c) => (
-        <div className="flex items-center gap-2">
-          <Link to={`/professor/courses/${c.id}`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
+        <div className="flex items-center gap-1">
+          <Link to={`/professor/courses/${c.id}`} className="p-2 text-surface-400 hover:text-primary-500 transition rounded-xl hover:bg-primary-50">
             <Eye size={18} />
           </Link>
-          <Link to={`/professor/courses/${c.id}/lessons`} className="p-1.5 text-surface-400 hover:text-amber-600 transition rounded-lg hover:bg-amber-50">
+          <Link to={`/professor/courses/${c.id}/lessons`} className="p-2 text-surface-400 hover:text-amber-600 transition rounded-xl hover:bg-amber-50">
             <BookOpen size={18} />
           </Link>
-          <Link to={`/professor/courses/${c.id}/edit`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
+          <Link to={`/professor/courses/${c.id}/edit`} className="p-2 text-surface-400 hover:text-primary-500 transition rounded-xl hover:bg-primary-50">
             <Edit size={18} />
           </Link>
-          <button onClick={() => setDeleteId(c.id)} className="p-1.5 text-surface-400 hover:text-error-500 transition rounded-lg hover:bg-error-50">
+          <button onClick={() => setDeleteId(c.id)} className="p-2 text-surface-400 hover:text-error-500 transition rounded-xl hover:bg-error-50">
             <Trash2 size={18} />
           </button>
         </div>
@@ -87,28 +87,28 @@ export default function CoursesPage() {
   const deleteTarget = deleteId ? myCourses.find((c) => c.id === deleteId) : null
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-surface-900">Mes cours</h1>
+        <h1 className="text-2xl font-bold text-surface-900 tracking-tight">Mes cours</h1>
         <Link to="/professor/courses/new"
-          className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
+          className="inline-flex items-center gap-2 bg-primary-600 text-white px-5 py-2.5 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all active:scale-[0.98] shadow-soft">
           <Plus size={18} /> Créer un cours
         </Link>
       </div>
 
       <Card>
-        <div className="flex gap-1 mb-4">
+        <div className="flex gap-1 mb-5">
           {statuses.map((s) => (
             <button key={s} onClick={() => setActiveTab(s)}
-              className={`px-3 py-1.5 text-sm rounded-lg font-medium transition ${
-                activeTab === s ? 'bg-primary-50 text-primary-600' : 'text-surface-500 hover:text-surface-700 hover:bg-surface-100'
+              className={`px-4 py-2 text-sm rounded-xl font-medium transition-all ${
+                activeTab === s ? 'bg-primary-50 text-primary-600 shadow-soft' : 'text-surface-500 hover:text-surface-700 hover:bg-surface-100'
               }`}>
               {s === 'tous' ? 'Tous' : s.charAt(0).toUpperCase() + s.slice(1)}
             </button>
           ))}
         </div>
         {loading ? (
-          <div className="text-center py-8 text-surface-400">Chargement...</div>
+          <div className="text-center py-12 text-surface-400">Chargement...</div>
         ) : (
           <Table columns={columns} data={filtered} keyExtractor={(c) => c.id} emptyMessage="Aucun cours" />
         )}

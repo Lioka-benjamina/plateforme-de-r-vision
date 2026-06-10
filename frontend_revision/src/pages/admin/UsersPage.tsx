@@ -64,11 +64,11 @@ export default function UsersPage() {
       header: 'Nom',
       render: (u) => (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center text-sm font-bold">
+          <div className="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center text-sm font-bold">
             {u.prenom[0]}{u.nom[0]}
           </div>
           <div>
-            <p className="font-medium text-surface-900">{u.prenom} {u.nom}</p>
+            <p className="font-semibold text-surface-900">{u.prenom} {u.nom}</p>
             <p className="text-xs text-surface-400">{u.email}</p>
           </div>
         </div>
@@ -98,16 +98,16 @@ export default function UsersPage() {
       header: 'Actions',
       render: (u) => (
         <div className="flex items-center gap-1">
-          <button onClick={() => setSelectedUser(u)} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50" title="Voir">
+          <button onClick={() => setSelectedUser(u)} className="p-2 text-surface-400 hover:text-primary-500 transition rounded-xl hover:bg-primary-50" title="Voir">
             <Eye size={16} />
           </button>
-          <button className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50" title="Modifier">
+          <button className="p-2 text-surface-400 hover:text-primary-500 transition rounded-xl hover:bg-primary-50" title="Modifier">
             <Edit2 size={16} />
           </button>
-          <button onClick={() => handleToggleStatus(u)} className="p-1.5 text-surface-400 hover:text-warning-500 transition rounded-lg hover:bg-warning-50" title="Suspendre/Réactiver">
+          <button onClick={() => handleToggleStatus(u)} className="p-2 text-surface-400 hover:text-warning-500 transition rounded-xl hover:bg-warning-50" title="Suspendre/Réactiver">
             {u.status === 'suspended' ? <UserCheck size={16} /> : <UserX size={16} />}
           </button>
-          <button className="p-1.5 text-surface-400 hover:text-error-500 transition rounded-lg hover:bg-error-50" title="Supprimer">
+          <button className="p-2 text-surface-400 hover:text-error-500 transition rounded-xl hover:bg-error-50" title="Supprimer">
             <Trash2 size={16} />
           </button>
         </div>
@@ -116,29 +116,29 @@ export default function UsersPage() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-surface-900">Utilisateurs</h1>
+          <h1 className="text-2xl font-bold text-surface-900 tracking-tight">Utilisateurs</h1>
           <p className="text-surface-500 mt-1">{users.length} utilisateurs inscrits</p>
         </div>
         <button onClick={() => setShowCreate(true)}
-          className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
+          className="inline-flex items-center gap-2 bg-primary-600 text-white px-5 py-2.5 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all active:scale-[0.98] shadow-soft">
           <Plus size={18} /> Créer un utilisateur
         </button>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
         <div className="relative flex-1 max-w-sm">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-400" />
           <input
             type="text" placeholder="Rechercher..." value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-surface-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400"
+            className="w-full pl-11 pr-4 py-3 rounded-2xl border border-surface-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all"
           />
         </div>
         <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}
-          className="border border-surface-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400">
+          className="border border-surface-200 rounded-2xl px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all">
           {['Tous', 'admin', 'moderator', 'professor', 'student'].map((r) => (
             <option key={r} value={r}>{r === 'Tous' ? 'Tous les rôles' : r}</option>
           ))}
@@ -147,7 +147,7 @@ export default function UsersPage() {
 
       <Card>
         {loading ? (
-          <div className="text-center py-8 text-surface-400">Chargement...</div>
+          <div className="text-center py-12 text-surface-400">Chargement...</div>
         ) : (
           <Table columns={columns} data={filtered} keyExtractor={(u) => u.id} emptyMessage="Aucun utilisateur trouvé" />
         )}
@@ -155,42 +155,53 @@ export default function UsersPage() {
 
       <Modal open={!!selectedUser} onClose={() => setSelectedUser(null)} title="Détails de l'utilisateur">
         {selectedUser && (
-          <div className="space-y-3 text-sm">
-            <p><strong>Nom :</strong> {selectedUser.prenom} {selectedUser.nom}</p>
-            <p><strong>Email :</strong> {selectedUser.email}</p>
-            <p><strong>Rôle :</strong> {selectedUser.role}</p>
-            <p><strong>Statut :</strong> {selectedUser.status || 'active'}</p>
-            <p><strong>Inscrit le :</strong> {selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}</p>
+          <div className="space-y-4 text-sm">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg font-bold">
+                {selectedUser.prenom[0]}{selectedUser.nom[0]}
+              </div>
+              <div>
+                <p className="font-bold text-surface-900">{selectedUser.prenom} {selectedUser.nom}</p>
+                <p className="text-surface-400">{selectedUser.email}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div><p className="text-surface-400 text-xs">Rôle</p><p className="font-medium">{selectedUser.role}</p></div>
+              <div><p className="text-surface-400 text-xs">Statut</p><p className="font-medium">{selectedUser.status || 'active'}</p></div>
+              <div className="col-span-2"><p className="text-surface-400 text-xs">Inscrit le</p><p className="font-medium">{selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}</p></div>
+            </div>
           </div>
         )}
       </Modal>
 
       <Modal open={showCreate} onClose={() => setShowCreate(false)} title="Créer un utilisateur">
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-surface-700 mb-1">Prénom</label>
-            <input value={form.prenom} onChange={(e) => setForm({ ...form, prenom: e.target.value })}
-              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-surface-700 mb-1.5">Prénom</label>
+              <input value={form.prenom} onChange={(e) => setForm({ ...form, prenom: e.target.value })}
+                className="w-full px-4 py-2.5 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-surface-700 mb-1.5">Nom</label>
+              <input value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })}
+                className="w-full px-4 py-2.5 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
+            </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-surface-700 mb-1">Nom</label>
-            <input value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })}
-              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-surface-700 mb-1">Email</label>
+            <label className="block text-sm font-semibold text-surface-700 mb-1.5">Email</label>
             <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+              className="w-full px-4 py-2.5 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-surface-700 mb-1">Mot de passe</label>
+            <label className="block text-sm font-semibold text-surface-700 mb-1.5">Mot de passe</label>
             <input type="password" value={form.mot_de_pass} onChange={(e) => setForm({ ...form, mot_de_pass: e.target.value })}
-              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+              className="w-full px-4 py-2.5 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-surface-700 mb-1">Rôle</label>
+            <label className="block text-sm font-semibold text-surface-700 mb-1.5">Rôle</label>
             <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}
-              className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 bg-white">
+              className="w-full px-4 py-2.5 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 bg-white transition-all">
               {roles.map((r) => (
                 <option key={r.value} value={r.value}>{r.label}</option>
               ))}
@@ -198,11 +209,11 @@ export default function UsersPage() {
           </div>
           <div className="flex gap-3 pt-2">
             <button onClick={handleCreate} disabled={!form.email || !form.mot_de_pass || !form.nom || !form.prenom}
-              className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition disabled:opacity-60">
+              className="inline-flex items-center gap-2 bg-primary-600 text-white px-5 py-2.5 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all active:scale-[0.98] disabled:opacity-60">
               <Plus size={16} /> Créer
             </button>
             <button onClick={() => setShowCreate(false)}
-              className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-surface-200 transition">
+              className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-5 py-2.5 rounded-2xl text-sm font-medium hover:bg-surface-200 transition-colors">
               Annuler
             </button>
           </div>

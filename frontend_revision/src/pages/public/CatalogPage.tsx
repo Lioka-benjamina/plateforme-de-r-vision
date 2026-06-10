@@ -45,9 +45,9 @@ export default function CatalogPage() {
     }`
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-0 animate-fade-in">
       {/* ── Hero ── */}
-      <section className=" bg-primary-600 px-10 py-14 md:px-16 md:py-20 mb-8">
+      <section className=" bg-primary-600 px-10 py-14 md:px-16 md:py-20 mb-8 rounded-3xl">
         <div className="max-w-xl">
           <span className="inline-block text-xs font-semibold text-primary-200 uppercase tracking-widest mb-3">Bibliothèque de cours</span>
           <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
@@ -60,7 +60,7 @@ export default function CatalogPage() {
       </section>
 
       {/* ── Search + Filter bar ── */}
-      <div className="bg-white rounded-xl border border-surface-100 shadow-sm p-4 px-5 mb-6 mx-5">
+      <div className="bg-white rounded-2xl border border-surface-100/80 shadow-card p-4 px-5 mb-6 mx-5">
         {/* Search */}
         <div className="relative mb-4">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-surface-400" />
@@ -69,7 +69,7 @@ export default function CatalogPage() {
             placeholder="Rechercher un cours..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-10 py-2.5 bg-surface-50 rounded-lg border border-surface-200 text-sm text-surface-900 placeholder:text-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all"
+            className="w-full pl-10 pr-10 py-3 bg-surface-50 rounded-2xl border border-surface-200 text-sm text-surface-900 placeholder:text-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all"
           />
           {search && (
             <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-400 hover:text-surface-600">
@@ -121,7 +121,7 @@ export default function CatalogPage() {
       {loading ? (
         <div className="max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl border border-surface-100 overflow-hidden animate-pulse">
+            <div key={i} className="bg-white rounded-2xl border border-surface-100/80 shadow-card overflow-hidden animate-pulse">
               <div className="h-36 bg-surface-100" />
               <div className="p-5 space-y-2.5">
                 <div className="h-4 bg-surface-100 rounded-full w-3/4" />
@@ -136,17 +136,17 @@ export default function CatalogPage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-surface-400">
-          <div className="w-16 h-16 bg-surface-100 rounded-xl flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-surface-100 rounded-2xl flex items-center justify-center mb-4">
             <BookOpen className="w-7 h-7 text-surface-300" />
           </div>
           <p className="text-sm font-medium text-surface-600 mb-1">Aucun cours trouvé</p>
           <p className="text-xs text-surface-400">Essayez de modifier vos filtres</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-15">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-15">
   {filtered.map((course) => (
     <Link key={course.id} to={`/cours/${course.id}`} className="group">
-      <div className="bg-white rounded-2xl overflow-hidden border border-surface-100 hover:border-surface-200 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-200 h-full flex flex-col">
+      <div className="bg-white rounded-3xl overflow-hidden border border-surface-100/80 shadow-card hover:shadow-card-hover transition-all duration-300 h-full flex flex-col">
 
         {/* Cover */}
         <div className={`relative h-40 ${!course.imageUrl ? (course.color || 'bg-primary-600') : ''} flex items-end p-4`}>

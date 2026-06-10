@@ -96,18 +96,18 @@ export default function QuizFormPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-surface-900">{isEdit ? 'Modifier le quiz' : 'Nouveau quiz'}</h1>
+    <div className="space-y-6 animate-fade-in">
+      <h1 className="text-2xl font-bold text-surface-900 tracking-tight">{isEdit ? 'Modifier le quiz' : 'Nouveau quiz'}</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-4">
         <div>
-          <label className="block text-sm font-medium text-surface-700 mb-1">Titre du quiz</label>
+          <label className="block text-sm font-semibold text-surface-700 mb-1">Titre du quiz</label>
           <input value={titre} onChange={(e) => setTitre(e.target.value)} required
-            className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400" />
+            className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-surface-700 mb-1">Cours associé</label>
+          <label className="block text-sm font-semibold text-surface-700 mb-1">Cours associé</label>
           <select value={coursId} onChange={(e) => setCoursId(e.target.value)} required
-            className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white">
+            className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 bg-white transition-all">
             <option value="">Sélectionner un cours</option>
             {coursList.map((c: any) => (
               <option key={c.id} value={c.id}>{c.titre}</option>
@@ -118,28 +118,28 @@ export default function QuizFormPage() {
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-semibold text-surface-900">Questions</h2>
             <button type="button" onClick={addQuestion}
-              className="inline-flex items-center gap-1.5 bg-primary-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
+              className="inline-flex items-center gap-1.5 bg-primary-600 text-white px-3 py-1.5 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all shadow-soft active:scale-[0.98]">
               <Plus size={16} /> Ajouter une question
             </button>
           </div>
           {questions.map((q, qi) => (
-            <div key={q.id} className="border border-surface-200 rounded-lg p-4 mb-3 bg-surface-50">
+            <div key={q.id} className="border border-surface-200 rounded-2xl p-4 mb-3 bg-surface-50">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-semibold text-sm text-surface-900">Question {qi + 1}</span>
-                <button type="button" onClick={() => removeQuestion(q.id)} className="text-error-500 hover:text-error-600"><Trash2 size={16} /></button>
+                <button type="button" onClick={() => removeQuestion(q.id)} className="p-2 text-error-500 hover:text-error-600 transition-all rounded-xl hover:bg-error-50"><Trash2 size={16} /></button>
               </div>
               <input value={q.texte} onChange={(e) => updateQuestion(q.id, e.target.value)} placeholder="Texte de la question" required
-                className="w-full px-3 py-2 border border-surface-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 mb-3" />
+                className="w-full px-4 py-3 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 mb-3 transition-all" />
               <div className="space-y-2">
                 {q.options.map((o) => (
-                  <label key={o.id} className={`flex items-center gap-2 p-1.5 rounded-md cursor-pointer ${o.correct ? 'bg-success-50' : ''}`}>
+                  <label key={o.id} className={`flex items-center gap-2 p-1.5 rounded-xl cursor-pointer ${o.correct ? 'bg-success-50' : ''}`}>
                     <input type="radio" name={`correct-${q.id}`} checked={o.correct} onChange={() => toggleCorrect(q.id, o.id)} className="text-primary-500" />
                     <input value={o.texte} onChange={(e) => updateOption(q.id, o.id, e.target.value)} placeholder={`Option ${q.options.indexOf(o) + 1}`} required
-                      className="flex-1 px-2.5 py-1.5 border border-surface-300 rounded-md text-sm outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" />
+                      className="flex-1 px-3 py-2 border border-surface-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all" />
                   </label>
                 ))}
                 <button type="button" onClick={() => addOption(q.id)}
-                  className="text-xs text-surface-500 hover:text-surface-700 border border-dashed border-surface-300 rounded-md px-3 py-1.5">
+                  className="text-xs text-surface-500 hover:text-surface-700 border border-dashed border-surface-300 rounded-xl px-3 py-1.5 transition-all">
                   + Ajouter une option
                 </button>
               </div>
@@ -149,11 +149,11 @@ export default function QuizFormPage() {
         {error && <p className="text-error-500 text-sm">{error}</p>}
         <div className="flex gap-3 pt-2">
           <button type="submit" disabled={loading}
-            className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition disabled:opacity-60">
+            className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700 transition-all disabled:opacity-60 shadow-soft active:scale-[0.98]">
             {loading ? 'Enregistrement...' : isEdit ? 'Enregistrer' : 'Créer le quiz'}
           </button>
           <button type="button" onClick={() => navigate('/professor/quizzes')}
-            className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-surface-200 transition">
+            className="inline-flex items-center gap-2 bg-surface-100 text-surface-700 px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-surface-200 transition-all active:scale-[0.98]">
             Annuler
           </button>
         </div>

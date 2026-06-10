@@ -92,7 +92,7 @@ export default function CourseDetailPage() {
     );
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto mb-10">
+    <div className="space-y-6 max-w-6xl mx-auto mb-10 animate-fade-in">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-xs text-surface-400">
         <Link to="/" className="hover:text-primary-600 transition-colors">
@@ -109,7 +109,7 @@ export default function CourseDetailPage() {
       </nav>
 
       {/* Hero */}
-      <section className="rounded-xl bg-primary-600 p-8 md:p-12">
+      <section className="rounded-3xl bg-primary-600 p-8 md:p-12">
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="flex-1">
             <div className="flex flex-wrap gap-2 mb-4">
@@ -138,7 +138,7 @@ export default function CourseDetailPage() {
             </div>
           </div>
           <div
-            className={`w-full md:w-56 h-36 rounded-xl ${course.imageUrl ? '' : (course.color || 'bg-white/10')} flex items-center justify-center flex-shrink-0 border border-white/10 overflow-hidden`}
+            className={`w-full md:w-56 h-36 rounded-2xl ${course.imageUrl ? '' : (course.color || 'bg-white/10')} flex items-center justify-center flex-shrink-0 border border-white/10 overflow-hidden`}
           >
             {course.imageUrl ? (
               <img src={`http://localhost:3000${course.imageUrl}`} alt={course.titre} className="w-full h-full object-cover" />
@@ -152,9 +152,9 @@ export default function CourseDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: content */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center gap-1 bg-surface-100 rounded-lg p-1 w-fit">
+          <div className="flex items-center gap-1 bg-surface-100 rounded-2xl p-1 w-fit">
             <button onClick={() => setActiveTab('lessons')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition ${
                 activeTab === 'lessons'
                   ? 'bg-white text-surface-900 shadow-sm'
                   : 'text-surface-500 hover:text-surface-700'
@@ -163,7 +163,7 @@ export default function CourseDetailPage() {
               Leçons
             </button>
             <button onClick={() => setActiveTab('exercices')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition ${
                 activeTab === 'exercices'
                   ? 'bg-white text-surface-900 shadow-sm'
                   : 'text-surface-500 hover:text-surface-700'
@@ -174,12 +174,12 @@ export default function CourseDetailPage() {
           </div>
 
           {activeTab === 'lessons' ? (
-            <div className="bg-white rounded-xl border border-surface-100 overflow-hidden">
+            <div className="bg-white rounded-2xl border border-surface-100/80 shadow-card overflow-hidden">
               <div className="px-6 py-4 border-b border-surface-100 flex items-center gap-2.5">
-                <div className="w-8 h-8 bg-primary-50 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-primary-50 rounded-xl flex items-center justify-center">
                   <FileText className="w-4 h-4 text-primary-600" />
                 </div>
-                <h2 className="text-base font-semibold text-surface-900">
+                <h2 className="text-base font-semibold text-surface-900 tracking-tight">
                   Programme du cours
                 </h2>
               </div>
@@ -216,12 +216,12 @@ export default function CourseDetailPage() {
               )}
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-surface-100 overflow-hidden">
+            <div className="bg-white rounded-2xl border border-surface-100/80 shadow-card overflow-hidden">
               <div className="px-6 py-4 border-b border-surface-100 flex items-center gap-2.5">
-                <div className="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-amber-50 rounded-xl flex items-center justify-center">
                   <HelpCircle className="w-4 h-4 text-amber-600" />
                 </div>
-                <h2 className="text-base font-semibold text-surface-900">
+                <h2 className="text-base font-semibold text-surface-900 tracking-tight">
                   Quiz
                   <span className="ml-2 text-xs font-normal text-surface-400">
                     ({courseQuizzes.length})
@@ -252,7 +252,7 @@ export default function CourseDetailPage() {
                       </div>
                       <Link
                         to={isAuthenticated ? `/student/quiz/${q.id}` : "/login"}
-                        className="text-xs font-semibold text-primary-600 hover:text-primary-700 bg-primary-50 hover:bg-primary-100 px-3 py-1.5 rounded-lg transition-colors"
+                        className="text-xs font-semibold text-primary-600 hover:text-primary-700 bg-primary-50 hover:bg-primary-100 px-3 py-1.5 rounded-xl transition-colors"
                       >
                         {isAuthenticated ? "Commencer" : "Connexion requise"}
                       </Link>
@@ -267,7 +267,7 @@ export default function CourseDetailPage() {
         {/* Right: sidebar */}
         <div className="space-y-4">
           {/* Enroll */}
-          <div className="bg-white rounded-xl border border-surface-100 p-6 sticky top-24">
+          <div className="bg-white rounded-2xl border border-surface-100/80 shadow-card p-6 sticky top-24">
             <div className="text-center mb-5">
               <p className="text-3xl font-black text-surface-900 tracking-tight">
                 {course.prix === null || course.prix === undefined ? (
@@ -284,17 +284,17 @@ export default function CourseDetailPage() {
             </div>
             {!isAuthenticated ? (
               <button onClick={() => navigate("/login")}
-                className="w-full bg-surface-200 hover:bg-surface-300 text-surface-600 font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2 mb-3">
+                className="w-full bg-surface-200 hover:bg-surface-300 text-surface-600 font-semibold py-3 rounded-2xl transition-all active:scale-[0.98] shadow-soft flex items-center justify-center gap-2 mb-3">
                 <LogIn className="w-4 h-4" /> Connectez-vous pour suivre le cours
               </button>
             ) : isEnrolled ? (
               <Link to={`/student/courses/${id}`}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2 mb-3">
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-2xl transition-all active:scale-[0.98] shadow-soft flex items-center justify-center gap-2 mb-3">
                 <ArrowRight className="w-4 h-4" /> Accéder au cours
               </Link>
             ) : (
               <button onClick={handleEnroll}
-                className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2 mb-3">
+                className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-2xl transition-all active:scale-[0.98] shadow-soft flex items-center justify-center gap-2 mb-3">
                 <Play className="w-4 h-4 fill-white" /> Suivre le cours
               </button>
             )}
@@ -304,13 +304,13 @@ export default function CourseDetailPage() {
           </div>
 
           {/* Instructor */}
-          <div className="bg-white rounded-xl border border-surface-100 p-6">
-            <h3 className="text-sm font-semibold text-surface-900 mb-4 flex items-center gap-2">
+          <div className="bg-white rounded-2xl border border-surface-100/80 shadow-card p-6">
+            <h3 className="text-sm font-semibold text-surface-900 mb-4 flex items-center gap-2 tracking-tight">
               <User className="w-4 h-4 text-primary-500" />
               Votre instructeur
             </h3>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-11 h-11 rounded-lg bg-primary-600 text-white flex items-center justify-center font-bold text-base flex-shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-primary-600 text-white flex items-center justify-center font-bold text-base flex-shrink-0">
                 {(course.professor || "P")[0]}
               </div>
               <div>
@@ -329,7 +329,7 @@ export default function CourseDetailPage() {
           {isAuthenticated && (
             <button
               onClick={() => setShowReport(true)}
-              className="w-full flex items-center justify-center gap-2 text-sm text-surface-400 hover:text-amber-600 py-3 rounded-lg border border-surface-200 hover:border-amber-300 hover:bg-amber-50 transition"
+              className="w-full flex items-center justify-center gap-2 text-sm text-surface-400 hover:text-amber-600 py-3 rounded-2xl border border-surface-200 hover:border-amber-300 hover:bg-amber-50 transition-all active:scale-[0.98]"
             >
               <AlertTriangle size={16} />
               Signaler ce cours

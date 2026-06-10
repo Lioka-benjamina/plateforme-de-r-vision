@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, Users, BookOpen, AlertTriangle, Settings,
   GraduationCap, FileText, BarChart3, ClipboardList, ChevronLeft, Menu,
-  LogOut, type LucideIcon
+  LogOut, X, type LucideIcon
 } from 'lucide-react'
 import logo from '../../assets/logoRevision.png'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -47,57 +47,71 @@ export default function Sidebar({ items }: SidebarProps) {
     return () => clearTimeout(hoverTimeout.current)
   }, [])
 
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [location.pathname])
+
   return (
     <>
+      {/* Mobile burger */}
       <button
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-card border border-surface-200 text-surface-600"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-2xl shadow-card border border-surface-100 text-surface-600 hover:bg-surface-50 transition-colors"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
-        <Menu size={20} />
+        {mobileOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
+      {/* Mobile overlay */}
       {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setMobileOpen(false)} />
+        <div className="lg:hidden fixed inset-0 bg-surface-900/30 backdrop-blur-sm z-30 transition-opacity" onClick={() => setMobileOpen(false)} />
       )}
 
+      {/* Sidebar */}
       <aside className={`
         fixed lg:static inset-y-0 left-0 z-40
-        bg-white border-r border-surface-200
+        bg-white border-r border-surface-100/80
         transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col
-        ${collapsed ? 'w-[68px]' : 'w-64'}
-        ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${collapsed ? 'w-[72px]' : 'w-64'}
+        ${mobileOpen ? 'translate-x-0 shadow-sidebar' : '-translate-x-full lg:translate-x-0'}
       `}>
-        <div className="flex items-center gap-3 px-5 h-16 border-b border-surface-200 shrink-0">
-          <img src={logo} alt="Revision" className="w-8 h-8 object-contain shrink-0" />
-          {!collapsed && <span className="font-bold text-surface-900">Revision</span>}
+        {/* Logo */}
+        <div className="flex items-center gap-3 px-5 h-[72px] border-b border-surface-100/80 shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center flex-shrink-0 shadow-soft">
+            <img src={logo} alt="Revision" className="w-5 h-5 object-contain brightness-0 invert" />
+          </div>
+          {!collapsed && <span className="font-bold text-surface-900 text-lg tracking-tight">Revision</span>}
         </div>
 
-        <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
-          {items.map((item) => {
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto p-3 space-y-1">
+          {items.map((item, idx) => {
             const Icon = item.icon
             const active = isActive(item.path)
             return (
-              <div key={item.path} className="relative"
+              <div
+                key={item.path}
+                className="relative"
                 onMouseEnter={() => handleMouseEnter(item.label)}
-                onMouseLeave={handleMouseLeave}>
+                onMouseLeave={handleMouseLeave}
+                style={{ animationDelay: `${idx * 40}ms` }}
+              >
                 <Link
                   to={item.path}
                   onClick={() => setMobileOpen(false)}
-                  className={`relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 overflow-hidden group ${
+                  className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 overflow-hidden group ${
                     active
-                      ? 'text-primary-700 bg-primary-50'
-                      : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900'
+                      ? 'text-primary-700 bg-primary-50 shadow-soft'
+                      : 'text-surface-500 hover:bg-surface-50 hover:text-surface-900'
                   }`}
-                  title={undefined}
                 >
                   {active && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-full bg-primary-600" />
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-primary-600" />
                   )}
-                  <Icon size={20} className="shrink-0" />
+                  <Icon size={18} className={`shrink-0 transition-transform duration-200 ${active ? '' : 'group-hover:scale-110'}`} />
                   {!collapsed && <span className="truncate">{item.label}</span>}
                 </Link>
                 {collapsed && hoveredItem === item.label && (
-                  <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 px-3 py-1.5 bg-surface-800 text-white text-xs font-medium rounded-lg shadow-lg whitespace-nowrap pointer-events-none">
+                  <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 z-50 px-3.5 py-2 bg-surface-900 text-white text-xs font-semibold rounded-xl shadow-dropdown whitespace-nowrap pointer-events-none animate-fade-in">
                     {item.label}
                   </div>
                 )}
@@ -106,24 +120,25 @@ export default function Sidebar({ items }: SidebarProps) {
           })}
         </nav>
 
-        <div className="border-t border-surface-200 p-3 shrink-0">
+        {/* User + collapse */}
+        <div className="border-t border-surface-100/80 p-3 shrink-0">
           {collapsed ? (
             <button onClick={() => setCollapsed(false)}
-              className="flex items-center justify-center w-full p-2 rounded-lg text-surface-400 hover:text-surface-700 hover:bg-surface-100 transition"
+              className="flex items-center justify-center w-full p-2.5 rounded-xl text-surface-400 hover:text-surface-700 hover:bg-surface-50 transition-colors"
               title="Développer">
               <ChevronLeft size={18} className="rotate-180" />
             </button>
           ) : (
-            <div className="flex items-center gap-3 px-1">
-              <div className="w-8 h-8 rounded-lg bg-primary-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
+            <div className="flex items-center gap-3 px-2 py-2">
+              <div className="w-9 h-9 rounded-xl bg-primary-600 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-soft">
                 {user?.prenom?.[0]}{user?.nom?.[0]}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-surface-900 truncate leading-tight">{user?.prenom} {user?.nom}</p>
-                <p className="text-xs text-surface-400 capitalize truncate">{user?.role}</p>
+                <p className="text-[11px] text-surface-400 capitalize truncate">{user?.role}</p>
               </div>
               <button onClick={() => setShowLogout(true)}
-                className="p-1.5 rounded-lg text-surface-400 hover:text-error-500 hover:bg-error-50 transition shrink-0"
+                className="p-2 rounded-xl text-surface-400 hover:text-error-500 hover:bg-error-50 transition-colors shrink-0"
                 title="Déconnexion">
                 <LogOut size={15} />
               </button>

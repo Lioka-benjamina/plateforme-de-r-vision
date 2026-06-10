@@ -32,9 +32,9 @@ export default function StudentQuizzesPage() {
   ).filter((q: QuizItem) => !q.status || q.status === 'publié')
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Quiz disponibles</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-surface-900">Quiz disponibles</h1>
         <p className="text-surface-500 mt-1">Testez vos connaissances sur les cours que vous suivez.</p>
       </div>
 
@@ -54,18 +54,18 @@ export default function StudentQuizzesPage() {
           {availableQuizzes.map((q: QuizItem) => (
             <Card key={q.id} className="p-5 flex flex-col">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
                   <HelpCircle size={20} />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-surface-900 text-sm truncate">{q.titre}</p>
+                  <p className="font-bold text-surface-900 text-sm truncate">{q.titre}</p>
                   <p className="text-xs text-surface-400">{q.questions?.length || 0} questions</p>
                 </div>
               </div>
               <div className="mt-auto pt-3 border-t border-surface-100">
                 <Link
                   to={`/student/quiz/${q.id}`}
-                  className="w-full inline-flex items-center justify-center gap-1.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
+                  className="w-full inline-flex items-center justify-center gap-1.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold px-4 py-2 rounded-2xl active:scale-[0.98] shadow-soft transition-all"
                 >
                   Commencer <ArrowRight size={16} />
                 </Link>

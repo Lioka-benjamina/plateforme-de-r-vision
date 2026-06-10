@@ -36,11 +36,11 @@ export default function FAQPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-fade-in">
       {/* Hero */}
-      <section className="rounded-xl bg-primary-600 p-10 md:p-14">
+      <section className="rounded-3xl bg-primary-600 p-10 md:p-14">
         <div className="flex items-center gap-5">
-          <div className="w-14 h-14 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
+          <div className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center flex-shrink-0">
             <HelpCircle className="w-7 h-7 text-white" />
           </div>
           <div>
@@ -55,15 +55,15 @@ export default function FAQPage() {
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className={`bg-white rounded-xl border transition-all duration-200 overflow-hidden ${
-              openIndex === index ? 'border-primary-200' : 'border-surface-100 hover:border-surface-200'
+            className={`bg-white rounded-2xl border transition-all duration-200 overflow-hidden ${
+              openIndex === index ? 'border-primary-200 shadow-card' : 'border-surface-100/80 hover:border-surface-200'
             }`}
           >
             <button
               onClick={() => toggle(index)}
               className="w-full flex items-center justify-between px-6 py-4 text-left"
             >
-              <span className="font-medium text-surface-900 pr-4 text-sm leading-relaxed">{faq.question}</span>
+              <span className="font-semibold text-surface-900 pr-4 text-sm leading-relaxed tracking-tight">{faq.question}</span>
               <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
                 openIndex === index ? 'bg-primary-50 text-primary-600' : 'bg-surface-100 text-surface-400'
               }`}>

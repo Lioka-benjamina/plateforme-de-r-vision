@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Plus, Eye, Edit, Trash2, BarChart3 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -7,12 +7,14 @@ import { selectAllQuizzes, selectQuizLoading } from '../../features/quiz/quizSel
 import Table from '../../components/ui/Table'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
+import ConfirmModal from '../../components/ui/ConfirmModal'
 import type { Column } from '../../components/ui/Table'
 
 export default function QuizzesPage() {
   const dispatch = useAppDispatch()
   const quizzes = useAppSelector(selectAllQuizzes)
   const loading = useAppSelector(selectQuizLoading)
+  const [deleteId, setDeleteId] = useState<number | null>(null)
 
   useEffect(() => {
     dispatch(fetchQuizzes())
@@ -45,12 +47,14 @@ export default function QuizzesPage() {
         <div className="flex items-center gap-2">
           <Link to={`/professor/quizzes/${q.id}`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50"><Eye size={18} /></Link>
           <Link to={`/professor/quizzes/${q.id}/edit`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50"><Edit size={18} /></Link>
-          <button onClick={() => { if (confirm('Supprimer ce quiz ?')) dispatch(deleteQuiz(q.id as any)) }} className="p-1.5 text-surface-400 hover:text-error-500 transition rounded-lg hover:bg-error-50"><Trash2 size={18} /></button>
+          <button onClick={() => setDeleteId(q.id as number)} className="p-1.5 text-surface-400 hover:text-error-500 transition rounded-lg hover:bg-error-50"><Trash2 size={18} /></button>
           <Link to={`/professor/quizzes/${q.id}/stats`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50"><BarChart3 size={18} /></Link>
         </div>
       ),
     },
   ]
+
+  const deleteTarget = deleteId ? quizzes.find((q) => q.id === deleteId) : null
 
   return (
     <div className="space-y-6">
@@ -68,6 +72,16 @@ export default function QuizzesPage() {
           <Table columns={columns} data={quizzes} keyExtractor={(q) => q.id} emptyMessage="Aucun quiz" />
         )}
       </Card>
+
+      {deleteId && deleteTarget && (
+        <ConfirmModal
+          type="delete"
+          title="Supprimer ce quiz ?"
+          message={`Êtes-vous sûr de vouloir supprimer « ${deleteTarget.titre} » ? Cette action est irréversible.`}
+          onConfirm={() => dispatch(deleteQuiz(deleteId))}
+          onClose={() => setDeleteId(null)}
+        />
+      )}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchCours, approveCours, rejectCours } from '../../features/cours/coursThunks'
 import { selectAllCours, selectCoursLoading } from '../../features/cours/coursSelectors'
+import { useToast } from '../../components/ui/Toast'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
 import Table from '../../components/ui/Table'
@@ -19,6 +20,7 @@ const statusVariant: Record<string, 'default' | 'warning' | 'success' | 'error'>
 export default function CoursesPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { showToast } = useToast()
   const cours = useAppSelector(selectAllCours)
   const loading = useAppSelector(selectCoursLoading)
   const [activeTab, setActiveTab] = useState('tous')
@@ -31,11 +33,23 @@ export default function CoursesPage() {
   const filtered = activeTab === 'tous' ? cours : cours.filter((c) => c.status === activeTab)
 
   const handleValidate = (id: number) => {
-    dispatch(approveCours(id))
+    dispatch(approveCours(id)).then((result) => {
+      if (approveCours.fulfilled.match(result)) {
+        showToast('Cours approuvé avec succès', 'success')
+      } else {
+        showToast("Erreur lors de l'approbation", 'error')
+      }
+    })
   }
 
   const handleReject = (id: number) => {
-    dispatch(rejectCours(id))
+    dispatch(rejectCours(id)).then((result) => {
+      if (rejectCours.fulfilled.match(result)) {
+        showToast('Cours rejeté', 'warning')
+      } else {
+        showToast('Erreur lors du rejet', 'error')
+      }
+    })
   }
 
   const columns: Column<(typeof cours)[0]>[] = [
@@ -60,7 +74,7 @@ export default function CoursesPage() {
       header: 'Actions',
       render: (c) => (
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate(`/cours/${c.id}`)} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50" title="Voir">
+          <button onClick={() => navigate(`/admin/courses/${c.id}`)} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50" title="Voir">
             <Eye size={16} />
           </button>
           {c.status === 'en_attente' && (

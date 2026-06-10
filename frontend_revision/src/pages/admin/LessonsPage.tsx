@@ -3,6 +3,7 @@ import { Check, X, FileText, Video } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchLessons, approveLesson, rejectLesson } from '../../features/lesson/lessonThunks'
 import { selectAllLessons, selectLessonLoading } from '../../features/lesson/lessonSelectors'
+import { useToast } from '../../components/ui/Toast'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
 import Table from '../../components/ui/Table'
@@ -10,6 +11,7 @@ import type { Column } from '../../components/ui/Table'
 
 export default function LessonsPage() {
   const dispatch = useAppDispatch()
+  const { showToast } = useToast()
   const lessons = useAppSelector(selectAllLessons)
   const loading = useAppSelector(selectLessonLoading)
   const [activeTab, setActiveTab] = useState('tous')
@@ -63,16 +65,25 @@ export default function LessonsPage() {
         <div className="flex items-center gap-2">
           {l.status === 'en_attente' && (
             <>
-              <button onClick={() => dispatch(approveLesson(l.id))} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Valider">
+              <button onClick={() => dispatch(approveLesson(l.id)).then((result) => {
+                if (approveLesson.fulfilled.match(result)) showToast('Leçon approuvée', 'success')
+                else showToast("Erreur d'approbation", 'error')
+              })} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Valider">
                 <Check size={16} />
               </button>
-              <button onClick={() => dispatch(rejectLesson(l.id))} className="p-1.5 text-error-500 hover:bg-error-50 transition rounded-lg" title="Rejeter">
+              <button onClick={() => dispatch(rejectLesson(l.id)).then((result) => {
+                if (rejectLesson.fulfilled.match(result)) showToast('Leçon rejetée', 'warning')
+                else showToast('Erreur de rejet', 'error')
+              })} className="p-1.5 text-error-500 hover:bg-error-50 transition rounded-lg" title="Rejeter">
                 <X size={16} />
               </button>
             </>
           )}
           {l.status === 'rejeté' && (
-            <button onClick={() => dispatch(approveLesson(l.id))} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Réapprouver">
+            <button onClick={() => dispatch(approveLesson(l.id)).then((result) => {
+              if (approveLesson.fulfilled.match(result)) showToast('Leçon réapprouvée', 'success')
+              else showToast("Erreur d'approbation", 'error')
+            })} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Réapprouver">
               <Check size={16} />
             </button>
           )}

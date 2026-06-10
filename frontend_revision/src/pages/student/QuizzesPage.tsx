@@ -22,14 +22,14 @@ export default function StudentQuizzesPage() {
   const enrollments = useAppSelector(selectMyEnrollments)
 
   useEffect(() => {
-    dispatch(fetchQuizzes())
+    dispatch(fetchQuizzes('publié'))
     dispatch(fetchMyEnrollments())
   }, [dispatch])
 
   const enrolledCourseIds = enrollments.map((e) => String(e.coursId))
   const availableQuizzes = quizzes.filter((q: QuizItem) =>
     enrolledCourseIds.includes(String(q.cours_id))
-  )
+  ).filter((q: QuizItem) => !q.status || q.status === 'publié')
 
   return (
     <div className="space-y-6">

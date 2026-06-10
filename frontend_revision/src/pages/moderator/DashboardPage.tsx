@@ -1,31 +1,42 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { AlertTriangle, BookOpen, CheckCircle, ArrowUpRight } from 'lucide-react'
+import { AlertTriangle, BookOpen, CheckCircle, ArrowUpRight, FileText, ClipboardList } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchSignals } from '../../features/signal/signalThunks'
 import { selectAllSignals, selectSignalLoading } from '../../features/signal/signalSelectors'
 import { fetchCours } from '../../features/cours/coursThunks'
 import { selectAllCours } from '../../features/cours/coursSelectors'
+import { fetchLessons } from '../../features/lesson/lessonThunks'
+import { selectAllLessons } from '../../features/lesson/lessonSelectors'
+import { fetchQuizzes } from '../../features/quiz/quizThunks'
+import { selectAllQuizzes } from '../../features/quiz/quizSelectors'
 import StatCard from '../../components/ui/StatCard'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
 
-const statusLabels: Record<string, string> = { pending: 'En attente', approved: 'Approuvé', rejected: 'Rejeté' }
-const statusVariants: Record<string, 'warning' | 'success' | 'error'> = { pending: 'warning', approved: 'success', rejected: 'error' }
+const statusLabels: Record<string, string> = { pending: 'En attente', approved: 'Approuvé', rejected: 'Rejeté', escalated: 'Escaladé' }
+const statusVariants: Record<string, 'warning' | 'success' | 'error'> = { pending: 'warning', approved: 'success', rejected: 'error', escalated: 'warning' }
 
 export default function ModeratorDashboardPage() {
   const dispatch = useAppDispatch()
   const signals = useAppSelector(selectAllSignals)
   const signalLoading = useAppSelector(selectSignalLoading)
   const cours = useAppSelector(selectAllCours)
+  const lessons = useAppSelector(selectAllLessons)
+  const quizzes = useAppSelector(selectAllQuizzes)
 
   useEffect(() => {
     dispatch(fetchSignals())
     dispatch(fetchCours())
+    dispatch(fetchLessons({}))
+    dispatch(fetchQuizzes())
   }, [dispatch])
 
   const pendingSignals = signals.filter((s) => s.status === 'pending').length
   const pendingCourses = cours.filter((c) => c.status === 'en_attente').length
+  const pendingLessons = lessons.filter((l) => l.status === 'en_attente').length
+  const pendingQuizzes = quizzes.filter((q) => q.status === 'en_attente').length
+  const totalPending = pendingCourses + pendingLessons + pendingQuizzes
   const treatedThisMonth = signals.filter((s) => s.status !== 'pending').length
 
   const recentSignals = signals.slice(0, 5)
@@ -35,15 +46,37 @@ export default function ModeratorDashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-surface-900">Tableau de bord Modérateur</h1>
-          <p className="text-sm text-surface-500 mt-1">Gérez les signalements et les validations de cours.</p>
+          <p className="text-sm text-surface-500 mt-1">Gérez les signalements et les validations de contenu.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={<AlertTriangle className="w-5 h-5" />} label="Signalements en attente" value={pendingSignals} />
         <StatCard icon={<BookOpen className="w-5 h-5" />} label="Cours à valider" value={pendingCourses} />
-        <StatCard icon={<CheckCircle className="w-5 h-5" />} label="Traités ce mois" value={treatedThisMonth} />
+        <StatCard icon={<FileText className="w-5 h-5" />} label="Leçons à valider" value={pendingLessons} />
+        <StatCard icon={<ClipboardList className="w-5 h-5" />} label="Quiz à valider" value={pendingQuizzes} />
       </div>
+
+      {totalPending > 0 && (
+        <Card className="border-amber-200 bg-amber-50 p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
+              <AlertTriangle size={20} />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-amber-800">
+                {totalPending} élément{totalPending > 1 ? 's' : ''} en attente d'approbation
+              </p>
+              <p className="text-xs text-amber-600">
+                {pendingCourses} cours, {pendingLessons} leçons, {pendingQuizzes} quiz
+              </p>
+            </div>
+            <Link to="/moderator/review" className="ml-auto text-sm font-medium text-amber-700 hover:text-amber-800 underline">
+              Traiter
+            </Link>
+          </div>
+        </Card>
+      )}
 
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
@@ -84,15 +117,15 @@ export default function ModeratorDashboardPage() {
         )}
       </Card>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Link to="/moderator/signals">
           <Card className="p-5 hover:shadow-card-hover transition flex items-center gap-4">
             <div className="w-11 h-11 rounded-lg bg-warning-50 text-warning-500 flex items-center justify-center">
               <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-surface-900">Voir les signalements</p>
-              <p className="text-sm text-surface-500">Gérer les contenus signalés</p>
+              <p className="font-semibold text-surface-900">Signalements</p>
+              <p className="text-sm text-surface-500">{pendingSignals} en attente</p>
             </div>
           </Card>
         </Link>
@@ -102,8 +135,19 @@ export default function ModeratorDashboardPage() {
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-surface-900">Examens en attente</p>
-              <p className="text-sm text-surface-500">Valider les nouveaux cours</p>
+              <p className="font-semibold text-surface-900">Cours à valider</p>
+              <p className="text-sm text-surface-500">{pendingCourses} en attente</p>
+            </div>
+          </Card>
+        </Link>
+        <Link to="/moderator/review">
+          <Card className="p-5 hover:shadow-card-hover transition flex items-center gap-4">
+            <div className="w-11 h-11 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <FileText className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="font-semibold text-surface-900">Leçons & Quiz</p>
+              <p className="text-sm text-surface-500">{pendingLessons + pendingQuizzes} en attente</p>
             </div>
           </Card>
         </Link>

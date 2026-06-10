@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { fetchSignals, approveSignal, rejectSignal, escalateSignal } from './signalThunks'
+import { fetchSignals, createSignal, approveSignal, rejectSignal, escalateSignal } from './signalThunks'
 
 interface Signal {
   id: number
@@ -38,6 +38,9 @@ const signalSlice = createSlice({
       })
       .addCase(fetchSignals.rejected, (state, action) => {
         state.loading = false; state.error = action.payload as string
+      })
+      .addCase(createSignal.fulfilled, (state, action: PayloadAction<Signal>) => {
+        state.items.unshift(action.payload)
       })
       .addCase(approveSignal.fulfilled, (state, action: PayloadAction<Signal>) => {
         const idx = state.items.findIndex((s) => s.id === action.payload.id)

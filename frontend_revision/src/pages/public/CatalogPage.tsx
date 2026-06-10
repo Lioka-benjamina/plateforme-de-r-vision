@@ -20,13 +20,14 @@ export default function CatalogPage() {
   const [level, setLevel] = useState('Tous')
 
   useEffect(() => {
-    dispatch(fetchCours())
+    dispatch(fetchCours('publié'))
     dispatch(fetchMatieres())
   }, [dispatch])
 
   const categories = ['Toutes', ...matieres.map((m) => m.nom)]
 
   const filtered = cours.filter((c) => {
+    if (c.status && c.status !== 'publié') return false
     if (search && !c.titre.toLowerCase().includes(search.toLowerCase())) return false
     if (category !== 'Toutes' && c.category !== category) return false
     if (level !== 'Tous' && c.niveau !== level) return false

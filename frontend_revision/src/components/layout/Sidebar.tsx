@@ -9,6 +9,7 @@ import logo from '../../assets/logoRevision.png'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectUser } from '../../features/auth/authSelectors'
 import { logout } from '../../features/auth/authSlice'
+import ConfirmModal from '../ui/ConfirmModal'
 
 export interface NavItem {
   label: string
@@ -26,6 +27,7 @@ export default function Sidebar({ items }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
+  const [showLogout, setShowLogout] = useState(false)
   const location = useLocation()
   const hoverTimeout = useRef<ReturnType<typeof setTimeout>>()
 
@@ -120,7 +122,7 @@ export default function Sidebar({ items }: SidebarProps) {
                 <p className="text-sm font-semibold text-surface-900 truncate leading-tight">{user?.prenom} {user?.nom}</p>
                 <p className="text-xs text-surface-400 capitalize truncate">{user?.role}</p>
               </div>
-              <button onClick={() => dispatch(logout())}
+              <button onClick={() => setShowLogout(true)}
                 className="p-1.5 rounded-lg text-surface-400 hover:text-error-500 hover:bg-error-50 transition shrink-0"
                 title="Déconnexion">
                 <LogOut size={15} />
@@ -129,6 +131,16 @@ export default function Sidebar({ items }: SidebarProps) {
           )}
         </div>
       </aside>
+
+      {showLogout && (
+        <ConfirmModal
+          type="logout"
+          title="Se déconnecter ?"
+          message="Vous serez déconnecté de votre compte."
+          onConfirm={() => dispatch(logout())}
+          onClose={() => setShowLogout(false)}
+        />
+      )}
     </>
   )
 }
@@ -162,5 +174,5 @@ export const studentNavItems: NavItem[] = [
 export const moderatorNavItems: NavItem[] = [
   { label: 'Tableau de bord', icon: LayoutDashboard, path: '/moderator' },
   { label: 'Signalements', icon: AlertTriangle, path: '/moderator/signals' },
-  { label: 'Cours à examiner', icon: BookOpen, path: '/moderator/review' },
+  { label: 'Contenu à valider', icon: BookOpen, path: '/moderator/review' },
 ]

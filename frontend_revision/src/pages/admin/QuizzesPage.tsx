@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchQuizzes, approveQuiz, rejectQuiz } from '../../features/quiz/quizThunks'
 import { selectAllQuizzes, selectQuizLoading } from '../../features/quiz/quizSelectors'
+import { useToast } from '../../components/ui/Toast'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
 import Table from '../../components/ui/Table'
@@ -12,6 +13,7 @@ import type { Column } from '../../components/ui/Table'
 export default function QuizzesPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { showToast } = useToast()
   const quizzes = useAppSelector(selectAllQuizzes)
   const loading = useAppSelector(selectQuizLoading)
   const [search, setSearch] = useState('')
@@ -44,12 +46,21 @@ export default function QuizzesPage() {
           <button onClick={() => navigate(`/professor/quizzes/${q.id}`)} className="p-1.5 text-primary-500 hover:text-primary-700 transition rounded-lg hover:bg-primary-50" title="Voir"><Eye size={16} /></button>
           {q.status === 'en_attente' && (
             <>
-              <button onClick={() => dispatch(approveQuiz(q.id as any))} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Valider"><Check size={16} /></button>
-              <button onClick={() => dispatch(rejectQuiz(q.id as any))} className="p-1.5 text-error-500 hover:bg-error-50 transition rounded-lg" title="Rejeter"><X size={16} /></button>
+              <button onClick={() => dispatch(approveQuiz(q.id as any)).then((result) => {
+                if (approveQuiz.fulfilled.match(result)) showToast('Quiz approuvé', 'success')
+                else showToast("Erreur d'approbation", 'error')
+              })} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Valider"><Check size={16} /></button>
+              <button onClick={() => dispatch(rejectQuiz(q.id as any)).then((result) => {
+                if (rejectQuiz.fulfilled.match(result)) showToast('Quiz rejeté', 'warning')
+                else showToast('Erreur de rejet', 'error')
+              })} className="p-1.5 text-error-500 hover:bg-error-50 transition rounded-lg" title="Rejeter"><X size={16} /></button>
             </>
           )}
           {q.status === 'rejeté' && (
-            <button onClick={() => dispatch(approveQuiz(q.id as any))} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Réapprouver"><Check size={16} /></button>
+            <button onClick={() => dispatch(approveQuiz(q.id as any)).then((result) => {
+              if (approveQuiz.fulfilled.match(result)) showToast('Quiz réapprouvé', 'success')
+              else showToast("Erreur d'approbation", 'error')
+            })} className="p-1.5 text-success-500 hover:bg-success-50 transition rounded-lg" title="Réapprouver"><Check size={16} /></button>
           )}
         </div>
       ),

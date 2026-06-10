@@ -13,6 +13,7 @@ import {
   ClipboardList,
   LogIn,
   ArrowRight,
+  AlertTriangle,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchCours } from "../../features/cours/coursThunks";
@@ -30,6 +31,7 @@ import {
 import { enrollCourse, fetchMyEnrollments } from "../../features/enrollment/enrollmentThunks";
 import { selectMyEnrollments } from "../../features/enrollment/enrollmentSelectors";
 import Badge from "../../components/ui/Badge";
+import ReportModal from "../../components/ui/ReportModal";
 
 interface QuizItem {
   id: string;
@@ -43,6 +45,7 @@ export default function CourseDetailPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'lessons' | 'exercices'>('lessons')
+  const [showReport, setShowReport] = useState(false)
   const cours = useAppSelector(selectAllCours);
   const lessons = useAppSelector(selectAllLessons);
   const quizzes = useAppSelector((s) => s.quiz.items);
@@ -52,7 +55,7 @@ export default function CourseDetailPage() {
 
   const course = cours.find((c) => String(c.id) === id);
   const courseQuizzes = quizzes.filter(
-    (q: QuizItem) => String(q.cours_id) === id,
+    (q: QuizItem) => String(q.cours_id) === id && (!q.status || q.status === 'publié'),
   );
   const user = useAppSelector(selectUser);
   const enrollments = useAppSelector(selectMyEnrollments);
@@ -61,7 +64,7 @@ export default function CourseDetailPage() {
 
   useEffect(() => {
     dispatch(fetchCours());
-    dispatch(fetchQuizzes());
+    dispatch(fetchQuizzes('publié'));
     if (id) {
       dispatch(fetchLessons({ coursId: id, status: 'publié' }));
       if (isAuthenticated) dispatch(fetchMyEnrollments());
@@ -321,8 +324,28 @@ export default function CourseDetailPage() {
               Instructeur expérimenté dans ce domaine.
             </p>
           </div>
+
+          {/* Report */}
+          {isAuthenticated && (
+            <button
+              onClick={() => setShowReport(true)}
+              className="w-full flex items-center justify-center gap-2 text-sm text-surface-400 hover:text-amber-600 py-3 rounded-lg border border-surface-200 hover:border-amber-300 hover:bg-amber-50 transition"
+            >
+              <AlertTriangle size={16} />
+              Signaler ce cours
+            </button>
+          )}
         </div>
       </div>
+
+      {showReport && course && (
+        <ReportModal
+          targetType="cours"
+          targetId={String(course.id)}
+          targetName={course.titre}
+          onClose={() => setShowReport(false)}
+        />
+      )}
     </div>
   );
 }

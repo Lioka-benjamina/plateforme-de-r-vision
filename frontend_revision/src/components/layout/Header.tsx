@@ -4,11 +4,13 @@ import { Search, Bell, LogOut, User, Settings } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { logout } from '../../features/auth/authSlice'
 import { selectUser } from '../../features/auth/authSelectors'
+import ConfirmModal from '../ui/ConfirmModal'
 
 export default function Header() {
   const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [showLogout, setShowLogout] = useState(false)
 
   return (
     <header className="sticky top-0 z-20 bg-white border-b border-surface-100">
@@ -61,7 +63,7 @@ export default function Header() {
                   </Link>
                   <div className="my-1 border-t border-surface-50" />
                   <button
-                    onClick={() => { dispatch(logout()); setProfileOpen(false) }}
+                    onClick={() => { setShowLogout(true); setProfileOpen(false) }}
                     className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-rose-500 hover:bg-rose-50 transition-colors w-full"
                   >
                     <LogOut size={15} /> Déconnexion
@@ -72,6 +74,16 @@ export default function Header() {
           </div>
         </div>
       </div>
+
+      {showLogout && (
+        <ConfirmModal
+          type="logout"
+          title="Se déconnecter ?"
+          message="Vous serez déconnecté de votre compte."
+          onConfirm={() => dispatch(logout())}
+          onClose={() => setShowLogout(false)}
+        />
+      )}
     </header>
   )
-} 
+}

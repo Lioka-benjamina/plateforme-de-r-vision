@@ -11,6 +11,7 @@ import { fetchCours } from '../../features/cours/coursThunks'
 import { selectAllCours } from '../../features/cours/coursSelectors'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
+import ConfirmModal from '../../components/ui/ConfirmModal'
 
 const typeIcons: Record<string, typeof Video> = { video: Video, pdf: FileText, text: FileText, exercice: FileText }
 const typeLabels: Record<string, string> = { video: 'Vidéo', pdf: 'PDF', text: 'Texte', exercice: 'Exercice' }
@@ -30,6 +31,7 @@ export default function LessonsPage() {
   const [contenu, setContenu] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
 
   const detectVideoDuration = (file: File): Promise<string> => {
     return new Promise((resolve) => {
@@ -85,7 +87,7 @@ export default function LessonsPage() {
   }
 
   const handleDelete = (id: string) => {
-    if (confirm('Supprimer cette leçon ?')) dispatch(deleteLesson(id))
+    setDeleteId(id)
   }
 
   return (
@@ -210,6 +212,16 @@ export default function LessonsPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {deleteId && (
+        <ConfirmModal
+          type="delete"
+          title="Supprimer cette leçon ?"
+          message="Êtes-vous sûr de vouloir supprimer cette leçon ? Cette action est irréversible."
+          onConfirm={() => dispatch(deleteLesson(deleteId))}
+          onClose={() => setDeleteId(null)}
+        />
       )}
     </div>
   )

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Users, GraduationCap, BookOpen, ClipboardList, Eye, Edit2, Trash2 } from 'lucide-react'
+import { Users, GraduationCap, BookOpen, ClipboardList, Eye, Edit2, Trash2, AlertTriangle } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchCours } from '../../features/cours/coursThunks'
 import { selectAllCours } from '../../features/cours/coursSelectors'
@@ -32,6 +32,8 @@ export default function DashboardPage() {
   const studentCount = users.filter((u) => u.role === 'student').length || 245
   const professorCount = users.filter((u) => u.role === 'professor').length || 38
   const courseCount = cours.length || 56
+  const pendingCoursCount = cours.filter((c) => c.status === 'en_attente').length
+  const publishedCoursCount = cours.filter((c) => c.status === 'publié').length
   const quizCount = 124
 
   const columns: Column<(typeof users)[0]>[] = [
@@ -75,6 +77,24 @@ export default function DashboardPage() {
         <StatCard icon={<BookOpen size={22} />} label="Cours" value={courseCount} />
         <StatCard icon={<ClipboardList size={22} />} label="Quiz" value={quizCount} />
       </div>
+
+      {pendingCoursCount > 0 && (
+        <Card className="border-amber-200 bg-amber-50">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
+              <AlertTriangle size={20} />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-amber-800">
+                {pendingCoursCount} cours en attente d'approbation
+              </p>
+              <p className="text-xs text-amber-600">
+                <a href="/admin/courses" className="underline hover:no-underline">Gérer les cours</a> — {publishedCoursCount} cours publiés
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <Card>

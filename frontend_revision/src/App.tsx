@@ -22,6 +22,8 @@ import RegisterPage from './pages/auth/RegisterPage'
 import AdminDashboard from './pages/admin/DashboardPage'
 import AdminUsers from './pages/admin/UsersPage'
 import AdminCourses from './pages/admin/CoursesPage'
+import AdminCourseDetail from './pages/admin/CourseDetailPage'
+import AdminLessons from './pages/admin/LessonsPage'
 import AdminQuizzes from './pages/admin/QuizzesPage'
 import AdminSignals from './pages/admin/SignalsPage'
 import AdminSettings from './pages/admin/SettingsPage'
@@ -29,6 +31,7 @@ import AdminSettings from './pages/admin/SettingsPage'
 // Professor
 import ProfessorDashboard from './pages/professor/DashboardPage'
 import ProfessorCourses from './pages/professor/CoursesPage'
+import ProfessorCourseDetail from './pages/professor/CourseDetailPage'
 import ProfessorCourseForm from './pages/professor/CourseFormPage'
 import ProfessorLessons from './pages/professor/LessonsPage'
 import ProfessorQuizzes from './pages/professor/QuizzesPage'
@@ -77,6 +80,8 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/courses" element={<AdminCourses />} />
+          <Route path="/admin/courses/:id" element={<AdminCourseDetail />} />
+          <Route path="/admin/lessons" element={<AdminLessons />} />
           <Route path="/admin/quizzes" element={<AdminQuizzes />} />
           <Route path="/admin/signals" element={<AdminSignals />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
@@ -93,6 +98,7 @@ function App() {
           <Route path="/professor" element={<ProfessorDashboard />} />
           <Route path="/professor/courses" element={<ProfessorCourses />} />
           <Route path="/professor/courses/new" element={<ProfessorCourseForm />} />
+          <Route path="/professor/courses/:id" element={<ProfessorCourseDetail />} />
           <Route path="/professor/courses/:id/edit" element={<ProfessorCourseForm />} />
           <Route path="/professor/courses/:id/lessons" element={<ProfessorLessons />} />
           <Route path="/professor/quizzes" element={<ProfessorQuizzes />} />

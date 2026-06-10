@@ -3,6 +3,27 @@ import axios from 'axios'
 import { API } from '../../app/api'
 import type { RootState } from '../../app/store'
 
+export const createSignal = createAsyncThunk(
+  'signal/create',
+  async (data: { targetType: string; targetId: string; targetName: string; reason: string }, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState
+      const user = state.auth.user
+      const response = await axios.post(API.signal, {
+        ...data,
+        reportedBy: user ? `${user.prenom} ${user.nom}` : 'Anonyme',
+      }, {
+        headers: { Authorization: `Bearer ${state.auth.token}` },
+      })
+      return response.data
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response)
+        return rejectWithValue(error.response.data.message)
+      return rejectWithValue('Erreur lors du signalement')
+    }
+  }
+)
+
 export const fetchSignals = createAsyncThunk(
   'signal/fetchAll',
   async (_, { rejectWithValue }) => {

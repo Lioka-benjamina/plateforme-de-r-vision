@@ -8,6 +8,7 @@ import { selectUser } from '../../features/auth/authSelectors'
 import Table from '../../components/ui/Table'
 import Badge from '../../components/ui/Badge'
 import Card from '../../components/ui/Card'
+import ConfirmModal from '../../components/ui/ConfirmModal'
 import type { Column } from '../../components/ui/Table'
 
 const statusVariant: Record<string, 'default' | 'success' | 'warning'> = {
@@ -24,6 +25,7 @@ export default function CoursesPage() {
   const user = useAppSelector(selectUser)
   const loading = useAppSelector(selectCoursLoading)
   const [activeTab, setActiveTab] = useState('tous')
+  const [deleteId, setDeleteId] = useState<number | null>(null)
 
   useEffect(() => {
     dispatch(fetchCours())
@@ -65,7 +67,7 @@ export default function CoursesPage() {
       header: 'Actions',
       render: (c) => (
         <div className="flex items-center gap-2">
-          <Link to={`/cours/${c.id}`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
+          <Link to={`/professor/courses/${c.id}`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
             <Eye size={18} />
           </Link>
           <Link to={`/professor/courses/${c.id}/lessons`} className="p-1.5 text-surface-400 hover:text-amber-600 transition rounded-lg hover:bg-amber-50">
@@ -74,13 +76,15 @@ export default function CoursesPage() {
           <Link to={`/professor/courses/${c.id}/edit`} className="p-1.5 text-surface-400 hover:text-primary-500 transition rounded-lg hover:bg-primary-50">
             <Edit size={18} />
           </Link>
-          <button onClick={() => dispatch(deleteCours(c.id))} className="p-1.5 text-surface-400 hover:text-error-500 transition rounded-lg hover:bg-error-50">
+          <button onClick={() => setDeleteId(c.id)} className="p-1.5 text-surface-400 hover:text-error-500 transition rounded-lg hover:bg-error-50">
             <Trash2 size={18} />
           </button>
         </div>
       ),
     },
   ]
+
+  const deleteTarget = deleteId ? myCourses.find((c) => c.id === deleteId) : null
 
   return (
     <div className="space-y-6">
@@ -109,6 +113,16 @@ export default function CoursesPage() {
           <Table columns={columns} data={filtered} keyExtractor={(c) => c.id} emptyMessage="Aucun cours" />
         )}
       </Card>
+
+      {deleteId && deleteTarget && (
+        <ConfirmModal
+          type="delete"
+          title="Supprimer ce cours ?"
+          message={`Êtes-vous sûr de vouloir supprimer « ${deleteTarget.titre} » ? Cette action est irréversible.`}
+          onConfirm={() => dispatch(deleteCours(deleteId))}
+          onClose={() => setDeleteId(null)}
+        />
+      )}
     </div>
   )
 }

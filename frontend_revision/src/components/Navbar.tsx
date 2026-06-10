@@ -5,12 +5,14 @@ import { logout } from '../features/auth/authSlice'
 import { selectIsAuthenticated, selectUser } from '../features/auth/authSelectors'
 import { Menu, X } from 'lucide-react'
 import logo from '../assets/logoRevision.png'
+import ConfirmModal from './ui/ConfirmModal'
 
 export default function Navbar() {
   const dispatch = useAppDispatch()
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const user = useAppSelector(selectUser)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [showLogout, setShowLogout] = useState(false)
   const { pathname } = useLocation()
 
   const publicLinks = [
@@ -79,7 +81,7 @@ export default function Navbar() {
                 </Link>
                 <span className="text-sm text-surface-400 px-2">{user?.prenom} {user?.nom}</span>
                 <button
-                  onClick={() => dispatch(logout())}
+                  onClick={() => setShowLogout(true)}
                   className="text-sm font-medium text-surface-500 hover:text-surface-800 px-3.5 py-2 rounded-lg hover:bg-surface-100 transition-colors"
                 >
                   Déconnexion
@@ -136,7 +138,7 @@ export default function Navbar() {
             <div className="pt-2 border-t border-surface-100 mt-2">
               {isAuthenticated ? (
                 <button
-                  onClick={() => { dispatch(logout()); setMenuOpen(false) }}
+                  onClick={() => { setShowLogout(true); setMenuOpen(false) }}
                   className="block w-full text-left text-sm font-medium text-surface-600 hover:bg-surface-50 px-3 py-2.5 rounded-lg transition-colors"
                 >
                   Déconnexion
@@ -163,6 +165,16 @@ export default function Navbar() {
           </div>
         )}
       </div>
+
+      {showLogout && (
+        <ConfirmModal
+          type="logout"
+          title="Se déconnecter ?"
+          message="Vous serez déconnecté de votre compte."
+          onConfirm={() => dispatch(logout())}
+          onClose={() => setShowLogout(false)}
+        />
+      )}
     </nav>
   )
 }
